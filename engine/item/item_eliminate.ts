@@ -1,25 +1,25 @@
-import Item from "./item";
+import Item from "../item";
 import ItemBoom from "./item_boom";
-import ItemFireWork from "./item_firework";
-import ItemGrenade from "./item_grenade";
-import ItemDynamite from "./item_dynamite";
-import ItemTrotyl from "./item_trotyl";
 import ItemAdapter from "./item_adapter";
+import ItemFireWork from "./boom/item_firework";
+import ItemGrenade from "./boom/item_grenade";
+import ItemDynamite from "./boom/item_dynamite";
+import ItemTrotyl from "./boom/item_trotyl";
 
 export default abstract class ItemEliminate extends ItemAdapter {
 	constructor() {
 		super();
 	}
 
-	abstract equals(item:Item):boolean
-	canPolymerize():boolean{
+	abstract equals(item: Item): boolean;
+	canPolymerize(): boolean {
 		return true;
 	}
 
-	public static readonly BOOM_GENERATE_RADIX : number = 3
-	polymerizedAsOwner(size:number){
+	public static readonly BOOM_GENERATE_RADIX: number = 3;
+	polymerizedAsOwner(size: number) {
 		this.cleared();
-		let boom:ItemBoom = null;
+		let boom: ItemBoom = null;
 		if (size <= ItemEliminate.BOOM_GENERATE_RADIX) {
 			return;
 		}
@@ -42,12 +42,11 @@ export default abstract class ItemEliminate extends ItemAdapter {
 		}
 		this.owner.setItem(boom);
 	}
-	polymerizedAsGuest(){
+	polymerizedAsGuest() {
 		this.cleared();
 	}
-	exploded(){
+	exploded() {
 		this.cleared();
 	}
-	scraped(){
-	}
+	scraped() {}
 }

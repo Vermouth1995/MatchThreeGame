@@ -1,2 +1,1 @@
-export default interface Death{
-}
+export default interface Death {}

@@ -1,4 +1,4 @@
-import Item from "./item";
+import Item from "../item";
 import ItemAdapter from "./item_adapter";
 
 export default class ItemDrink extends ItemAdapter {
@@ -6,19 +6,15 @@ export default class ItemDrink extends ItemAdapter {
 		super();
 	}
 
-	equals(item:Item):boolean{
+	equals(item: Item): boolean {
 		return item instanceof ItemDrink;
 	}
-	canPolymerize():boolean{
+	canPolymerize(): boolean {
 		return false;
 	}
 
-	polymerizedAsOwner(size:number){
-	}
-	polymerizedAsGuest(){
-	}
-	exploded(){
-	}
-	scraped(){
-	}
+	polymerizedAsOwner(size: number) {}
+	polymerizedAsGuest() {}
+	exploded() {}
+	scraped() {}
 }
