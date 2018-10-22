@@ -1,5 +1,6 @@
-import Cell from "../cell";
+import CellAdapter from "./cell_adapter";
 import Item from "../item";
+import ItemEmpty from "../item/item_empty";
 
 export default class CellEmpty implements Cell {
 	constructor() {}
@@ -9,10 +10,22 @@ export default class CellEmpty implements Cell {
 	scraped() {}
 
 	getItem(): Item {
-		return;
+		return ItemEmpty.getEmpty();
+	}
+	setItem(item: Item) {}
+
+	private static instance: CellEmpty = new CellEmpty();
+
+	static getEmpty(): CellEmpty {
+		return CellEmpty.instance;
+	}
+	canFall(): boolean {
+		return false;
 	}
 
-	setItem(item: Item) {
-		//TODO
-	}
+	polymerizedAsOwner(size: number) {}
+	polymerizedAsGuest() {}
+	exploded() {}
+	scraped() {}
+	clearMe() {}
 }

@@ -14,10 +14,10 @@ export default class ItemEmpty extends ItemAdapter {
 		return item instanceof ItemEmpty;
 	}
 
-	private static instense: ItemEmpty = new ItemEmpty();
+	private static instance: ItemEmpty = new ItemEmpty();
 
 	static getEmpty(): ItemEmpty {
-		return ItemEmpty.instense;
+		return ItemEmpty.instance;
 	}
 
 	canPolymerize(): boolean {
