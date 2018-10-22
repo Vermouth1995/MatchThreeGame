@@ -2,13 +2,10 @@ import CellAdapter from "./cell_adapter";
 import Item from "../item";
 import ItemEmpty from "../item/item_empty";
 
-export default class CellEmpty implements Cell {
-	constructor() {}
-
-	exploded() {}
-
-	scraped() {}
-
+export default class CellEmpty extends CellAdapter {
+	constructor() {
+		super();
+	}
 	getItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
