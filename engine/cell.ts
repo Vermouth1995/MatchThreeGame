@@ -7,10 +7,10 @@ export default interface Cell extends ItemOwner {
 	setItem(item: Item);
 	canRobbed(): boolean;
 	canExchange(): boolean;
-	polymerizedAsOwner(size: number,onEnd: () => void);
+	polymerizedAsOwner(size: number, onEnd: () => void);
 	polymerizedAsGuest(onEnd: () => void);
 	exploded(onEnd: () => void);
-	explode(size: number,onEnd: () => void);
+	explode(size: number, onEnd: () => void);
 	scraped(onEnd: () => void);
 	rob(victims: Cell[], onEnd: () => void): boolean;
 	exchange(to: Cell, onEnd: () => void): boolean;

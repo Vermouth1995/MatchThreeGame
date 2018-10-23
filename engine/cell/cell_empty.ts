@@ -37,19 +37,19 @@ export default class CellEmpty extends CellAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number,onEnd: () => void) {
-        onEnd();
-    }
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		onEnd();
+	}
 	polymerizedAsGuest(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	exploded(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	scraped(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	clearMe(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 }

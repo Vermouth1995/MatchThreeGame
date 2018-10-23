@@ -11,16 +11,16 @@ export default class Coordinate {
 		return distance * distance < this.distanceSquare(offset);
 	}
 
-    static readonly NEIGHBOR:number = 1;
-    isNeighbor(to:Coordinate):boolean{
-        if (this.row == to.row) {
-            return this.col - to.col == Coordinate.NEIGHBOR || to.col - this.col == Coordinate.NEIGHBOR;
-        }
-        if (this.col == to.col) {
-            return this.row - to.row == Coordinate.NEIGHBOR || to.row - this.row == Coordinate.NEIGHBOR;
-        }
-        return false;
-    }
+	static readonly NEIGHBOR: number = 1;
+	isNeighbor(to: Coordinate): boolean {
+		if (this.row == to.row) {
+			return this.col - to.col == Coordinate.NEIGHBOR || to.col - this.col == Coordinate.NEIGHBOR;
+		}
+		if (this.col == to.col) {
+			return this.row - to.row == Coordinate.NEIGHBOR || to.row - this.row == Coordinate.NEIGHBOR;
+		}
+		return false;
+	}
 
 	private distanceSquare(offset: Coordinate): number {
 		return (this.row - offset.row) * (this.row - offset.row) + (this.col - offset.col) * (this.col - offset.col);

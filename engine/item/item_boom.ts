@@ -11,20 +11,20 @@ export default abstract class ItemBoom extends ItemAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number,onEnd: () => void) {
-        onEnd();
-    }
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		onEnd();
+	}
 	polymerizedAsGuest(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	abstract getExplodeSize(): number;
 	exploded(onEnd: () => void) {
-        let self:ItemBoom = this;
-		this.cleared(function () {
-            self.owner.explode(this.getExplodeSize(),onEnd);
-        });
+		let self: ItemBoom = this;
+		this.cleared(function() {
+			self.owner.explode(this.getExplodeSize(), onEnd);
+		});
 	}
 	scraped(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 }

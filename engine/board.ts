@@ -8,6 +8,7 @@ import CellOwner from "./cell_owner";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
+import Exchange from "./sacrifice/exchange";
 import OnceLast from "../algorithm/once/once_last";
 
 export default class Board implements CellOwner {
@@ -67,7 +68,7 @@ export default class Board implements CellOwner {
 		return new Coordinate(0, 0);
 	}
 
-	explode(cell: Cell, size: number,onEnd: () => void) {
+	explode(cell: Cell, size: number, onEnd: () => void) {
 		let explodePoint: Coordinate = this.getLocationOfCell(cell);
 		let explodeArea: Explode = new Explode(explodePoint, size);
 		for (let i = 0; i < explodeArea.guest.length; ++i) {
@@ -76,51 +77,53 @@ export default class Board implements CellOwner {
 		this.getCellByLocation(explodeArea.owner).exploded(onEnd);
 	}
 
-	polymerize(polymerizeArea: Polymerize,onEnd: () => void) {
+	polymerize(polymerizeArea: Polymerize, onEnd: () => void) {
 		if (polymerizeArea.guest.length == 0) {
-            onEnd();
+			onEnd();
 			return;
 		}
-        let polymerizeEnd : OnceLast = new OnceLast();
-        polymerizeEnd.setCallback(onEnd);
+		let polymerizeEnd: OnceLast = new OnceLast();
+		polymerizeEnd.setCallback(onEnd);
 		for (let i = 0; i < polymerizeArea.guest.length; ++i) {
 			this.getCellByLocation(polymerizeArea.guest[i]).polymerizedAsGuest(polymerizeEnd.getCallback());
 		}
-		this.getCellByLocation(polymerizeArea.owner).polymerizedAsOwner(polymerizeArea.guest.length + 1,polymerizeEnd.getCallback());
-		this.scrape(polymerizeArea.getScrape(),polymerizeEnd.getCallback());
+		this.getCellByLocation(polymerizeArea.owner).polymerizedAsOwner(
+			polymerizeArea.guest.length + 1,
+			polymerizeEnd.getCallback()
+		);
+		this.scrape(polymerizeArea.getScrape(), polymerizeEnd.getCallback());
 	}
 
-	scrape(scrapeArea: Scrape,onEnd: () => void) {
+	scrape(scrapeArea: Scrape, onEnd: () => void) {
 		for (let i = 0; i < scrapeArea.guest.length; ++i) {
 			this.getCellByLocation(scrapeArea.guest[i]).scraped(onEnd);
 		}
 	}
 
-	exchange(from: Coordinate, to: Coordinate,onEnd: () => void) {
-        let self: Board = this;
-        if (!from.isNeighbor(to)) {
-            onEnd();
-            return;
-        }
+	exchange(from: Coordinate, to: Coordinate, onEnd: () => void) {
+		let self: Board = this;
+		if (!from.isNeighbor(to)) {
+			onEnd();
+			return;
+		}
 		let fromCell: Cell = this.getCellByLocation(from);
 		let toCell: Cell = this.getCellByLocation(to);
-		let success:boolean = fromCell.exchange(toCell,function() {
-            if (!success) {
-                onEnd();
-                return;
-            }
-            let polymerize:Polymerize = self.check();
-            if (!polymerize.inNeed()) {
-                fromCell.exchange(toCell,onEnd);
-                return;
-            }
-            self.polymerize(polymerize,function () {
-                self.fall(function (isChanged:boolean) {
-                    onEnd();
-                })
-            });
-        });
-
+		let success: boolean = fromCell.exchange(toCell, function() {
+			if (!success) {
+				onEnd();
+				return;
+			}
+			let polymerize: Polymerize = self.check();
+			if (!polymerize.inNeed()) {
+				fromCell.exchange(toCell, onEnd);
+				return;
+			}
+			self.polymerize(polymerize, function() {
+				self.fall(function(isChanged: boolean) {
+					onEnd();
+				});
+			});
+		});
 	}
 
 	fall(onEnd?: (isChanged: boolean) => void) {
@@ -137,9 +140,9 @@ export default class Board implements CellOwner {
 			}
 			let polymerizeArea: Polymerize = self.check();
 			if (polymerizeArea.inNeed()) {
-				self.polymerize(polymerizeArea,function () {
-                    self.fall(onEnd);
-                });
+				self.polymerize(polymerizeArea, function() {
+					self.fall(onEnd);
+				});
 				return;
 			}
 			if (onEnd != null) {
@@ -222,6 +225,72 @@ export default class Board implements CellOwner {
 		let item: Item = this.getCellByLocation(location).getItem();
 		while (true) {
 			let directLocation: Coordinate = location.offset(direction);
+			if (!item.equals(this.getCellByLocation(directLocation).getItem())) {
+				break;
+			}
+			total.push(directLocation);
+			location = directLocation;
+		}
+		return total;
+	}
+
+	precheck(): Exchange {
+		for (let i = 0; i < this.cells.length; i++) {
+			for (let j = 0; j < this.cells[i].length; j++) {
+				let exchange: Exchange = this.precheckPositon(new Coordinate(i, j));
+				if (exchange.inNeed()) {
+					return exchange;
+				}
+			}
+		}
+		return new Exchange();
+	}
+
+	private precheckPositon(location: Coordinate): Exchange {
+		let exchange: Exchange = new Exchange();
+		let cell: Cell = this.getCellByLocation(location);
+		if (!cell.canExchange()) {
+			return exchange;
+		}
+		let item: Item = cell.getItem();
+		if (!item.canPolymerize()) {
+			return exchange;
+		}
+		let cross: Coordinate[] = location.cross();
+		for (let i = 0; i < cross.length; i++) {
+			if (this.precheckPositonCross(item, cross[i], location)) {
+				exchange.setFromTo(location, cross[i]);
+				break;
+			}
+		}
+		return exchange;
+	}
+
+	private precheckPositonCross(item: Item, location: Coordinate, ignore: Coordinate): boolean {
+		let vertical: Coordinate[] = this.precheckPositionDirection(item, location, ignore, Coordinate.UP).concat(
+			this.precheckPositionDirection(item, location, ignore, Coordinate.DOWN)
+		);
+		let horizontal: Coordinate[] = this.precheckPositionDirection(item, location, ignore, Coordinate.LEFT).concat(
+			this.precheckPositionDirection(item, location, ignore, Coordinate.RIGHT)
+		);
+		return (
+			vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE ||
+			horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE
+		);
+	}
+
+	private precheckPositionDirection(
+		item: Item,
+		location: Coordinate,
+		ignore: Coordinate,
+		direction: Coordinate
+	): Coordinate[] {
+		let total: Coordinate[] = [];
+		while (true) {
+			let directLocation: Coordinate = location.offset(direction);
+			if (directLocation.equal(ignore)) {
+				break;
+			}
 			if (!item.equals(this.getCellByLocation(directLocation).getItem())) {
 				break;
 			}

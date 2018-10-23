@@ -35,23 +35,23 @@ export default class CellBirth implements Cell {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number,onEnd: () => void) {
-        onEnd();
-    }
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		onEnd();
+	}
 	polymerizedAsGuest(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	exploded(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	scraped(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 
-	explode(size: number,onEnd: () => void) {
-        onEnd();
-    }
+	explode(size: number, onEnd: () => void) {
+		onEnd();
+	}
 	clearMe(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 }

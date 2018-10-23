@@ -22,7 +22,7 @@ export default class CellLand extends CellAdapter {
 	clearMe(onEnd: () => void) {
 		this.item.setOwner(null);
 		this.item = null;
-        onEnd();
+		onEnd();
 	}
 	canRobbed(): boolean {
 		return true;
@@ -31,8 +31,8 @@ export default class CellLand extends CellAdapter {
 		return true;
 	}
 
-	polymerizedAsOwner(size: number,onEnd: () => void) {
-		this.item.polymerizedAsOwner(size,onEnd);
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		this.item.polymerizedAsOwner(size, onEnd);
 	}
 	polymerizedAsGuest(onEnd: () => void) {
 		this.item.polymerizedAsGuest(onEnd);
@@ -51,12 +51,12 @@ export default class CellLand extends CellAdapter {
 		let toItem: Item = to.getItem();
 		to.setItem(this.getItem());
 		this.setItem(toItem);
-        onEnd();
+		onEnd();
 		return true;
 	}
 
 	rob(victims: Cell[], onEnd: () => void): boolean {
-        let self : CellLand = this;
+		let self: CellLand = this;
 		if (!ItemEmpty.isEmpty(this.getItem())) {
 			onEnd();
 			return false;
@@ -78,10 +78,10 @@ export default class CellLand extends CellAdapter {
 			onEnd();
 			return false;
 		}
-		validVictim.clearMe(function () {
-            self.setItem(victimItem);
-            onEnd();
-        });
+		validVictim.clearMe(function() {
+			self.setItem(victimItem);
+			onEnd();
+		});
 
 		return true;
 	}

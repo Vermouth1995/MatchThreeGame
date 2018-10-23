@@ -13,8 +13,8 @@ export default class CellWater extends CellAdapter {
 	}
 	setItem(item: Item) {}
 	clearMe(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	canRobbed(): boolean {
 		return false;
 	}
@@ -26,18 +26,18 @@ export default class CellWater extends CellAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number,onEnd: () => void) {
-        onEnd();
-    }
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		onEnd();
+	}
 	polymerizedAsGuest(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	exploded(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	scraped(onEnd: () => void) {
-        onEnd();
-    }
+		onEnd();
+	}
 	rob(victims: Cell[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
