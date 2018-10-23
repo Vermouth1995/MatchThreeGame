@@ -5,4 +5,5 @@ export default interface Render {
 	getWidth(): number;
 	getHeight(): number;
 	getWidthAndHeight(): Coordinate;
+	onExchange(exchange: (from: Coordinate, to: Coordinate) => void);
 }

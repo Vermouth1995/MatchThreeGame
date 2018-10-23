@@ -12,12 +12,16 @@ export default class ItemPinecone extends ItemAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number) {}
-	polymerizedAsGuest() {}
-	exploded() {
-		this.cleared();
+	polymerizedAsOwner(size: number,onEnd: () => void) {
+        onEnd();
+    }
+	polymerizedAsGuest(onEnd: () => void) {
+        onEnd();
+    }
+	exploded(onEnd: () => void) {
+		this.cleared(onEnd);
 	}
-	scraped() {
-		this.cleared();
+	scraped(onEnd: () => void) {
+		this.cleared(onEnd);
 	}
 }

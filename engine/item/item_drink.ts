@@ -13,8 +13,16 @@ export default class ItemDrink extends ItemAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number) {}
-	polymerizedAsGuest() {}
-	exploded() {}
-	scraped() {}
+	polymerizedAsOwner(size: number,onEnd: () => void) {
+        onEnd();
+    }
+	polymerizedAsGuest(onEnd: () => void) {
+        onEnd();
+    }
+	exploded(onEnd: () => void) {
+        onEnd();
+    }
+	scraped(onEnd: () => void) {
+        onEnd();
+    }
 }

@@ -1,7 +1,7 @@
 import BirthAdapter from "./birth_adapter";
 import Coordinate from "../coordinate";
 import Item from "../item";
-import RandomWeight from "../random_weight";
+import RandomWeight from "../../algorithm/random_weight";
 
 export default class BirthEliminate extends BirthAdapter {
 	constructor() {

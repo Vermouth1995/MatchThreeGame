@@ -17,36 +17,41 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	}
 
 	public static readonly BOOM_GENERATE_RADIX: number = 3;
-	polymerizedAsOwner(size: number) {
-		this.cleared();
-		let boom: ItemBoom = null;
-		if (size <= ItemEliminate.BOOM_GENERATE_RADIX) {
-			return;
-		}
-		switch (size - ItemEliminate.BOOM_GENERATE_RADIX) {
-			case ItemFireWork.EXPLODE_SIZE:
-				boom = new ItemFireWork();
-				break;
-			case ItemGrenade.EXPLODE_SIZE:
-				boom = new ItemGrenade();
-				break;
-			case ItemDynamite.EXPLODE_SIZE:
-				boom = new ItemDynamite();
-				break;
-			case ItemTrotyl.EXPLODE_SIZE:
-				boom = new ItemTrotyl();
-				break;
-			default:
-				boom = new ItemTrotyl();
-				break;
-		}
-		this.owner.setItem(boom);
+	polymerizedAsOwner(size: number,onEnd: () => void) {
+        let self:ItemEliminate = this;
+		this.cleared(function () {
+            let boom: ItemBoom = null;
+    		if (size <= ItemEliminate.BOOM_GENERATE_RADIX) {
+    			return;
+    		}
+    		switch (size - ItemEliminate.BOOM_GENERATE_RADIX) {
+    			case ItemFireWork.EXPLODE_SIZE:
+    				boom = new ItemFireWork();
+    				break;
+    			case ItemGrenade.EXPLODE_SIZE:
+    				boom = new ItemGrenade();
+    				break;
+    			case ItemDynamite.EXPLODE_SIZE:
+    				boom = new ItemDynamite();
+    				break;
+    			case ItemTrotyl.EXPLODE_SIZE:
+    				boom = new ItemTrotyl();
+    				break;
+    			default:
+    				boom = new ItemTrotyl();
+    				break;
+    		}
+    		self.owner.setItem(boom);
+            onEnd();
+        });
 	}
-	polymerizedAsGuest() {
-		this.cleared();
+	polymerizedAsGuest(onEnd: () => void) {
+		this.cleared(onEnd);
 	}
-	exploded() {
-		this.cleared();
+	exploded(onEnd: () => void) {
+		this.cleared(onEnd);
 	}
-	scraped() {}
+	scraped(onEnd: () => void) {
+        onEnd();
+    }
 }

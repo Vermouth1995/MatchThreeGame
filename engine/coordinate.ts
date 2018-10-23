@@ -11,6 +11,17 @@ export default class Coordinate {
 		return distance * distance < this.distanceSquare(offset);
 	}
 
+    static readonly NEIGHBOR:number = 1;
+    isNeighbor(to:Coordinate):boolean{
+        if (this.row == to.row) {
+            return this.col - to.col == Coordinate.NEIGHBOR || to.col - this.col == Coordinate.NEIGHBOR;
+        }
+        if (this.col == to.col) {
+            return this.row - to.row == Coordinate.NEIGHBOR || to.row - this.row == Coordinate.NEIGHBOR;
+        }
+        return false;
+    }
+
 	private distanceSquare(offset: Coordinate): number {
 		return (this.row - offset.row) * (this.row - offset.row) + (this.col - offset.col) * (this.col - offset.col);
 	}
@@ -31,10 +42,27 @@ export default class Coordinate {
 		return radiationArea;
 	}
 
+	cross(): Coordinate[] {
+		return [
+			this.offset(Coordinate.UP),
+			this.offset(Coordinate.LEFT),
+			this.offset(Coordinate.DOWN),
+			this.offset(Coordinate.RIGHT)
+		];
+	}
+
+	umbrella(): Coordinate[] {
+		return [this.offset(Coordinate.UP), this.offset(Coordinate.LEFTUP), this.offset(Coordinate.RIGHTUP)];
+	}
+
 	static readonly UP: Coordinate = new Coordinate(0, -1);
 	static readonly DOWN: Coordinate = new Coordinate(0, 1);
 	static readonly LEFT: Coordinate = new Coordinate(-1, 0);
 	static readonly RIGHT: Coordinate = new Coordinate(1, 0);
+	static readonly RIGHTUP: Coordinate = new Coordinate(1, -1);
+	static readonly RIGHTDOWN: Coordinate = new Coordinate(1, 1);
+	static readonly LEFTUP: Coordinate = new Coordinate(-1, -1);
+	static readonly LEFTDOWN: Coordinate = new Coordinate(-1, 1);
 
 	equal(point: Coordinate): boolean {
 		return point.row == this.row && point.col == this.col;

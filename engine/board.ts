@@ -1,19 +1,19 @@
 import Item from "./item";
 import Cell from "./cell";
 import CellEmpty from "./cell/cell_empty";
+import CellBirth from "./cell/cell_birth";
 import Coordinate from "./coordinate";
 import Render from "./render";
-import Birth from "./birth";
 import CellOwner from "./cell_owner";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
+import OnceLast from "../algorithm/once/once_last";
 
 export default class Board implements CellOwner {
 	private cells: Cell[][];
 	private render: Render;
-	private birth: Birth;
-	private birthPlace: Coordinate[];
+	private birthPlace: CellBirth[];
 
 	constructor() {}
 
@@ -23,13 +23,10 @@ export default class Board implements CellOwner {
 
 	setRender(render: Render) {
 		this.render = render;
+		this.render.onExchange(function(from: Coordinate, to: Coordinate) {});
 	}
 
-	setBirth(birth: Birth) {
-		this.birth = birth;
-	}
-
-	setBirthPlace(place: Coordinate[]) {
+	setBirthPlace(place: CellBirth[]) {
 		this.birthPlace = place;
 	}
 
@@ -51,6 +48,14 @@ export default class Board implements CellOwner {
 		return this.cells[location.row][location.col];
 	}
 
+	getCellsByLocations(locations: Coordinate[]): Cell[] {
+		let victims: Cell[] = [];
+		for (let i = 0; i < locations.length; i++) {
+			victims.push(this.getCellByLocation(locations[i]));
+		}
+		return victims;
+	}
+
 	getLocationOfCell(cell: Cell): Coordinate {
 		for (let i = 0; i < this.cells.length; ++i) {
 			for (let j = 0; j < this.cells[i].length; ++j) {
@@ -62,33 +67,106 @@ export default class Board implements CellOwner {
 		return new Coordinate(0, 0);
 	}
 
-	explode(cell: Cell, size: number) {
+	explode(cell: Cell, size: number,onEnd: () => void) {
 		let explodePoint: Coordinate = this.getLocationOfCell(cell);
 		let explodeArea: Explode = new Explode(explodePoint, size);
 		for (let i = 0; i < explodeArea.guest.length; ++i) {
-			this.getCellByLocation(explodeArea.guest[i]).exploded();
+			this.getCellByLocation(explodeArea.guest[i]).exploded(onEnd);
 		}
-		this.getCellByLocation(explodeArea.owner).exploded();
+		this.getCellByLocation(explodeArea.owner).exploded(onEnd);
 	}
 
-	polymerize(polymerizeArea: Polymerize) {
+	polymerize(polymerizeArea: Polymerize,onEnd: () => void) {
 		if (polymerizeArea.guest.length == 0) {
+            onEnd();
 			return;
 		}
+        let polymerizeEnd : OnceLast = new OnceLast();
+        polymerizeEnd.setCallback(onEnd);
 		for (let i = 0; i < polymerizeArea.guest.length; ++i) {
-			this.getCellByLocation(polymerizeArea.guest[i]).polymerizedAsGuest();
+			this.getCellByLocation(polymerizeArea.guest[i]).polymerizedAsGuest(polymerizeEnd.getCallback());
 		}
-		this.getCellByLocation(polymerizeArea.owner).polymerizedAsOwner(polymerizeArea.guest.length + 1);
-		this.scrape(polymerizeArea.getScrape());
+		this.getCellByLocation(polymerizeArea.owner).polymerizedAsOwner(polymerizeArea.guest.length + 1,polymerizeEnd.getCallback());
+		this.scrape(polymerizeArea.getScrape(),polymerizeEnd.getCallback());
 	}
 
-	scrape(scrapeArea: Scrape) {
+	scrape(scrapeArea: Scrape,onEnd: () => void) {
 		for (let i = 0; i < scrapeArea.guest.length; ++i) {
-			this.getCellByLocation(scrapeArea.guest[i]).scraped();
+			this.getCellByLocation(scrapeArea.guest[i]).scraped(onEnd);
 		}
 	}
 
-	fall(onEnd?: (isChanged: boolean) => void) {}
+	exchange(from: Coordinate, to: Coordinate,onEnd: () => void) {
+        let self: Board = this;
+        if (!from.isNeighbor(to)) {
+            onEnd();
+            return;
+        }
+		let fromCell: Cell = this.getCellByLocation(from);
+		let toCell: Cell = this.getCellByLocation(to);
+		let success:boolean = fromCell.exchange(toCell,function() {
+            if (!success) {
+                onEnd();
+                return;
+            }
+            let polymerize:Polymerize = self.check();
+            if (!polymerize.inNeed()) {
+                fromCell.exchange(toCell,onEnd);
+                return;
+            }
+            self.polymerize(polymerize,function () {
+                self.fall(function (isChanged:boolean) {
+                    onEnd();
+                })
+            });
+        });
+
+	}
+
+	fall(onEnd?: (isChanged: boolean) => void) {
+		let self: Board = this;
+		let isActive: boolean = false;
+		let robEnd: OnceLast = new OnceLast();
+		robEnd.setCallback(function() {
+			if (isActive) {
+				self.fall(function(isChanged: boolean) {
+					isActive = isActive || isChanged;
+					onEnd(isActive);
+				});
+				return;
+			}
+			let polymerizeArea: Polymerize = self.check();
+			if (polymerizeArea.inNeed()) {
+				self.polymerize(polymerizeArea,function () {
+                    self.fall(onEnd);
+                });
+				return;
+			}
+			if (onEnd != null) {
+				onEnd(isActive);
+			}
+		});
+		for (let i = this.cells.length - 1; i >= 0; i--) {
+			for (let j = 0; j < this.cells[i].length; j++) {
+				let location: Coordinate = new Coordinate(i, j);
+				isActive =
+					isActive ||
+					this.getCellByLocation(location).rob(this.getVictimsByLocation(location), robEnd.getCallback());
+			}
+		}
+	}
+
+	private getVictimsByLocation(location: Coordinate): Cell[] {
+		for (let i = 0; i < this.birthPlace.length; i++) {
+			let cellBirth: CellBirth = this.birthPlace[i];
+			if (location.equal(cellBirth.getLocation())) {
+				let victims: Cell[] = [];
+				victims.push(cellBirth);
+				return victims;
+			}
+		}
+		return this.getCellsByLocations(location.umbrella());
+	}
 
 	static readonly CHECK_NUMBER_SELF: number = 1;
 	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
@@ -99,7 +177,6 @@ export default class Board implements CellOwner {
 		for (let i = 0; i < this.cells.length; i++) {
 			let rowCells: Cell[] = this.cells[i];
 			for (let j = 0; j < rowCells.length; j++) {
-				let cell: Cell = rowCells[j];
 				let location: Coordinate = new Coordinate(i, j);
 				let nowPolymerize: Polymerize = this.checkPosition(location);
 				if (maxPolymerize.guest.length < nowPolymerize.guest.length) {
