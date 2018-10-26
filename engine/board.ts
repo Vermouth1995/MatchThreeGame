@@ -2,8 +2,8 @@ import Item from "./item";
 import Cell from "./cell";
 import CellEmpty from "./cell/cell_empty";
 import CellBirth from "./cell/cell_birth";
-import Coordinate from "./coordinate";
-import Render from "./render";
+import Coordinate from "../algorithm/coordinate";
+import EngineRender from "./engine_render";
 import CellOwner from "./cell_owner";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
@@ -13,7 +13,7 @@ import OnceLast from "../algorithm/once/once_last";
 
 export default class Board implements CellOwner {
 	private cells: Cell[][];
-	private render: Render;
+	private render: EngineRender;
 	private birthPlace: CellBirth[];
 
 	constructor() {}
@@ -22,7 +22,7 @@ export default class Board implements CellOwner {
 		this.cells = cells;
 	}
 
-	setRender(render: Render) {
+	setRender(render: EngineRender) {
 		this.render = render;
 		this.render.onExchange(function(from: Coordinate, to: Coordinate) {});
 	}

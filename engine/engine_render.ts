@@ -1,6 +1,6 @@
-import Coordinate from "./coordinate";
+import Coordinate from "../algorithm/coordinate";
 
-export default interface Render {
+export default interface EngineRender {
 	drawImage(img: HTMLImageElement, loc: Coordinate);
 	getWidth(): number;
 	getHeight(): number;

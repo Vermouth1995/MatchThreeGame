@@ -1,5 +1,5 @@
 import Item from "../item";
-import Coordinate from "../coordinate";
+import Coordinate from "../../algorithm/coordinate";
 import Birth from "../birth";
 import ItemApple from "../item/eliminate/item_apple";
 import ItemBlueBerry from "../item/eliminate/item_blueberry";

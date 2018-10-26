@@ -2,7 +2,7 @@ import Cell from "../cell";
 import Item from "../item";
 import Birth from "../birth";
 import CellOwner from "../cell_owner";
-import Coordinate from "../coordinate";
+import Coordinate from "../../algorithm/coordinate";
 
 export default class CellBirth implements Cell {
 	constructor() {}

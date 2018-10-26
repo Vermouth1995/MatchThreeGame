@@ -1,5 +1,5 @@
 import BirthAdapter from "./birth_adapter";
-import Coordinate from "../coordinate";
+import Coordinate from "../../algorithm/coordinate";
 import Item from "../item";
 import RandomWeight from "../../algorithm/random_weight";
 
