@@ -2,4 +2,4 @@
 Tile-matching video game
 
 #### code format
-	prettier --parser typescript --write "engine/**/*.ts"
+	prettier --parser typescript --write "*/**/*.ts"

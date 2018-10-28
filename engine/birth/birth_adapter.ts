@@ -7,11 +7,13 @@ import ItemFlower from "../item/eliminate/item_flower";
 import ItemLeaf from "../item/eliminate/item_leaf";
 import ItemPear from "../item/eliminate/item_pear";
 import ItemWater from "../item/eliminate/item_water";
+import ItemEmpty from "../item/item_empty";
 
 export default abstract class BirthAdapter implements Birth {
 	constructor() {}
 	abstract getItem(loc: Coordinate): Item;
 
+	static readonly Empty: number = 0;
 	static readonly APPLE: number = 10000;
 	static readonly BLUEBERRY: number = 10001;
 	static readonly FLOWER: number = 10002;
@@ -21,6 +23,8 @@ export default abstract class BirthAdapter implements Birth {
 
 	static createItem(type: number): Item {
 		switch (type) {
+			case BirthAdapter.Empty:
+				return ItemEmpty.getEmpty();
 			case BirthAdapter.APPLE:
 				return new ItemApple();
 			case BirthAdapter.BLUEBERRY:
@@ -34,7 +38,7 @@ export default abstract class BirthAdapter implements Birth {
 			case BirthAdapter.WATER:
 				return new ItemWater();
 			default:
-				return new ItemApple();
+				return ItemEmpty.getEmpty();
 		}
 	}
 }

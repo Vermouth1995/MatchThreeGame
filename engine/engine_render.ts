@@ -1,7 +1,8 @@
 import Coordinate from "../algorithm/coordinate";
 
 export default interface EngineRender {
-	drawImage(img: HTMLImageElement, loc: Coordinate);
+	drawImage(imageId: number, loc: Coordinate);
+	registeredImage(image: Blob): number;
 	getWidth(): number;
 	getHeight(): number;
 	getWidthAndHeight(): Coordinate;
