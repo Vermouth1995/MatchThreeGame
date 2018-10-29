@@ -3,6 +3,11 @@ export default class Coordinate {
 	offset(offset: Coordinate): Coordinate {
 		return new Coordinate(this.row + offset.row, this.col + offset.col);
 	}
+
+	offsetTo(to: Coordinate, degree: number): Coordinate {
+		return new Coordinate(this.row + (to.row - this.row) * degree, this.col + (to.col - this.col) * degree);
+	}
+
 	distance(offset: Coordinate): number {
 		return Math.sqrt(this.distanceSquare(offset));
 	}
@@ -55,6 +60,7 @@ export default class Coordinate {
 		return [this.offset(Coordinate.UP), this.offset(Coordinate.LEFTUP), this.offset(Coordinate.RIGHTUP)];
 	}
 
+	static readonly ORIGIN: Coordinate = new Coordinate(0, 0);
 	static readonly UP: Coordinate = new Coordinate(0, -1);
 	static readonly DOWN: Coordinate = new Coordinate(0, 1);
 	static readonly LEFT: Coordinate = new Coordinate(-1, 0);

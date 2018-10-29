@@ -1,7 +1,12 @@
+import Coordinate from "../../algorithm/coordinate";
 import RenderAdapter from "../render_adapter";
 import EngineRender from "../../engine/engine_render";
 
 export default class RenderCanvas extends RenderAdapter {
+	constructor(size: Coordinate) {
+		super(size);
+	}
+
 	protected HTMLImages: HTMLImageElement[] = [];
 	registeredImage(image: Blob, onEnd: () => void): number {
 		let self = this;
@@ -20,6 +25,6 @@ export default class RenderCanvas extends RenderAdapter {
 
 	getEngineRender(): EngineRender {
 		//TODO
-        return null;
+		return null;
 	}
 }

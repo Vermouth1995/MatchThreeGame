@@ -1,5 +1,8 @@
-import Coordinate from "../algorithm/coordinate";
+import Coordinate from "../coordinate";
 
 export default interface Event {
-	getLocaltion(): Coordinate;
+	getLocation(): Coordinate;
+	setFrom(from: Coordinate);
+	onEnd(end: () => void);
+	start();
 }
