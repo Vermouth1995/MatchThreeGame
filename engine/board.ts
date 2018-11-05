@@ -2,14 +2,14 @@ import Item from "./item";
 import Cell from "./cell";
 import CellEmpty from "./cell/cell_empty";
 import CellBirth from "./cell/cell_birth";
-import Coordinate from "../algorithm/coordinate";
+import Coordinate from "../concept/coordinate";
 import EngineRender from "./engine_render";
 import CellOwner from "./cell_owner";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
 import Exchange from "./sacrifice/exchange";
-import OnceLast from "../algorithm/once/once_last";
+import OnceLast from "../concept/once/once_last";
 
 export default class Board implements CellOwner {
 	private cells: Cell[][];

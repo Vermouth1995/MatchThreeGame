@@ -1,5 +1,5 @@
 import Item from "./item";
-import Coordinate from "../algorithm/coordinate";
+import Coordinate from "../concept/coordinate";
 
 export default interface Birth {
 	getItem(loc: Coordinate): Item;

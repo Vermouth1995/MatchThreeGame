@@ -3,8 +3,6 @@ import Coordinate from "../../coordinate";
 import Once from "../../once";
 import OnceFirst from "../../once/once_first";
 export default abstract class EventAdapter implements Event {
-	abstract getLocation(): Coordinate;
-
 	protected from: Coordinate = EventAdapter.DEFAULT_NOW;
 
 	setFrom(from: Coordinate) {
@@ -33,4 +31,10 @@ export default abstract class EventAdapter implements Event {
 
 	static readonly DEFAULT_NOW = Coordinate.ORIGIN;
 	static readonly DEFAULT_START_STAMP = Number.MAX_VALUE;
+
+	getLocationNow(): Coordinate {
+		return this.getLocation(Date.now());
+	}
+
+	abstract getLocation(timeStamp: number): Coordinate;
 }

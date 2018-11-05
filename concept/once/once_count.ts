@@ -10,7 +10,7 @@ export default class OnceCount extends OnceAdapter {
 
 	getCallback(): () => void {
 		let self: OnceCount = this;
-		return this.delay(function() {
+		return OnceAdapter.delay(function() {
 			self.counter++;
 			if (self.counter == self.threshold) {
 				self.call();

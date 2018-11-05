@@ -1,6 +1,6 @@
-import Coordinate from "../algorithm/coordinate";
+import Coordinate from "../concept/coordinate";
 import EngineRender from "../engine/engine_render";
-import Atom from "../algorithm/atom/atom";
+import Atom from "../concept/atom/atom";
 
 export default interface Render {
 	setSize(size: Coordinate);

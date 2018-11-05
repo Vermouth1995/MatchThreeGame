@@ -1,8 +1,8 @@
-import Coordinate from "../algorithm/coordinate";
-import LinkedList from "../algorithm/linked_list/linked_list";
+import Coordinate from "../concept/coordinate";
+import LinkedList from "../concept/linked_list/linked_list";
 import Render from "./render";
 import EngineRender from "../engine/engine_render";
-import Atom from "../algorithm/atom/atom";
+import Atom from "../concept/atom/atom";
 
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;

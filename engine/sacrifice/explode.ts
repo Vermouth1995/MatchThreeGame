@@ -1,4 +1,4 @@
-import Coordinate from "../../algorithm/coordinate";
+import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
 
 export default class Explode extends SacrificeAdapter {

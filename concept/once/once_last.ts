@@ -5,7 +5,7 @@ export default class OnceLast extends OnceAdapter {
 	getCallback(): () => void {
 		let self: OnceLast = this;
 		this.counter++;
-		return this.delay(function() {
+		return OnceAdapter.delay(function() {
 			this.counter--;
 			if (self.counter == 0) {
 				self.call();

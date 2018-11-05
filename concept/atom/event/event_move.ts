@@ -9,15 +9,14 @@ export default class EventMove extends EventAdapter {
 		this.longStamp = longStamp;
 	}
 
-	getLocation(): Coordinate {
-		let now: number = Date.now();
-		if (now <= this.startStamp) {
+	getLocation(timeStamp: number): Coordinate {
+		if (timeStamp <= this.startStamp) {
 			return this.from;
 		}
-		if (now >= this.startStamp + this.longStamp) {
+		if (timeStamp >= this.startStamp + this.longStamp) {
 			this.end();
 			return this.to;
 		}
-		return this.from.offsetTo(this.to, (now - this.startStamp) / this.longStamp);
+		return this.from.offsetTo(this.to, (timeStamp - this.startStamp) / this.longStamp);
 	}
 }

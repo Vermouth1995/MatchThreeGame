@@ -1,4 +1,4 @@
-import Coordinate from "../../algorithm/coordinate";
+import Coordinate from "../../concept/coordinate";
 
 export default abstract class SacrificeAdapter {
 	owner: Coordinate;

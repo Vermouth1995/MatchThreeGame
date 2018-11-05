@@ -4,7 +4,7 @@ export default class OnceFirst extends OnceAdapter {
 
 	getCallback(): () => void {
 		let self: OnceFirst = this;
-		return this.delay(function() {
+		return OnceAdapter.delay(function() {
 			if (!self.hasCalled) {
 				self.hasCalled = true;
 				self.call();

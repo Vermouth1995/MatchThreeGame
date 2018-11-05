@@ -6,7 +6,7 @@ export default abstract class OnceAdapter implements Once {
 	}
 	protected callback: () => void;
 
-	protected delay(called: () => void): () => void {
+	protected static delay(called: () => void): () => void {
 		return function() {
 			setTimeout(called, 0);
 		};
