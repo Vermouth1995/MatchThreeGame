@@ -20,11 +20,15 @@ export default class Atom {
 		return this.id;
 	}
 
-	getLocation(): Coordinate {
-		this.location = this.event.getLocation();
+	getLocation(timeStamp: number): Coordinate {
+		this.location = this.event.getLocation(timeStamp);
 		return this.location;
 	}
 
+	getLocationNow(): Coordinate {
+		this.location = this.event.getLocationNow();
+		return this.location;
+	}
 	private event: Event;
 
 	setEvent(event: Event) {

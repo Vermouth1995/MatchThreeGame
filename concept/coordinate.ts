@@ -8,6 +8,10 @@ export default class Coordinate {
 		return new Coordinate(this.row + (to.row - this.row) * degree, this.col + (to.col - this.col) * degree);
 	}
 
+	split(size: Coordinate): Coordinate {
+		return new Coordinate(this.row / (size.row == 0 ? size.row : 1), this.col / (size.col == 0 ? size.col : 1));
+	}
+
 	distance(offset: Coordinate): number {
 		return Math.sqrt(this.distanceSquare(offset));
 	}

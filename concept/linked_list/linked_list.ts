@@ -9,17 +9,38 @@ export default class LinkedList<T> {
 	private tail: Node<T> = null;
 	private length: number = 0;
 
+	get(index: number): T {
+		let now: Node<T> = this.head;
+		let indexNow: number = 0;
+		while (now != null) {
+			if (index == indexNow) {
+				return now.data;
+			}
+			now = now.next;
+		}
+		return null;
+	}
+
+	iterate(onElement: (index: number, element: T) => void) {
+		let now: Node<T> = this.head;
+		let indexNow: number = 0;
+		while (now != null) {
+			onElement(indexNow, now.data);
+			now = now.next;
+		}
+	}
+
 	isEmpty(): boolean {
 		return this.length == 0;
 	}
 
-	getSize(): number {
+	size(): number {
 		return this.length;
 	}
 
-	append(ele: T) {
+	append(element: T) {
 		let newNode: Node<T> = new Node<T>();
-		newNode.data = ele;
+		newNode.data = element;
 
 		if (this.isEmpty()) {
 			this.head = newNode;
@@ -50,9 +71,9 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	shift(ele: T) {
+	shift(element: T) {
 		let newNode: Node<T> = new Node<T>();
-		newNode.data = ele;
+		newNode.data = element;
 
 		if (this.isEmpty()) {
 			this.head = newNode;
@@ -81,19 +102,19 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	insert(position: number, ele: T) {
+	insert(position: number, element: T) {
 		if (position <= 0) {
-			this.shift(ele);
+			this.shift(element);
 			return;
 		}
 		if (position >= this.length) {
-			this.append(ele);
+			this.append(element);
 			return;
 		}
 
 		this.length++;
 		let insertNode: Node<T> = new Node<T>();
-		insertNode.data = ele;
+		insertNode.data = element;
 		let previous: Node<T> = this.getNodePrevious(position);
 		insertNode.next = previous.next;
 		previous.next = insertNode;
@@ -116,11 +137,11 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	remove(ele: T, equal: (left: T, right: T) => boolean = this.indexOfEqual) {
+	remove(element: T, equal: (left: T, right: T) => boolean = this.indexOfEqual) {
 		if (this.length == 0) {
 			return;
 		}
-		if (equal(ele, this.head.data)) {
+		if (equal(element, this.head.data)) {
 			this.head = this.head.next;
 			this.length--;
 			if ((this.length = 0)) {
@@ -132,7 +153,7 @@ export default class LinkedList<T> {
 		let previous: Node<T> = null;
 		let current: Node<T> = this.head;
 		while (current != null) {
-			if (equal(current.data, ele)) {
+			if (equal(current.data, element)) {
 				break;
 			}
 			current = current.next;
@@ -148,12 +169,12 @@ export default class LinkedList<T> {
 		}
 	}
 
-	indexOf(ele: T, equal: (left: T, right: T) => boolean = this.indexOfEqual): number {
+	indexOf(element: T, equal: (left: T, right: T) => boolean = this.indexOfEqual): number {
 		let current: Node<T> = this.head;
 		let index: number = 0;
 
 		while (current != null) {
-			if (equal(current.data, ele)) {
+			if (equal(current.data, element)) {
 				return index;
 			}
 			index++;

@@ -11,4 +11,5 @@ export default interface Render {
 	addAtom(imageId: number, loc: Coordinate): Atom;
 	removeAtom(atom: Atom);
 	getEngineRender(): EngineRender;
+	start();
 }
