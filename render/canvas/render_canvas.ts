@@ -80,4 +80,8 @@ export default class RenderCanvas extends RenderAdapter {
 	close() {
 		cancelAnimationFrame(this.renderRequestId);
 	}
+
+	clear() {
+		//TODO
+	}
 }

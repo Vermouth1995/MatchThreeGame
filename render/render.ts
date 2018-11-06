@@ -12,4 +12,6 @@ export default interface Render {
 	removeAtom(atom: Atom);
 	getEngineRender(): EngineRender;
 	start();
+	clear();
+	close();
 }

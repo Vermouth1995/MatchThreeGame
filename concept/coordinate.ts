@@ -1,5 +1,11 @@
 export default class Coordinate {
-	constructor(public row: number, public col: number) {}
+	row: number;
+	col: number;
+
+	constructor(row: number, col: number) {
+		this.row = row;
+		this.col = col;
+	}
 	offset(offset: Coordinate): Coordinate {
 		return new Coordinate(this.row + offset.row, this.col + offset.col);
 	}

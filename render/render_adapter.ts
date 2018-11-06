@@ -39,4 +39,10 @@ export default abstract class RenderAdapter implements Render {
 	}
 	abstract getEngineRender(): EngineRender;
 	abstract start();
+
+	clear() {
+		// TODO
+	}
+
+	abstract close();
 }

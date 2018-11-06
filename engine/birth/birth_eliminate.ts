@@ -23,7 +23,11 @@ export default class BirthEliminate extends BirthAdapter {
 		return random;
 	})();
 
-	getItem(loc: Coordinate): Item {
+	getItemWithoutLoction(): Item {
 		return ItemCreator.createItem(BirthEliminate.random.getFactor());
+	}
+
+	getItem(loc: Coordinate): Item {
+		return this.getItemWithoutLoction();
 	}
 }

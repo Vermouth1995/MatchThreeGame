@@ -1,2 +1,7 @@
 import Level from "./level";
-export default abstract class LevelAdapter implements Level {}
+import Board from "../engine/board";
+import Coordinate from "../concept/coordinate";
+export default abstract class LevelAdapter implements Level {
+	abstract init(board: Board);
+	abstract boardSize(): Coordinate;
+}
