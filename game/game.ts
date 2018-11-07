@@ -4,11 +4,13 @@ import Level from "../level/level";
 import LevelCreator from "../level/level_creator";
 import Coordinate from "../concept/coordinate";
 
-export default class Main {
+export default class Game {
 	private render: Render;
 
-	public static readonly RENDER_SIZE = new Coordinate(10, 20);
-	public static readonly ENGINE_SIZE = new Coordinate(9, 12);
+	static readonly RENDER_SIZE = new Coordinate(10, 20);
+	static readonly ENGINE_SIZE = new Coordinate(9, 12);
+
+	private static readonly SPLIT_HALF = new Coordinate(2, 2);
 
 	private levelIndex: number = 1;
 
@@ -20,8 +22,8 @@ export default class Main {
 		this.render.clear();
 		let level: Level = LevelCreator.getLevel(index);
 		let board = new Board();
-		board.setRender(this.render.getEngineRender());
 		level.init(board);
+		this.render.addPuzzle(board, Game.RENDER_SIZE.offset(board.renderSize().negative()).split(Game.SPLIT_HALF));
 	}
 
 	start() {

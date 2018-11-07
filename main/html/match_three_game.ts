@@ -1,13 +1,13 @@
 import RenderCanvas from "../../render/canvas/render_canvas";
-import Main from "../main";
+import Game from "../../game/game";
 import Coordinate from "../../concept/coordinate";
 export default class MatchThreeGame {
 	constructor() {
 		let container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
 
-		let render: RenderCanvas = new RenderCanvas(Main.ENGINE_SIZE, MatchThreeGame.PixelSize);
+		let render: RenderCanvas = new RenderCanvas(Game.ENGINE_SIZE, MatchThreeGame.PixelSize);
 
-		let main: Main = new Main(render);
+		let main: Game = new Game(render);
 
 		container.appendChild(render.getCanvasElement());
 

@@ -1,30 +1,34 @@
+import RenderPuzzle from "../render/render_puzzle";
 import Item from "./item";
 import Cell from "./cell";
+import CellOwner from "./cell_owner";
 import CellEmpty from "./cell/cell_empty";
 import CellBirth from "./cell/cell_birth";
-import Coordinate from "../concept/coordinate";
-import EngineRender from "./engine_render";
-import CellOwner from "./cell_owner";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
 import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
+import Coordinate from "../concept/coordinate";
 
-export default class Board implements CellOwner {
+export default class Board implements CellOwner, RenderPuzzle {
 	private cells: Cell[][];
-	private render: EngineRender;
+
+	private cellsSize: Coordinate = Coordinate.ORIGIN;
+
 	private birthPlace: CellBirth[];
 
 	constructor() {}
 
 	setCells(cells: Cell[][]) {
 		this.cells = cells;
-	}
-
-	setRender(render: EngineRender) {
-		this.render = render;
-		this.render.onExchange(function(from: Coordinate, to: Coordinate) {});
+		let maxRowLength: number = 0;
+		for (let i = 0; i < this.cells.length; i++) {
+			if (this.cells[i].length > maxRowLength) {
+				maxRowLength = this.cells[i].length;
+			}
+		}
+		this.cellsSize = new Coordinate(this.cells.length, maxRowLength);
 	}
 
 	setBirthPlace(place: CellBirth[]) {
@@ -298,5 +302,17 @@ export default class Board implements CellOwner {
 			location = directLocation;
 		}
 		return total;
+	}
+
+	renderClick(location: Coordinate): void {
+		// TODO
+	}
+
+	renderExchange(from: Coordinate, to: Coordinate): void {
+		// TODO
+	}
+
+	renderSize(): Coordinate {
+		return this.cellsSize;
 	}
 }

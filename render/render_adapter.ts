@@ -1,7 +1,7 @@
 import Coordinate from "../concept/coordinate";
 import LinkedList from "../concept/linked_list/linked_list";
 import Render from "./render";
-import EngineRender from "../engine/engine_render";
+import RenderPuzzle from "./render_puzzle";
 import Atom from "../concept/atom/atom";
 
 export default abstract class RenderAdapter implements Render {
@@ -37,7 +37,6 @@ export default abstract class RenderAdapter implements Render {
 	removeAtom(atom: Atom) {
 		this.atoms.remove(atom);
 	}
-	abstract getEngineRender(): EngineRender;
 	abstract start(): void;
 
 	clear() {
@@ -45,4 +44,12 @@ export default abstract class RenderAdapter implements Render {
 	}
 
 	abstract close(): void;
+
+	addPuzzle(puzzle: RenderPuzzle, location: Coordinate): number {
+		return 0;
+		//TODO
+	}
+	addRemove(puzzleId: number): void {
+		//TODO
+	}
 }

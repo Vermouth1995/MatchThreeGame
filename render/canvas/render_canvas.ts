@@ -1,14 +1,13 @@
 import Coordinate from "../../concept/coordinate";
 import Atom from "../../concept/atom/atom";
 import RenderAdapter from "../render_adapter";
-import EngineRender from "../../engine/engine_render";
 
 export default class RenderCanvas extends RenderAdapter {
 	constructor(size: Coordinate, pixel: Coordinate) {
 		super(size);
 		this.pixel = pixel;
 		this.unitPixel = pixel.split(size);
-		this.canvas = new HTMLCanvasElement();
+		this.canvas = document.createElement("canvas");
 		this.canvas.width = pixel.col;
 		this.canvas.height = pixel.row;
 		this.pen = <CanvasRenderingContext2D>this.canvas.getContext("2d");
@@ -47,11 +46,6 @@ export default class RenderCanvas extends RenderAdapter {
 		return imageId;
 	}
 
-	getEngineRender(): EngineRender {
-		//TODO
-		return null;
-	}
-
 	draw(timeStamp: number) {
 		let self: RenderCanvas = this;
 		this.pen.clearRect(0, 0, this.pixel.col, this.pixel.row);
@@ -70,11 +64,13 @@ export default class RenderCanvas extends RenderAdapter {
 	private renderRequestId: number;
 
 	start() {
+        let self : RenderCanvas = this;
+
 		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
-			this.draw(timeStamp);
-			this.renderRequestId = requestAnimationFrame(renderCallback);
+			self.draw(timeStamp);
+			self.renderRequestId = requestAnimationFrame(renderCallback);
 		};
-		this.renderRequestId = requestAnimationFrame(renderCallback);
+		self.renderRequestId = requestAnimationFrame(renderCallback);
 	}
 
 	close() {

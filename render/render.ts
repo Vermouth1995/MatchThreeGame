@@ -1,6 +1,6 @@
 import Coordinate from "../concept/coordinate";
-import EngineRender from "../engine/engine_render";
 import Atom from "../concept/atom/atom";
+import RenderPuzzle from "./render_puzzle";
 
 export default interface Render {
 	setSize(size: Coordinate): void;
@@ -10,7 +10,10 @@ export default interface Render {
 
 	addAtom(imageId: number, loc: Coordinate): Atom;
 	removeAtom(atom: Atom): void;
-	getEngineRender(): EngineRender;
+
+	addPuzzle(puzzle: RenderPuzzle, location: Coordinate): number;
+	addRemove(puzzleId: number): void;
+
 	start(): void;
 	clear(): void;
 	close(): void;
