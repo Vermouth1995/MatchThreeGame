@@ -38,11 +38,11 @@ export default abstract class RenderAdapter implements Render {
 		this.atoms.remove(atom);
 	}
 	abstract getEngineRender(): EngineRender;
-	abstract start();
+	abstract start():void;
 
 	clear() {
 		// TODO
 	}
 
-	abstract close();
+	abstract close():void;
 }
