@@ -9,7 +9,7 @@ const browserify        = require('gulp-browserify');
 const clean             = require('gulp-clean-old');
 
 
-const typescript_src        = path.join(__dirname,'[^node_moudles]/**/*.ts');
+const typescript_src        = path.join(__dirname,'!(node_modules)/**/*.ts');
 const format_script_dest    = path.join(__dirname,'./');
 const cache_path            = path.join(__dirname,'cache');
 const optput_path           = path.join(__dirname,'dist');

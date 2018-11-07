@@ -3,6 +3,5 @@ module.exports = {
 	useTabs : true,
 	printWidth: 120,
 	semi : true,
-    parser : "typescript",
-    filepath : "*/**/*.ts"
+    parser : "typescript"
 }
