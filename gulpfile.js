@@ -22,13 +22,13 @@ gulp.task('format', function() {
 });
 
 gulp.task('clean_cache',function(){
-    return gulp.src( cache_path + '/**/*', {
+    return gulp.src( cache_path+"/*", {
             read : false
         })
         .pipe(clean());
 });
 gulp.task('clean_dist',function(){
-    return gulp.src( optput_path + '/**/*', {
+    return gulp.src( optput_path+"/*", {
             read : false
         })
         .pipe(clean());
@@ -62,7 +62,7 @@ gulp.task('cmd_link_html',function() {
 });
 
 gulp.task('build', gulp.series(
-    // 'clean',
+    'clean',
     "cmd_complied",
     gulp.parallel( 'cmd_link_html' )
 ))
