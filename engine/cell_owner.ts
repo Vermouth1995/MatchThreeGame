@@ -1,5 +1,5 @@
 import Cell from "./cell";
 
 export default interface CellOwner {
-	explode(cell: Cell, size: number, onEnd: () => void):void;
+	explode(cell: Cell, size: number, onEnd: () => void): void;
 }

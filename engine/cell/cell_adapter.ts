@@ -10,18 +10,18 @@ export default abstract class CellAdapter implements Cell {
 	}
 	abstract rob(victims: Cell[], onEnd: () => void): boolean;
 	abstract getItem(): Item;
-	abstract setItem(item: Item):void;
+	abstract setItem(item: Item): void;
 	abstract canRobbed(): boolean;
 	abstract canExchange(): boolean;
 
-	abstract polymerizedAsOwner(size: number, onEnd: () => void):void;
-	abstract polymerizedAsGuest(onEnd: () => void):void;
-	abstract exploded(onEnd: () => void):void;
-	abstract scraped(onEnd: () => void):void;
+	abstract polymerizedAsOwner(size: number, onEnd: () => void): void;
+	abstract polymerizedAsGuest(onEnd: () => void): void;
+	abstract exploded(onEnd: () => void): void;
+	abstract scraped(onEnd: () => void): void;
 	abstract exchange(to: Cell, onEnd: () => void): boolean;
 
 	explode(size: number, onEnd: () => void) {
 		this.owner.explode(this, size, onEnd);
 	}
-	abstract clearMe(onEnd: () => void):void;
+	abstract clearMe(onEnd: () => void): void;
 }
