@@ -17,8 +17,14 @@
   },
   "homepage": "https://github.com/Vermouth1995/MatchThreeGame#readme",
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-clean-old": "^0.2.5",
     "gulp-pretty": "^1.0.1",
-    "prettier": "^1.14.3"
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "^3.2.3",
+    "gulp-uglify": "^3.0.0",
+    "prettier": "^1.15.1",
+    "typescript": "^2.6.2"
   }
 }

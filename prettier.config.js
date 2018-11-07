@@ -1,6 +1,8 @@
 module.exports = {
 	tabWidth : 4,
-	useTabs : true, 
+	useTabs : true,
 	printWidth: 120,
-	semi : true
+	semi : true,
+    parser : "typescript",
+    filepath : "*/**/*.ts"
 }
