@@ -7,6 +7,7 @@ import CellBirth from "./cell/cell_birth";
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
+import Click from "./sacrifice/click";
 import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
@@ -104,8 +105,18 @@ export default class Board implements CellOwner, RenderPuzzle {
 		}
 	}
 
-	exchange(from: Coordinate, to: Coordinate, onEnd: () => void) {
+	click(clickArea: Click, onEnd: () => void) {
+		//TODO
+	}
+
+	exchange(exchangeArea: Exchange, onEnd: () => void) {
 		let self: Board = this;
+		if (!exchangeArea.inNeed()) {
+			onEnd();
+			return;
+		}
+		let from: Coordinate = exchangeArea.getFrom();
+		let to: Coordinate = exchangeArea.getTo();
 		if (!from.isNeighbor(to)) {
 			onEnd();
 			return;
@@ -305,11 +316,19 @@ export default class Board implements CellOwner, RenderPuzzle {
 	}
 
 	renderClick(location: Coordinate): void {
-		// TODO
+		this.click(new Click(location), function() {
+			// board.OnClick
+		});
 	}
 
 	renderExchange(from: Coordinate, to: Coordinate): void {
-		// TODO
+		this.exchange(new Exchange().setFromTo(from, to), function() {
+			// board.OnExchage
+		});
+	}
+
+	renderClear() {
+		//TODO
 	}
 
 	renderSize(): Coordinate {

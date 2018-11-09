@@ -102,7 +102,7 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	insert(position: number, element: T) {
+	insert(element: T, position: number) {
 		if (position <= 0) {
 			this.shift(element);
 			return;
@@ -118,6 +118,24 @@ export default class LinkedList<T> {
 		let previous: Node<T> = this.getNodePrevious(position);
 		insertNode.next = previous.next;
 		previous.next = insertNode;
+	}
+
+	insertBy(element: T, isLater: (current: T) => boolean): number {
+		let current: Node<T> = this.head;
+		let index: number = 0;
+		while (current != null) {
+			if (isLater(current.data)) {
+				let now = new Node<T>();
+				now.data = element;
+				now.next = current.next;
+				current.next = now;
+				return index + LinkedList.IndexStep;
+			}
+			current = current.next;
+			index++;
+		}
+		this.append(element);
+		return index;
 	}
 
 	removeAt(position: number): T {
@@ -137,11 +155,11 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	remove(element: T, equal: (left: T, right: T) => boolean = this.indexOfEqual) {
+	removeBy(equal: (right: T) => boolean) {
 		if (this.length == 0) {
 			return;
 		}
-		if (equal(element, this.head.data)) {
+		if (equal(this.head.data)) {
 			this.head = this.head.next;
 			this.length--;
 			if ((this.length = 0)) {
@@ -153,7 +171,7 @@ export default class LinkedList<T> {
 		let previous: Node<T> = null;
 		let current: Node<T> = this.head;
 		while (current != null) {
-			if (equal(current.data, element)) {
+			if (equal(current.data)) {
 				break;
 			}
 			current = current.next;
@@ -169,12 +187,12 @@ export default class LinkedList<T> {
 		}
 	}
 
-	indexOf(element: T, equal: (left: T, right: T) => boolean = this.indexOfEqual): number {
+	indexBy(equal: (now: T) => boolean): number {
 		let current: Node<T> = this.head;
 		let index: number = 0;
 
 		while (current != null) {
-			if (equal(current.data, element)) {
+			if (equal(current.data)) {
 				return index;
 			}
 			index++;
@@ -196,9 +214,5 @@ export default class LinkedList<T> {
 		}
 
 		return previous;
-	}
-
-	private indexOfEqual(left: T, right: T): boolean {
-		return left == right;
 	}
 }

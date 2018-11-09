@@ -64,8 +64,8 @@ export default class RenderCanvas extends RenderAdapter {
 	private renderRequestId: number;
 
 	start() {
-        let self : RenderCanvas = this;
-
+		super.start();
+		let self: RenderCanvas = this;
 		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
 			self.draw(timeStamp);
 			self.renderRequestId = requestAnimationFrame(renderCallback);
@@ -75,9 +75,10 @@ export default class RenderCanvas extends RenderAdapter {
 
 	close() {
 		cancelAnimationFrame(this.renderRequestId);
+		super.close();
 	}
 
 	clear() {
-		//TODO
+		super.clear();
 	}
 }

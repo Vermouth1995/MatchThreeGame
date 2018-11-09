@@ -11,8 +11,8 @@ export default interface Render {
 	addAtom(imageId: number, loc: Coordinate): Atom;
 	removeAtom(atom: Atom): void;
 
-	addPuzzle(puzzle: RenderPuzzle, location: Coordinate): number;
-	addRemove(puzzleId: number): void;
+	addPuzzle(puzzle: RenderPuzzle, location: Coordinate, zIndex: number): number;
+	removePuzzle(puzzleId: number): void;
 
 	start(): void;
 	clear(): void;

@@ -4,6 +4,10 @@ import Render from "./render";
 import RenderPuzzle from "./render_puzzle";
 import Atom from "../concept/atom/atom";
 
+class RenderAdapterPuzzle {
+	constructor(public puzzle: RenderPuzzle, public location: Coordinate, public zIndex: number) {}
+}
+
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;
 
@@ -35,21 +39,28 @@ export default abstract class RenderAdapter implements Render {
 		return atom;
 	}
 	removeAtom(atom: Atom) {
-		this.atoms.remove(atom);
-	}
-	abstract start(): void;
-
-	clear() {
-		// TODO
+		this.atoms.removeBy(function(now: Atom): boolean {
+			return atom == now;
+		});
 	}
 
-	abstract close(): void;
+	protected puzzles: LinkedList<RenderAdapterPuzzle> = new LinkedList<RenderAdapterPuzzle>();
 
-	addPuzzle(puzzle: RenderPuzzle, location: Coordinate): number {
-		return 0;
-		//TODO
+	addPuzzle(puzzle: RenderPuzzle, location: Coordinate, zIndex: number): number {
+		let adapterPuzzle: RenderAdapterPuzzle = new RenderAdapterPuzzle(puzzle, location, zIndex);
+		return this.puzzles.insertBy(adapterPuzzle, function(now: RenderAdapterPuzzle): boolean {
+			return zIndex < now.zIndex;
+		});
 	}
-	addRemove(puzzleId: number): void {
-		//TODO
+	removePuzzle(puzzleId: number) {
+		this.puzzles.removeAt(puzzleId);
+	}
+
+	start(): void {}
+
+	clear(): void {}
+
+	close(): void {
+		this.clear();
 	}
 }

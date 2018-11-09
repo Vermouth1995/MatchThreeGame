@@ -5,10 +5,19 @@ export default class Exchange extends SacrificeAdapter {
 	constructor() {
 		super();
 	}
-	setFromTo(from: Coordinate, to: Coordinate) {
+	setFromTo(from: Coordinate, to: Coordinate): Exchange {
 		this.guest = [];
 		this.guest.push(to);
 		this.owner = from;
+		return this;
+	}
+
+	getFrom(): Coordinate {
+		return this.owner;
+	}
+
+	getTo(): Coordinate {
+		return this.guest[0];
 	}
 
 	inNeed(): boolean {

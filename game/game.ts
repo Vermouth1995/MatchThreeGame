@@ -12,6 +12,8 @@ export default class Game {
 
 	private static readonly SPLIT_HALF = new Coordinate(2, 2);
 
+	private static readonly BOARD_Z_INDEX = 1000;
+
 	private levelIndex: number = 1;
 
 	constructor(render: Render) {
@@ -23,7 +25,11 @@ export default class Game {
 		let level: Level = LevelCreator.getLevel(index);
 		let board = new Board();
 		level.init(board);
-		this.render.addPuzzle(board, Game.RENDER_SIZE.offset(board.renderSize().negative()).split(Game.SPLIT_HALF));
+		this.render.addPuzzle(
+			board,
+			Game.RENDER_SIZE.offset(board.renderSize().negative()).split(Game.SPLIT_HALF),
+			Game.BOARD_Z_INDEX
+		);
 	}
 
 	start() {

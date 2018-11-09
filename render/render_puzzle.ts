@@ -6,4 +6,6 @@ export default interface RenderPuzzle {
 	renderExchange(from: Coordinate, to: Coordinate): void;
 
 	renderSize(): Coordinate;
+
+	renderClear(): void;
 }
