@@ -24,4 +24,7 @@ export default class ItemPinecone extends ItemAdapter {
 	scraped(onEnd: () => void) {
 		this.cleared(onEnd);
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
 }

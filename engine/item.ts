@@ -8,5 +8,6 @@ export default interface Item {
 	exploded(onEnd: () => void): void;
 	scraped(onEnd: () => void): void;
 	cleared(onEnd: () => void): void;
+	clicked(onEnd: () => void): void;
 	setOwner(owner: ItemOwner): void;
 }

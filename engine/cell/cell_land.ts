@@ -43,6 +43,9 @@ export default class CellLand extends CellAdapter {
 	scraped(onEnd: () => void) {
 		this.item.scraped(onEnd);
 	}
+	clicked(onEnd: () => void) {
+		this.item.clicked(onEnd);
+	}
 	exchange(to: Cell, onEnd: () => void): boolean {
 		if (!this.canExchange() || !to.canExchange()) {
 			onEnd();

@@ -36,4 +36,7 @@ export default class ItemEmpty extends ItemAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
 }

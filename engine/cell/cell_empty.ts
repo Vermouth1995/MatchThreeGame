@@ -11,11 +11,6 @@ export default class CellEmpty extends CellAdapter {
 		return ItemEmpty.getEmpty();
 	}
 
-	rob(victims: Cell[], onEnd: () => void): boolean {
-		onEnd();
-		return false;
-	}
-
 	setItem(item: Item) {}
 
 	private static instance: CellEmpty = new CellEmpty();
@@ -26,13 +21,19 @@ export default class CellEmpty extends CellAdapter {
 	static isEmpty(cell: Cell): boolean {
 		return cell instanceof CellEmpty;
 	}
+
 	canRobbed(): boolean {
 		return false;
 	}
 	canExchange(): boolean {
 		return false;
 	}
+
 	exchange(to: Cell, onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
+	rob(victims: Cell[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
@@ -49,6 +50,10 @@ export default class CellEmpty extends CellAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
+
 	clearMe(onEnd: () => void) {
 		onEnd();
 	}

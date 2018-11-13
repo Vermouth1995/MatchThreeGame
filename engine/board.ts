@@ -74,34 +74,46 @@ export default class Board implements CellOwner, RenderPuzzle {
 	}
 
 	explode(cell: Cell, size: number, onEnd: () => void) {
-		let explodePoint: Coordinate = this.getLocationOfCell(cell);
-		let explodeArea: Explode = new Explode(explodePoint, size);
-		for (let i = 0; i < explodeArea.guest.length; ++i) {
-			this.getCellByLocation(explodeArea.guest[i]).exploded(onEnd);
+		let point: Coordinate = this.getLocationOfCell(cell);
+
+		let area: Explode = new Explode(point, size);
+
+		let guests: Coordinate[] = area.getGuests();
+
+		let end: OnceLast = new OnceLast();
+		end.setCallback(onEnd);
+
+		for (let i = 0; i < guests.length; ++i) {
+			this.getCellByLocation(guests[i]).exploded(end.getCallback());
 		}
-		this.getCellByLocation(explodeArea.owner).exploded(onEnd);
+
+		this.getCellByLocation(area.getOwner()).exploded(end.getCallback());
 	}
 
-	polymerize(polymerizeArea: Polymerize, onEnd: () => void) {
-		if (polymerizeArea.guest.length == 0) {
+	polymerize(area: Polymerize, onEnd: () => void) {
+		if (area.getGuests().length == 0) {
 			onEnd();
 			return;
 		}
-		let polymerizeEnd: OnceLast = new OnceLast();
-		polymerizeEnd.setCallback(onEnd);
-		for (let i = 0; i < polymerizeArea.guest.length; ++i) {
-			this.getCellByLocation(polymerizeArea.guest[i]).polymerizedAsGuest(polymerizeEnd.getCallback());
+		let end: OnceLast = new OnceLast();
+		end.setCallback(onEnd);
+
+		let guests: Coordinate[] = area.getGuests();
+
+		for (let i = 0; i < guests.length; ++i) {
+			this.getCellByLocation(guests[i]).polymerizedAsGuest(end.getCallback());
 		}
-		this.getCellByLocation(polymerizeArea.owner).polymerizedAsOwner(
-			polymerizeArea.guest.length + 1,
-			polymerizeEnd.getCallback()
-		);
-		this.scrape(polymerizeArea.getScrape(), polymerizeEnd.getCallback());
+		this.getCellByLocation(area.getOwner()).polymerizedAsOwner(guests.length + 1, end.getCallback());
+		this.scrape(area.getScrape(), end.getCallback());
 	}
 
-	scrape(scrapeArea: Scrape, onEnd: () => void) {
-		for (let i = 0; i < scrapeArea.guest.length; ++i) {
-			this.getCellByLocation(scrapeArea.guest[i]).scraped(onEnd);
+	scrape(area: Scrape, onEnd: () => void) {
+		let end: OnceLast = new OnceLast();
+		end.setCallback(onEnd);
+
+		let goals: Coordinate[] = area.getGoals();
+		for (let i = 0; i < goals.length; ++i) {
+			this.getCellByLocation(goals[i]).scraped(end.getCallback());
 		}
 	}
 
@@ -109,27 +121,21 @@ export default class Board implements CellOwner, RenderPuzzle {
 		//TODO
 	}
 
-	exchange(exchangeArea: Exchange, onEnd: () => void) {
+	exchange(area: Exchange, onEnd: () => void) {
 		let self: Board = this;
-		if (!exchangeArea.inNeed()) {
+		if (area == null || !area.isNeighbor()) {
 			onEnd();
 			return;
 		}
-		let from: Coordinate = exchangeArea.getFrom();
-		let to: Coordinate = exchangeArea.getTo();
-		if (!from.isNeighbor(to)) {
-			onEnd();
-			return;
-		}
-		let fromCell: Cell = this.getCellByLocation(from);
-		let toCell: Cell = this.getCellByLocation(to);
+		let fromCell: Cell = this.getCellByLocation(area.getFrom());
+		let toCell: Cell = this.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, function() {
 			if (!success) {
 				onEnd();
 				return;
 			}
 			let polymerize: Polymerize = self.check();
-			if (!polymerize.inNeed()) {
+			if (polymerize == null) {
 				fromCell.exchange(toCell, onEnd);
 				return;
 			}
@@ -153,9 +159,9 @@ export default class Board implements CellOwner, RenderPuzzle {
 				});
 				return;
 			}
-			let polymerizeArea: Polymerize = self.check();
-			if (polymerizeArea.inNeed()) {
-				self.polymerize(polymerizeArea, function() {
+			let area: Polymerize = self.check();
+			if (area != null) {
+				self.polymerize(area, function() {
 					self.fall(onEnd);
 				});
 				return;
@@ -190,31 +196,35 @@ export default class Board implements CellOwner, RenderPuzzle {
 	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
 
 	check(): Polymerize {
-		let maxPolymerize: Polymerize = new Polymerize();
-
+		let max: Polymerize = null;
 		for (let i = 0; i < this.cells.length; i++) {
 			let rowCells: Cell[] = this.cells[i];
 			for (let j = 0; j < rowCells.length; j++) {
 				let location: Coordinate = new Coordinate(i, j);
-				let nowPolymerize: Polymerize = this.checkPosition(location);
-				if (maxPolymerize.guest.length < nowPolymerize.guest.length) {
-					maxPolymerize = nowPolymerize;
+				let now: Polymerize = this.checkPosition(location);
+				if (now == null) {
+					continue;
+				}
+				if (max == null || max.getGuests().length < now.getGuests().length) {
+					max = now;
 				}
 			}
 		}
-		return maxPolymerize;
+		return max;
 	}
 
 	private checkPosition(location: Coordinate): Polymerize {
-		let total: Polymerize = new Polymerize();
 		let direction: number = 0;
 		if (
 			!this.getCellByLocation(location)
 				.getItem()
 				.canPolymerize()
 		) {
-			return total;
+			return null;
 		}
+
+		let guests: Coordinate[] = [];
+
 		let vertical: Coordinate[] = this.checkPositionDirection(location, Coordinate.UP).concat(
 			this.checkPositionDirection(location, Coordinate.DOWN)
 		);
@@ -222,17 +232,18 @@ export default class Board implements CellOwner, RenderPuzzle {
 			this.checkPositionDirection(location, Coordinate.RIGHT)
 		);
 		if (vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			total.guest.concat(vertical);
+			guests.concat(vertical);
 			direction++;
 		}
 		if (horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			total.guest.concat(horizontal);
+			guests.concat(horizontal);
 			direction++;
 		}
-		if (direction != 0) {
-			total.owner = location;
+		if (direction == 0) {
+			return null;
 		}
-		return total;
+
+		return new Polymerize(location, guests);
 	}
 
 	private checkPositionDirection(location: Coordinate, direction: Coordinate): Coordinate[] {
@@ -253,32 +264,30 @@ export default class Board implements CellOwner, RenderPuzzle {
 		for (let i = 0; i < this.cells.length; i++) {
 			for (let j = 0; j < this.cells[i].length; j++) {
 				let exchange: Exchange = this.precheckPositon(new Coordinate(i, j));
-				if (exchange.inNeed()) {
+				if (exchange != null) {
 					return exchange;
 				}
 			}
 		}
-		return new Exchange();
+		return null;
 	}
 
 	private precheckPositon(location: Coordinate): Exchange {
-		let exchange: Exchange = new Exchange();
 		let cell: Cell = this.getCellByLocation(location);
 		if (!cell.canExchange()) {
-			return exchange;
+			return null;
 		}
 		let item: Item = cell.getItem();
 		if (!item.canPolymerize()) {
-			return exchange;
+			return null;
 		}
 		let cross: Coordinate[] = location.cross();
 		for (let i = 0; i < cross.length; i++) {
 			if (this.precheckPositonCross(item, cross[i], location)) {
-				exchange.setFromTo(location, cross[i]);
-				break;
+				return new Exchange(location, cross[i]);
 			}
 		}
-		return exchange;
+		return null;
 	}
 
 	private precheckPositonCross(item: Item, location: Coordinate, ignore: Coordinate): boolean {
@@ -322,7 +331,7 @@ export default class Board implements CellOwner, RenderPuzzle {
 	}
 
 	renderExchange(from: Coordinate, to: Coordinate): void {
-		this.exchange(new Exchange().setFromTo(from, to), function() {
+		this.exchange(new Exchange(from, to), function() {
 			// board.OnExchage
 		});
 	}

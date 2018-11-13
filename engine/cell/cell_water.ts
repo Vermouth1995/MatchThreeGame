@@ -38,6 +38,10 @@ export default class CellWater extends CellAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
+
 	rob(victims: Cell[], onEnd: () => void): boolean {
 		onEnd();
 		return false;

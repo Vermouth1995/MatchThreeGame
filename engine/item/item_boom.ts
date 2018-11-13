@@ -27,4 +27,8 @@ export default abstract class ItemBoom extends ItemAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+
+	clicked(onEnd: () => void) {
+		this.exploded(onEnd);
+	}
 }

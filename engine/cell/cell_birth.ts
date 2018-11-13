@@ -6,8 +6,10 @@ import Coordinate from "../../concept/coordinate";
 
 export default class CellBirth implements Cell {
 	constructor() {}
+
 	private birth: Birth;
 	private location: Coordinate;
+
 	setOwner(owner: CellOwner) {}
 	setBirth(birth: Birth, location: Coordinate) {
 		this.birth = birth;
@@ -16,22 +18,16 @@ export default class CellBirth implements Cell {
 	getLocation(): Coordinate {
 		return this.location;
 	}
-	rob(victims: Cell[], onEnd: () => void): boolean {
-		onEnd();
-		return false;
-	}
+
 	getItem(): Item {
-		return this.birth.getItem(this.location);
+		return this.birth.getItem(this.getLocation());
 	}
 	setItem(item: Item) {}
+
 	canRobbed(): boolean {
 		return true;
 	}
 	canExchange(): boolean {
-		return false;
-	}
-	exchange(to: Cell, onEnd: () => void): boolean {
-		onEnd();
 		return false;
 	}
 
@@ -47,7 +43,18 @@ export default class CellBirth implements Cell {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
 
+	rob(victims: Cell[], onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
+	exchange(to: Cell, onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 	explode(size: number, onEnd: () => void) {
 		onEnd();
 	}

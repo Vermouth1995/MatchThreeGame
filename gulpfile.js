@@ -1,5 +1,5 @@
 const gulp                  = require('gulp');
-const path 				          = require('path');
+const path 				    = require('path');
 const pretty                = require('gulp-pretty');
 const prettier_config       = require("./prettier.config");
 const ts                    = require('gulp-typescript');

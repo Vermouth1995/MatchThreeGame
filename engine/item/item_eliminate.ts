@@ -54,4 +54,7 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
+	clicked(onEnd: () => void) {
+		onEnd();
+	}
 }

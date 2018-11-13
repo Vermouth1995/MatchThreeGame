@@ -1,26 +1,25 @@
 import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
-
 export default class Exchange extends SacrificeAdapter {
-	constructor() {
+	constructor(from: Coordinate, to: Coordinate) {
 		super();
-	}
-	setFromTo(from: Coordinate, to: Coordinate): Exchange {
-		this.guest = [];
-		this.guest.push(to);
-		this.owner = from;
+		this.to = to;
+		this.from = from;
 		return this;
 	}
 
+	private from: Coordinate;
+	private to: Coordinate;
+
 	getFrom(): Coordinate {
-		return this.owner;
+		return this.from;
 	}
 
 	getTo(): Coordinate {
-		return this.guest[0];
+		return this.to;
 	}
 
-	inNeed(): boolean {
-		return this.guest.length != 0;
+	isNeighbor(): boolean {
+		return this.from.isNeighbor(this.to);
 	}
 }
