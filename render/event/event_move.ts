@@ -1,4 +1,4 @@
-import Coordinate from "../../coordinate";
+import Coordinate from "../../concept/coordinate";
 import EventAdapter from "./event_adapter";
 export default class EventMove extends EventAdapter {
 	private to: Coordinate;
@@ -14,9 +14,12 @@ export default class EventMove extends EventAdapter {
 			return this.from;
 		}
 		if (timeStamp >= this.startStamp + this.longStamp) {
-			this.end();
 			return this.to;
 		}
 		return this.from.offsetTo(this.to, (timeStamp - this.startStamp) / this.longStamp);
+	}
+
+	getEndLocation(): Coordinate {
+		return this.to;
 	}
 }

@@ -22,6 +22,10 @@ export default class Coordinate {
 		return new Coordinate(this.row / (size.row == 0 ? size.row : 1), this.col / (size.col == 0 ? size.col : 1));
 	}
 
+	swell(size: Coordinate): Coordinate {
+		return new Coordinate(this.row * size.row, this.col * size.col);
+	}
+
 	distance(offset: Coordinate): number {
 		return Math.sqrt(this.distanceSquare(offset));
 	}

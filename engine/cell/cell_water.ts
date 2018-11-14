@@ -2,6 +2,7 @@ import CellAdapter from "./cell_adapter";
 import Cell from "../cell";
 import Item from "../item";
 import ItemEmpty from "../item/item_empty";
+import Puzzle from "../../render/puzzle";
 
 export default class CellWater extends CellAdapter {
 	constructor() {
@@ -45,5 +46,10 @@ export default class CellWater extends CellAdapter {
 	rob(victims: Cell[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
+	}
+
+	getPuzzle(): Puzzle {
+		return null;
+		//TODO
 	}
 }

@@ -22,17 +22,17 @@ export default class ItemCreator {
 	static readonly DRINK: number = 1;
 	static readonly PINECONE: number = 2;
 
-	static readonly APPLE: number = 1000;
-	static readonly BLUEBERRY: number = 1001;
-	static readonly FLOWER: number = 1002;
-	static readonly LEAF: number = 1003;
-	static readonly PEAR: number = 1004;
-	static readonly WATER: number = 1005;
+	static readonly APPLE: number = 100;
+	static readonly BLUEBERRY: number = 101;
+	static readonly FLOWER: number = 102;
+	static readonly LEAF: number = 103;
+	static readonly PEAR: number = 104;
+	static readonly WATER: number = 105;
 
-	static readonly DYNAMITE: number = 2000;
-	static readonly FIREWORK: number = 2001;
-	static readonly GRENADE: number = 2002;
-	static readonly TROTYL: number = 2003;
+	static readonly DYNAMITE: number = 200;
+	static readonly FIREWORK: number = 201;
+	static readonly GRENADE: number = 202;
+	static readonly TROTYL: number = 203;
 
 	static createItem(type: number): Item {
 		switch (type) {

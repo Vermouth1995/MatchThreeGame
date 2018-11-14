@@ -15,6 +15,7 @@ export default interface Cell extends ItemOwner {
 	exploded(onEnd: () => void): void;
 	scraped(onEnd: () => void): void;
 	clicked(onEnd: () => void): void;
+	// exchanged(onEnd: () => void): void;
 
 	rob(victims: Cell[], onEnd: () => void): boolean;
 	exchange(to: Cell, onEnd: () => void): boolean;

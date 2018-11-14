@@ -1,4 +1,3 @@
-import RenderPuzzle from "../render/render_puzzle";
 import Item from "./item";
 import Cell from "./cell";
 import CellOwner from "./cell_owner";
@@ -11,8 +10,9 @@ import Click from "./sacrifice/click";
 import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
+import Puzzle from "../render/puzzle";
 
-export default class Board implements CellOwner, RenderPuzzle {
+export default class Board implements CellOwner {
 	private cells: Cell[][];
 
 	private cellsSize: Coordinate = Coordinate.ORIGIN;
@@ -30,6 +30,10 @@ export default class Board implements CellOwner, RenderPuzzle {
 			}
 		}
 		this.cellsSize = new Coordinate(this.cells.length, maxRowLength);
+	}
+
+	size(): Coordinate {
+		return this.cellsSize;
 	}
 
 	setBirthPlace(place: CellBirth[]) {
@@ -117,8 +121,11 @@ export default class Board implements CellOwner, RenderPuzzle {
 		}
 	}
 
-	click(clickArea: Click, onEnd: () => void) {
-		//TODO
+	click(area: Click, onEnd: () => void) {
+		let location: Cell = this.getCellByLocation(area.getLocation());
+		location.clicked(function() {
+			// OnClick
+		});
 	}
 
 	exchange(area: Exchange, onEnd: () => void) {
@@ -324,23 +331,8 @@ export default class Board implements CellOwner, RenderPuzzle {
 		return total;
 	}
 
-	renderClick(location: Coordinate): void {
-		this.click(new Click(location), function() {
-			// board.OnClick
-		});
-	}
-
-	renderExchange(from: Coordinate, to: Coordinate): void {
-		this.exchange(new Exchange(from, to), function() {
-			// board.OnExchage
-		});
-	}
-
-	renderClear() {
+	getPuzzle(): Puzzle {
 		//TODO
-	}
-
-	renderSize(): Coordinate {
-		return this.cellsSize;
+		return null;
 	}
 }

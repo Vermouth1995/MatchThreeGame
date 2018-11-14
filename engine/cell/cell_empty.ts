@@ -2,6 +2,7 @@ import CellAdapter from "./cell_adapter";
 import Item from "../item";
 import Cell from "../cell";
 import ItemEmpty from "../item/item_empty";
+import Puzzle from "../../render/puzzle";
 
 export default class CellEmpty extends CellAdapter {
 	constructor() {
@@ -56,5 +57,9 @@ export default class CellEmpty extends CellAdapter {
 
 	clearMe(onEnd: () => void) {
 		onEnd();
+	}
+
+	getPuzzle(): Puzzle {
+		return null;
 	}
 }

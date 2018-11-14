@@ -1,5 +1,6 @@
 import Item from "../item";
 import ItemAdapter from "./item_adapter";
+import Puzzle from "../../render/puzzle";
 
 export default abstract class ItemBoom extends ItemAdapter {
 	constructor() {
@@ -30,5 +31,9 @@ export default abstract class ItemBoom extends ItemAdapter {
 
 	clicked(onEnd: () => void) {
 		this.exploded(onEnd);
+	}
+	getPuzzle(): Puzzle {
+		return null;
+		//TODO
 	}
 }

@@ -25,11 +25,13 @@ export default class Game {
 		let level: Level = LevelCreator.getLevel(index);
 		let board = new Board();
 		level.init(board);
-		this.render.addPuzzle(
-			board,
-			Game.RENDER_SIZE.offset(board.renderSize().negative()).split(Game.SPLIT_HALF),
-			Game.BOARD_Z_INDEX
-		);
+		this.render
+			.getRootPuzzle()
+			.addChild(
+				board.getPuzzle(),
+				Game.RENDER_SIZE.offset(board.size().negative()).split(Game.SPLIT_HALF),
+				Game.BOARD_Z_INDEX
+			);
 	}
 
 	start() {
@@ -38,7 +40,6 @@ export default class Game {
 	}
 
 	close() {
-		this.render.clear();
 		this.render.close();
 	}
 }

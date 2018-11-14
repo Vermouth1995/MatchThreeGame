@@ -3,6 +3,7 @@ import Item from "../item";
 import Birth from "../birth";
 import CellOwner from "../cell_owner";
 import Coordinate from "../../concept/coordinate";
+import Puzzle from "../../render/puzzle";
 
 export default class CellBirth implements Cell {
 	constructor() {}
@@ -60,5 +61,9 @@ export default class CellBirth implements Cell {
 	}
 	clearMe(onEnd: () => void) {
 		onEnd();
+	}
+
+	getPuzzle(): Puzzle {
+		return null;
 	}
 }

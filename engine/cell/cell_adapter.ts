@@ -1,6 +1,7 @@
 import Cell from "../cell";
 import Item from "../item";
 import CellOwner from "../cell_owner";
+import Puzzle from "../../render/puzzle";
 
 export default abstract class CellAdapter implements Cell {
 	constructor() {}
@@ -27,4 +28,5 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	abstract clearMe(onEnd: () => void): void;
+	abstract getPuzzle(): Puzzle;
 }

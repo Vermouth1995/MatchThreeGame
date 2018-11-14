@@ -1,5 +1,6 @@
 import Item from "../item";
 import ItemOwner from "../item_owner";
+import Puzzle from "../../render/puzzle";
 
 export default abstract class ItemAdapter implements Item {
 	// init funcs
@@ -26,4 +27,5 @@ export default abstract class ItemAdapter implements Item {
 			this.owner.clearMe(onEnd);
 		}
 	}
+	abstract getPuzzle(): Puzzle;
 }

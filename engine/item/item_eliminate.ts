@@ -5,6 +5,7 @@ import ItemFireWork from "./boom/item_firework";
 import ItemGrenade from "./boom/item_grenade";
 import ItemDynamite from "./boom/item_dynamite";
 import ItemTrotyl from "./boom/item_trotyl";
+import Puzzle from "../../render/puzzle";
 
 export default abstract class ItemEliminate extends ItemAdapter {
 	constructor() {
@@ -56,5 +57,9 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	}
 	clicked(onEnd: () => void) {
 		onEnd();
+	}
+	getPuzzle(): Puzzle {
+		return null;
+		//TODO
 	}
 }

@@ -1,5 +1,6 @@
 import Item from "../item";
 import ItemAdapter from "./item_adapter";
+import Puzzle from "../../render/puzzle";
 
 export default class ItemDrink extends ItemAdapter {
 	constructor() {
@@ -27,5 +28,9 @@ export default class ItemDrink extends ItemAdapter {
 	}
 	clicked(onEnd: () => void) {
 		onEnd();
+	}
+	getPuzzle(): Puzzle {
+		return null;
+		//TODO
 	}
 }

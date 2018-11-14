@@ -1,5 +1,4 @@
 import Coordinate from "../../concept/coordinate";
-import Atom from "../../concept/atom/atom";
 import RenderAdapter from "../render_adapter";
 
 export default class RenderCanvas extends RenderAdapter {
@@ -46,28 +45,14 @@ export default class RenderCanvas extends RenderAdapter {
 		return imageId;
 	}
 
-	draw(timeStamp: number) {
-		let self: RenderCanvas = this;
-		this.pen.clearRect(0, 0, this.pixel.col, this.pixel.row);
-		this.atoms.iterate(function(index: number, atom: Atom) {
-			let location: Coordinate = atom.getLocation(timeStamp);
-			self.pen.drawImage(
-				self.getImage(atom.getId()),
-				location.col,
-				location.row,
-				self.unitPixel.col,
-				self.unitPixel.row
-			);
-		});
-	}
-
 	private renderRequestId: number;
 
 	start() {
 		super.start();
 		let self: RenderCanvas = this;
 		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
-			self.draw(timeStamp);
+			console.log(timeStamp + " = " + Date.now());
+			self.draw(Date.now());
 			self.renderRequestId = requestAnimationFrame(renderCallback);
 		};
 		self.renderRequestId = requestAnimationFrame(renderCallback);
@@ -80,5 +65,13 @@ export default class RenderCanvas extends RenderAdapter {
 
 	clear() {
 		super.clear();
+		this.pen.clearRect(Coordinate.ORIGIN.col, Coordinate.ORIGIN.row, this.pixel.col, this.pixel.row);
+	}
+
+	drawImage(imageId: number, location: Coordinate, size: Coordinate) {
+		let locationPixel: Coordinate = location.swell(this.unitPixel);
+		let sizePixel: Coordinate = size.swell(this.unitPixel);
+
+		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
 	}
 }

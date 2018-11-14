@@ -1,12 +1,6 @@
 import Coordinate from "../concept/coordinate";
-import LinkedList from "../concept/linked_list/linked_list";
 import Render from "./render";
-import RenderPuzzle from "./render_puzzle";
-import Atom from "../concept/atom/atom";
-
-class RenderAdapterPuzzle {
-	constructor(public puzzle: RenderPuzzle, public location: Coordinate, public zIndex: number) {}
-}
+import Puzzle from "./puzzle";
 
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;
@@ -32,28 +26,10 @@ export default abstract class RenderAdapter implements Render {
 		return imageId;
 	}
 
-	protected atoms: LinkedList<Atom> = new LinkedList<Atom>();
-	addAtom(imageId: number, location: Coordinate): Atom {
-		let atom: Atom = new Atom(imageId, location);
-		this.atoms.append(atom);
-		return atom;
-	}
-	removeAtom(atom: Atom) {
-		this.atoms.removeBy(function(now: Atom): boolean {
-			return atom == now;
-		});
-	}
+	protected rootPuzzle: Puzzle = new Puzzle();
 
-	protected puzzles: LinkedList<RenderAdapterPuzzle> = new LinkedList<RenderAdapterPuzzle>();
-
-	addPuzzle(puzzle: RenderPuzzle, location: Coordinate, zIndex: number): number {
-		let adapterPuzzle: RenderAdapterPuzzle = new RenderAdapterPuzzle(puzzle, location, zIndex);
-		return this.puzzles.insertBy(adapterPuzzle, function(now: RenderAdapterPuzzle): boolean {
-			return zIndex < now.zIndex;
-		});
-	}
-	removePuzzle(puzzleId: number) {
-		this.puzzles.removeAt(puzzleId);
+	getRootPuzzle(): Puzzle {
+		return this.rootPuzzle;
 	}
 
 	start(): void {}
@@ -62,5 +38,15 @@ export default abstract class RenderAdapter implements Render {
 
 	close(): void {
 		this.clear();
+		this.images = [];
+		this.rootPuzzle = new Puzzle();
 	}
+
+	draw(timeStamp: number) {
+		let self: RenderAdapter = this;
+		this.clear();
+		//TODO
+	}
+
+	abstract drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
 }

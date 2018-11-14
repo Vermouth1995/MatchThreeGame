@@ -1,6 +1,5 @@
 import Coordinate from "../concept/coordinate";
-import Atom from "../concept/atom/atom";
-import RenderPuzzle from "./render_puzzle";
+import Puzzle from "./puzzle";
 
 export default interface Render {
 	setSize(size: Coordinate): void;
@@ -8,13 +7,11 @@ export default interface Render {
 
 	registeredImage(image: Blob, onEnd: () => void): number;
 
-	addAtom(imageId: number, loc: Coordinate): Atom;
-	removeAtom(atom: Atom): void;
-
-	addPuzzle(puzzle: RenderPuzzle, location: Coordinate, zIndex: number): number;
-	removePuzzle(puzzleId: number): void;
+	getRootPuzzle(): Puzzle;
 
 	start(): void;
 	clear(): void;
 	close(): void;
+
+	drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
 }

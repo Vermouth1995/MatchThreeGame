@@ -3,6 +3,7 @@ import Item from "../item";
 import Cell from "../cell";
 import CellEmpty from "./cell_empty";
 import ItemEmpty from "../item/item_empty";
+import Puzzle from "../../render/puzzle";
 
 export default class CellLand extends CellAdapter {
 	constructor() {
@@ -87,5 +88,10 @@ export default class CellLand extends CellAdapter {
 		});
 
 		return true;
+	}
+
+	getPuzzle(): Puzzle {
+		return null;
+		//TODO
 	}
 }
