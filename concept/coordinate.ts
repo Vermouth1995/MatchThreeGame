@@ -30,6 +30,13 @@ export default class Coordinate {
 		return Math.sqrt(this.distanceSquare(offset));
 	}
 
+	isIn(from: Coordinate, to: Coordinate): boolean {
+		return (
+			((from.row > this.row && this.row > to.row) || (to.row > this.row && this.row > from.row)) &&
+			((from.col > this.col && this.col > to.col) || (to.col > this.col && this.col > from.col))
+		);
+	}
+
 	isFarther(offset: Coordinate, distance: number): boolean {
 		return distance * distance < this.distanceSquare(offset);
 	}

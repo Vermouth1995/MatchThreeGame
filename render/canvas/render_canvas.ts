@@ -51,7 +51,7 @@ export default class RenderCanvas extends RenderAdapter {
 		super.start();
 		let self: RenderCanvas = this;
 		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
-			console.log(timeStamp + " = " + Date.now());
+			//This timestamp starts when the page loads, but we want it to start on January 1, 1970.
 			self.draw(Date.now());
 			self.renderRequestId = requestAnimationFrame(renderCallback);
 		};
