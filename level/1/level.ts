@@ -1,5 +1,4 @@
 import LevelAdapter from "../level_adapter";
-import Board from "../../engine/board";
 import Cell from "../../engine/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
@@ -10,18 +9,19 @@ import Coordinate from "../../concept/coordinate";
 export default class Level extends LevelAdapter {
 	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
-	private board: Board;
-
 	private birth: BirthEliminate;
 
 	private cells: Cell[][];
+
+	constructor() {
+		super();
+	}
 
 	boardSize(): Coordinate {
 		return Level.Size;
 	}
 
-	init(board: Board) {
-		this.board = board;
+	init() {
 		this.initBirth();
 		this.initCell();
 	}

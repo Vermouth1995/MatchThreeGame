@@ -8,10 +8,13 @@ export default class ItemDrink extends ItemAdapter {
 		super();
 	}
 
-	private static readonly backgroundImagePath: "/drink.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/drink.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemDrink.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemDrink.backgroundImageId = render.registeredImage(ItemDrink.backgroundImagePath, onSuccess, onError);
+		ItemDrink.imageId = render.registeredImage(ItemDrink.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemDrink;

@@ -6,10 +6,13 @@ export default class ItemGrenade extends ItemBoom {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/background.webp";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/boom_grenade.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemGrenade.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemGrenade.backgroundImageId = render.registeredImage(ItemGrenade.backgroundImagePath, onSuccess, onError);
+		ItemGrenade.imageId = render.registeredImage(ItemGrenade.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemGrenade;

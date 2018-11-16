@@ -38,7 +38,7 @@ export default class RenderCanvas extends RenderAdapter {
 		let imageId: number = super.registeredImage(
 			image,
 			function() {
-				let imageElement: HTMLImageElement = new HTMLImageElement();
+				let imageElement: HTMLImageElement = document.createElement("img");
 				self.HTMLImages[imageId] = imageElement;
 				imageElement.onload = function() {
 					onEnd();
@@ -47,9 +47,10 @@ export default class RenderCanvas extends RenderAdapter {
 					onError(event.error);
 				};
 
-				imageElement.src = this.imagePrefix + image;
+				imageElement.src = self.imagePrefix + image;
+				console.log(self.imagePrefix + image);
 			},
-			onEnd
+			onError
 		);
 		return imageId;
 	}

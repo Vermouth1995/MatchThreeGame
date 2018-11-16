@@ -6,10 +6,13 @@ export default class ItemFlower extends ItemEliminate {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/flower.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/flower.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemFlower.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemFlower.backgroundImageId = render.registeredImage(ItemFlower.backgroundImagePath, onSuccess, onError);
+		ItemFlower.imageId = render.registeredImage(ItemFlower.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemFlower;

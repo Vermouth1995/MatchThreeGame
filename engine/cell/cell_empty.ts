@@ -1,18 +1,17 @@
-import CellAdapter from "./cell_adapter";
 import Item from "../item";
 import Cell from "../cell";
 import ItemEmpty from "../item/item_empty";
 import Puzzle from "../../render/puzzle";
+import CellOwner from "../cell_owner";
 
-export default class CellEmpty extends CellAdapter {
-	constructor() {
-		super();
-	}
+export default class CellEmpty implements Cell {
+	constructor() {}
 	getItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
 
 	setItem(item: Item) {}
+	setOwner(owner: CellOwner): void {}
 
 	private static instance: CellEmpty = new CellEmpty();
 
@@ -37,6 +36,9 @@ export default class CellEmpty extends CellAdapter {
 	rob(victims: Cell[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
+	}
+	explode(size: number, onEnd: () => void) {
+		onEnd();
 	}
 
 	polymerizedAsOwner(size: number, onEnd: () => void) {

@@ -1,7 +1,7 @@
 import Item from "../item";
 import ItemBoom from "./item_boom";
 import ItemAdapter from "./item_adapter";
-import ItemFireWork from "./boom/item_firework";
+import ItemFireCracker from "./boom/item_firecracker";
 import ItemGrenade from "./boom/item_grenade";
 import ItemDynamite from "./boom/item_dynamite";
 import ItemTrotyl from "./boom/item_trotyl";
@@ -26,8 +26,8 @@ export default abstract class ItemEliminate extends ItemAdapter {
 				return;
 			}
 			switch (size - ItemEliminate.BOOM_GENERATE_RADIX) {
-				case ItemFireWork.EXPLODE_SIZE:
-					boom = new ItemFireWork();
+				case ItemFireCracker.EXPLODE_SIZE:
+					boom = new ItemFireCracker();
 					break;
 				case ItemGrenade.EXPLODE_SIZE:
 					boom = new ItemGrenade();
@@ -58,8 +58,5 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
-	getPuzzle(): Puzzle {
-		return null;
-		//TODO
-	}
+	abstract getImageId(): number;
 }

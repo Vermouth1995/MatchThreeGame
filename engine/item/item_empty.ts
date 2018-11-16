@@ -1,11 +1,9 @@
 import Item from "../item";
-import ItemAdapter from "./item_adapter";
 import Puzzle from "../../render/puzzle";
+import ItemOwner from "../item_owner";
 
-export default class ItemEmpty extends ItemAdapter {
-	constructor() {
-		super();
-	}
+export default class ItemEmpty implements Item {
+	constructor() {}
 
 	equals(item: Item): boolean {
 		return false;
@@ -40,7 +38,13 @@ export default class ItemEmpty extends ItemAdapter {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	cleared(onEnd: () => void) {
+		onEnd();
+	}
+
 	getPuzzle(): Puzzle {
 		return null;
 	}
+
+	setOwner(owner: ItemOwner): void {}
 }

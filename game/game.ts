@@ -10,11 +10,8 @@ export default class Game {
 	private render: Render;
 
 	static readonly RENDER_SIZE = new Coordinate(10, 20);
-	static readonly ENGINE_SIZE = new Coordinate(9, 12);
 
-	private static readonly SPLIT_HALF = new Coordinate(2, 2);
-
-	private static readonly BOARD_Z_INDEX = 1000;
+	static readonly PUZZLE_LEVEL_Z_INDEX = 1;
 
 	private levelIndex: number = 1;
 
@@ -22,18 +19,18 @@ export default class Game {
 		this.render = render;
 	}
 
+	private level: Level;
+
 	startLevel(index: number) {
 		this.render.clear();
-		let level: Level = LevelCreator.getLevel(index);
-		let board = new Board();
-		level.init(board);
-		this.render
-			.getRootPuzzle()
-			.addChild(
-				board.getPuzzle(),
-				Game.RENDER_SIZE.offset(board.size().negative()).split(Game.SPLIT_HALF),
-				Game.BOARD_Z_INDEX
-			);
+		this.level = LevelCreator.getLevel(index);
+		this.render.getRootPuzzle().addChild(this.level.getPuzzle(), Coordinate.ORIGIN, Game.PUZZLE_LEVEL_Z_INDEX);
+	}
+
+	closeLevel() {
+		if (this.level != null) {
+			this.render.getRootPuzzle().removeChild(this.level.getPuzzle());
+		}
 	}
 
 	start(onError: (error: Error) => void) {
@@ -51,6 +48,7 @@ export default class Game {
 	}
 
 	close() {
+		this.closeLevel();
 		this.render.close();
 	}
 

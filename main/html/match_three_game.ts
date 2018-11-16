@@ -6,7 +6,7 @@ export default class MatchThreeGame {
 		let container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
 
 		let render: RenderCanvas = new RenderCanvas(
-			Game.ENGINE_SIZE,
+			Game.RENDER_SIZE,
 			MatchThreeGame.PixelSize,
 			MatchThreeGame.staticResourcePrefix
 		);
@@ -23,7 +23,7 @@ export default class MatchThreeGame {
 	static readonly PixelSize: Coordinate = new Coordinate(300, 600);
 
 	static readonly ContainerId: string = "match_three_game";
-	static readonly staticResourcePrefix: string = "../resource";
+	static readonly staticResourcePrefix: string = "../../resource";
 }
 
 new MatchThreeGame();

@@ -7,10 +7,13 @@ export default class ItemPinecone extends ItemAdapter {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/background.webp";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/pinecone.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemPinecone.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemPinecone.backgroundImageId = render.registeredImage(ItemPinecone.backgroundImagePath, onSuccess, onError);
+		ItemPinecone.imageId = render.registeredImage(ItemPinecone.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemPinecone;

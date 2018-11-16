@@ -6,10 +6,13 @@ export default class ItemTrotyl extends ItemBoom {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/background.webp";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/boom_trotyl.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemTrotyl.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemTrotyl.backgroundImageId = render.registeredImage(ItemTrotyl.backgroundImagePath, onSuccess, onError);
+		ItemTrotyl.imageId = render.registeredImage(ItemTrotyl.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemTrotyl;

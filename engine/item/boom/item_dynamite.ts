@@ -6,10 +6,13 @@ export default class ItemDynamite extends ItemBoom {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/background.webp";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/boom_dynamite.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemDynamite.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemDynamite.backgroundImageId = render.registeredImage(ItemDynamite.backgroundImagePath, onSuccess, onError);
+		ItemDynamite.imageId = render.registeredImage(ItemDynamite.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemDynamite;

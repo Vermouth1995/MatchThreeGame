@@ -20,14 +20,32 @@ export default class Board implements CellOwner {
 
 	private birthPlace: CellBirth[];
 
-	constructor() {}
+	private puzzle: Puzzle;
+
+	constructor() {
+		this.puzzle = new Puzzle();
+	}
+
+	getPuzzle(): Puzzle {
+		return this.puzzle;
+	}
+
+	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
 
 	setCells(cells: Cell[][]) {
 		this.cells = cells;
 		let maxRowLength: number = 0;
 		for (let i = 0; i < this.cells.length; i++) {
-			if (this.cells[i].length > maxRowLength) {
-				maxRowLength = this.cells[i].length;
+			let row: Cell[] = this.cells[i];
+			if (row.length > maxRowLength) {
+				maxRowLength = row.length;
+			}
+			for (let j = 0; j < row.length; j++) {
+				let cell: Cell = row[j];
+				let cellPuzzle: Puzzle = cell.getPuzzle();
+				if (cellPuzzle != null) {
+					this.getPuzzle().addChild(cellPuzzle, new Coordinate(i, j), Board.PUZZLE_CELL_Z_INDEX);
+				}
 			}
 		}
 		this.cellsSize = new Coordinate(this.cells.length, maxRowLength);
@@ -332,14 +350,9 @@ export default class Board implements CellOwner {
 		return total;
 	}
 
-	getPuzzle(): Puzzle {
-		//TODO
-		return null;
-	}
-
-	private static readonly backgroundImagePath: "/background.webp";
-	private static backgroundImageId: number;
+	// private static readonly backgroundImagePath: string = "/default.png";
+	// private static backgroundImageId: number;
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		Board.backgroundImageId = render.registeredImage(Board.backgroundImagePath, onSuccess, onError);
+		// Board.backgroundImageId = render.registeredImage(Board.backgroundImagePath, onSuccess, onError);
 	}
 }

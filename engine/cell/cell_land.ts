@@ -3,29 +3,13 @@ import Item from "../item";
 import Cell from "../cell";
 import CellEmpty from "./cell_empty";
 import ItemEmpty from "../item/item_empty";
-import Puzzle from "../../render/puzzle";
 import Render from "../../render/render";
 
 export default class CellLand extends CellAdapter {
 	constructor() {
 		super();
 	}
-	private item: Item;
-	getItem(): Item {
-		if (this.item == null) {
-			return ItemEmpty.getEmpty();
-		}
-		return this.item;
-	}
-	setItem(item: Item) {
-		this.item = item;
-		this.item.setOwner(this);
-	}
-	clearMe(onEnd: () => void) {
-		this.item.setOwner(null);
-		this.item = null;
-		onEnd();
-	}
+
 	canRobbed(): boolean {
 		return true;
 	}
@@ -48,6 +32,7 @@ export default class CellLand extends CellAdapter {
 	clicked(onEnd: () => void) {
 		this.item.clicked(onEnd);
 	}
+
 	exchange(to: Cell, onEnd: () => void): boolean {
 		if (!this.canExchange() || !to.canExchange()) {
 			onEnd();
@@ -91,14 +76,12 @@ export default class CellLand extends CellAdapter {
 		return true;
 	}
 
-	getPuzzle(): Puzzle {
-		return null;
-		//TODO
-	}
-
-	private static readonly backgroundImagePath: "/background.webp";
+	private static readonly backgroundImagePath: string = "/cell_land.png";
 	private static backgroundImageId: number;
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
 		CellLand.backgroundImageId = render.registeredImage(CellLand.backgroundImagePath, onSuccess, onError);
+	}
+	getBackgroundImageId(): number {
+		return CellLand.backgroundImageId;
 	}
 }

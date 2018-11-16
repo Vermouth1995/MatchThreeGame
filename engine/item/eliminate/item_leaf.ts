@@ -6,10 +6,13 @@ export default class ItemLeaf extends ItemEliminate {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/leaf.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/leaf.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemLeaf.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemLeaf.backgroundImageId = render.registeredImage(ItemLeaf.backgroundImagePath, onSuccess, onError);
+		ItemLeaf.imageId = render.registeredImage(ItemLeaf.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemLeaf;

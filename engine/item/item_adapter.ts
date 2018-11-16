@@ -1,11 +1,23 @@
 import Item from "../item";
 import ItemOwner from "../item_owner";
 import Puzzle from "../../render/puzzle";
+import Atom from "../../render/atom";
+import AtomImage from "../../render/atom/atom_image";
+import Coordinate from "../../concept/coordinate";
 
 export default abstract class ItemAdapter implements Item {
-	// init funcs
-	constructor() {}
+	constructor() {
+		this.puzzle = new Puzzle();
+		this.atom = new AtomImage(this.getImageId(), Coordinate.UNIT, Coordinate.ORIGIN);
+		this.puzzle.addAtom(this.atom, Coordinate.ORIGIN, 0);
+	}
+
 	protected owner: ItemOwner;
+
+	private puzzle: Puzzle;
+
+	private atom: Atom;
+
 	setOwner(owner: ItemOwner) {
 		this.owner = owner;
 	}
@@ -27,5 +39,9 @@ export default abstract class ItemAdapter implements Item {
 			this.owner.clearMe(onEnd);
 		}
 	}
-	abstract getPuzzle(): Puzzle;
+
+	getPuzzle(): Puzzle {
+		return this.puzzle;
+	}
+	abstract getImageId(): number;
 }

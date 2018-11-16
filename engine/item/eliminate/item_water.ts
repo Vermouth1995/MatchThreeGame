@@ -6,10 +6,13 @@ export default class ItemWater extends ItemEliminate {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/water.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/water.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemWater.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemWater.backgroundImageId = render.registeredImage(ItemWater.backgroundImagePath, onSuccess, onError);
+		ItemWater.imageId = render.registeredImage(ItemWater.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemWater;

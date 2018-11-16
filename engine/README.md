@@ -21,7 +21,7 @@
 		├── ItemDrink
 		├── ItemPinecone
 		├── ItemBoom
-		│	├── ItemFireWork
+		│	├── ItemFireCracker
 		│	├── ItemGrenade
 		│	├── ItemDynamite
 		│	└── ItemTrotyl

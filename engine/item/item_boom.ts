@@ -32,8 +32,6 @@ export default abstract class ItemBoom extends ItemAdapter {
 	clicked(onEnd: () => void) {
 		this.exploded(onEnd);
 	}
-	getPuzzle(): Puzzle {
-		return null;
-		//TODO
-	}
+
+	abstract getImageId(): number;
 }

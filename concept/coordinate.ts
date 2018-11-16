@@ -85,6 +85,8 @@ export default class Coordinate {
 		return [this.offset(Coordinate.UP), this.offset(Coordinate.LEFTUP), this.offset(Coordinate.RIGHTUP)];
 	}
 
+	static readonly UNIT: Coordinate = new Coordinate(1, 1);
+
 	static readonly ORIGIN: Coordinate = new Coordinate(0, 0);
 	static readonly UP: Coordinate = new Coordinate(0, -1);
 	static readonly DOWN: Coordinate = new Coordinate(0, 1);

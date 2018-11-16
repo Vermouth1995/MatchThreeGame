@@ -6,10 +6,13 @@ export default class ItemPear extends ItemEliminate {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/pear.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/pear.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemPear.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemPear.backgroundImageId = render.registeredImage(ItemPear.backgroundImagePath, onSuccess, onError);
+		ItemPear.imageId = render.registeredImage(ItemPear.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemPear;

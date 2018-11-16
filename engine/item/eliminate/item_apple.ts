@@ -6,10 +6,13 @@ export default class ItemApple extends ItemEliminate {
 	constructor() {
 		super();
 	}
-	private static readonly backgroundImagePath: "/apple.png";
-	private static backgroundImageId: number;
+	private static readonly imagePath: string = "/apple.png";
+	private static imageId: number;
+	getImageId(): number {
+		return ItemApple.imageId;
+	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemApple.backgroundImageId = render.registeredImage(ItemApple.backgroundImagePath, onSuccess, onError);
+		ItemApple.imageId = render.registeredImage(ItemApple.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
 		return item instanceof ItemApple;

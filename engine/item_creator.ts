@@ -14,7 +14,7 @@ import ItemPear from "./item/eliminate/item_pear";
 import ItemWater from "./item/eliminate/item_water";
 
 import ItemDynamite from "./item/boom/item_dynamite";
-import ItemFireWork from "./item/boom/item_firework";
+import ItemFireCracker from "./item/boom/item_firecracker";
 import ItemGrenade from "./item/boom/item_grenade";
 import ItemTrotyl from "./item/boom/item_trotyl";
 
@@ -32,7 +32,7 @@ export default class ItemCreator {
 	static readonly WATER: number = 105;
 
 	static readonly DYNAMITE: number = 200;
-	static readonly FIREWORK: number = 201;
+	static readonly FIRECRACKER: number = 201;
 	static readonly GRENADE: number = 202;
 	static readonly TROTYL: number = 203;
 
@@ -58,8 +58,8 @@ export default class ItemCreator {
 				return new ItemWater();
 			case ItemCreator.DYNAMITE:
 				return new ItemDynamite();
-			case ItemCreator.FIREWORK:
-				return new ItemFireWork();
+			case ItemCreator.FIRECRACKER:
+				return new ItemFireCracker();
 			case ItemCreator.GRENADE:
 				return new ItemGrenade();
 			case ItemCreator.TROTYL:
@@ -70,7 +70,7 @@ export default class ItemCreator {
 	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
 		let success: OnceLast = new OnceLast();
-		success.setCallback(onSuccess);
+        success.setCallback(onSuccess);
 		ItemApple.LoadStaticResource(render, success.getCallback(), onError);
 		ItemDrink.LoadStaticResource(render, success.getCallback(), onError);
 		ItemPinecone.LoadStaticResource(render, success.getCallback(), onError);
@@ -80,7 +80,7 @@ export default class ItemCreator {
 		ItemPear.LoadStaticResource(render, success.getCallback(), onError);
 		ItemWater.LoadStaticResource(render, success.getCallback(), onError);
 		ItemDynamite.LoadStaticResource(render, success.getCallback(), onError);
-		ItemFireWork.LoadStaticResource(render, success.getCallback(), onError);
+		ItemFireCracker.LoadStaticResource(render, success.getCallback(), onError);
 		ItemGrenade.LoadStaticResource(render, success.getCallback(), onError);
 		ItemTrotyl.LoadStaticResource(render, success.getCallback(), onError);
 	}
