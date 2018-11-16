@@ -1,7 +1,7 @@
 import BirthAdapter from "./birth_adapter";
 import Coordinate from "../../concept/coordinate";
 import Item from "../item";
-import ItemCreator from "../item/item_creator";
+import ItemCreator from "../item_creator";
 import RandomWeight from "../../concept/random_weight";
 
 export default class BirthEliminate extends BirthAdapter {

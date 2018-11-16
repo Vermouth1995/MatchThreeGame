@@ -2,15 +2,18 @@ import Coordinate from "../../concept/coordinate";
 import RenderAdapter from "../render_adapter";
 
 export default class RenderCanvas extends RenderAdapter {
-	constructor(size: Coordinate, pixel: Coordinate) {
+	constructor(size: Coordinate, pixel: Coordinate, imagePrefix: string) {
 		super(size);
 		this.pixel = pixel;
+		this.imagePrefix = imagePrefix;
 		this.unitPixel = pixel.split(size);
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = pixel.col;
 		this.canvas.height = pixel.row;
 		this.pen = <CanvasRenderingContext2D>this.canvas.getContext("2d");
 	}
+
+	private imagePrefix: string;
 
 	private pixel: Coordinate;
 
@@ -30,18 +33,24 @@ export default class RenderCanvas extends RenderAdapter {
 		return this.HTMLImages[imageID];
 	}
 
-	registeredImage(imageBlob: Blob, onEnd: () => void): number {
+	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
 		let self: RenderCanvas = this;
-		let imageId: number = super.registeredImage(imageBlob, function() {
-			let imageElement: HTMLImageElement = new HTMLImageElement();
-			self.HTMLImages[imageId] = imageElement;
-			let imageReader: FileReader = new FileReader();
-			imageReader.onload = function(event: FileReaderProgressEvent) {
-				imageElement.src = event.target.result;
-				onEnd();
-			};
-			imageReader.readAsDataURL(imageBlob);
-		});
+		let imageId: number = super.registeredImage(
+			image,
+			function() {
+				let imageElement: HTMLImageElement = new HTMLImageElement();
+				self.HTMLImages[imageId] = imageElement;
+				imageElement.onload = function() {
+					onEnd();
+				};
+				imageElement.onerror = function(event: ErrorEvent) {
+					onError(event.error);
+				};
+
+				imageElement.src = this.imagePrefix + image;
+			},
+			onEnd
+		);
 		return imageId;
 	}
 
@@ -52,6 +61,7 @@ export default class RenderCanvas extends RenderAdapter {
 		let self: RenderCanvas = this;
 		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
 			//This timestamp starts when the page loads, but we want it to start on January 1, 1970.
+			self.clear();
 			self.draw(Date.now());
 			self.renderRequestId = requestAnimationFrame(renderCallback);
 		};

@@ -3,6 +3,7 @@ import Cell from "../cell";
 import Item from "../item";
 import ItemEmpty from "../item/item_empty";
 import Puzzle from "../../render/puzzle";
+import Render from "../../render/render";
 
 export default class CellWater extends CellAdapter {
 	constructor() {
@@ -51,5 +52,11 @@ export default class CellWater extends CellAdapter {
 	getPuzzle(): Puzzle {
 		return null;
 		//TODO
+	}
+
+	private static readonly backgroundImagePath: "/background.webp";
+	private static backgroundImageId: number;
+	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
+		CellWater.backgroundImageId = render.registeredImage(CellWater.backgroundImagePath, onSuccess, onError);
 	}
 }

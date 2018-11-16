@@ -11,6 +11,7 @@ import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
 import Puzzle from "../render/puzzle";
+import Render from "../render/render";
 
 export default class Board implements CellOwner {
 	private cells: Cell[][];
@@ -334,5 +335,11 @@ export default class Board implements CellOwner {
 	getPuzzle(): Puzzle {
 		//TODO
 		return null;
+	}
+
+	private static readonly backgroundImagePath: "/background.webp";
+	private static backgroundImageId: number;
+	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
+		Board.backgroundImageId = render.registeredImage(Board.backgroundImagePath, onSuccess, onError);
 	}
 }

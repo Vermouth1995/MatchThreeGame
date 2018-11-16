@@ -1,6 +1,8 @@
 import Coordinate from "../concept/coordinate";
+import RenderPosition from "./render_position";
 import Render from "./render";
 import Puzzle from "./puzzle";
+import Atom from "./atom";
 
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;
@@ -17,9 +19,9 @@ export default abstract class RenderAdapter implements Render {
 		return this.size;
 	}
 
-	protected images: Blob[] = [];
+	protected images: string[] = [];
 
-	registeredImage(image: Blob, onEnd: () => void): number {
+	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
 		let imageId: number = this.images.length;
 		this.images.push(image);
 		onEnd();
@@ -37,15 +39,20 @@ export default abstract class RenderAdapter implements Render {
 	clear(): void {}
 
 	close(): void {
-		this.clear();
 		this.images = [];
 		this.rootPuzzle = new Puzzle();
 	}
 
 	draw(timeStamp: number) {
-		let self: RenderAdapter = this;
-		this.clear();
-		//TODO
+		let atoms: RenderPosition<Atom>[] = [];
+		this.getRootPuzzle().payAtoms(0, atoms);
+		atoms.sort(function(left: RenderPosition<Atom>, right: RenderPosition<Atom>): number {
+			return left.zIndex - right.zIndex;
+		});
+		for (let i = 0; i < atoms.length; i++) {
+			let atom: RenderPosition<Atom> = atoms[i];
+			atom.data.draw(this, timeStamp, atom.location);
+		}
 	}
 
 	abstract drawImage(imageId: number, location: Coordinate, size: Coordinate): void;

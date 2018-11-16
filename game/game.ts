@@ -3,7 +3,9 @@ import Board from "../engine/board";
 import Level from "../level/level";
 import LevelCreator from "../level/level_creator";
 import Coordinate from "../concept/coordinate";
-
+import OnceLast from "../concept/once/once_last";
+import ItemCreator from "../engine/item_creator";
+import CellCreator from "../engine/cell_creator";
 export default class Game {
 	private render: Render;
 
@@ -34,12 +36,29 @@ export default class Game {
 			);
 	}
 
-	start() {
+	start(onError: (error: Error) => void) {
 		this.startLevel(this.levelIndex);
-		this.render.start();
+		let self: Game = this;
+		this.LoadStaticResource(
+			this.render,
+			function() {
+				self.render.start();
+			},
+			function(error: Error) {
+				onError(error);
+			}
+		);
 	}
 
 	close() {
 		this.render.close();
+	}
+
+	LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
+		let success: OnceLast = new OnceLast();
+		success.setCallback(onSuccess);
+		ItemCreator.LoadStaticResource(render, success.getCallback(), onError);
+		Board.LoadStaticResource(render, success.getCallback(), onError);
+		CellCreator.LoadStaticResource(render, success.getCallback(), onError);
 	}
 }

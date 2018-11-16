@@ -4,6 +4,7 @@ import Cell from "../cell";
 import CellEmpty from "./cell_empty";
 import ItemEmpty from "../item/item_empty";
 import Puzzle from "../../render/puzzle";
+import Render from "../../render/render";
 
 export default class CellLand extends CellAdapter {
 	constructor() {
@@ -93,5 +94,11 @@ export default class CellLand extends CellAdapter {
 	getPuzzle(): Puzzle {
 		return null;
 		//TODO
+	}
+
+	private static readonly backgroundImagePath: "/background.webp";
+	private static backgroundImageId: number;
+	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
+		CellLand.backgroundImageId = render.registeredImage(CellLand.backgroundImagePath, onSuccess, onError);
 	}
 }

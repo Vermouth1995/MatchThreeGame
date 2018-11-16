@@ -5,18 +5,25 @@ export default class MatchThreeGame {
 	constructor() {
 		let container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
 
-		let render: RenderCanvas = new RenderCanvas(Game.ENGINE_SIZE, MatchThreeGame.PixelSize);
+		let render: RenderCanvas = new RenderCanvas(
+			Game.ENGINE_SIZE,
+			MatchThreeGame.PixelSize,
+			MatchThreeGame.staticResourcePrefix
+		);
 
 		let main: Game = new Game(render);
 
 		container.appendChild(render.getCanvasElement());
 
-		main.start();
+		main.start(function(error: Error) {
+			console.log(error);
+		});
 	}
 
 	static readonly PixelSize: Coordinate = new Coordinate(300, 600);
 
 	static readonly ContainerId: string = "match_three_game";
+	static readonly staticResourcePrefix: string = "../resource";
 }
 
 new MatchThreeGame();

@@ -104,4 +104,13 @@ export default class Puzzle {
 	size(): Coordinate {
 		return this.renderSize;
 	}
+
+	payAtoms(baseIndex: number, atoms: RenderPosition<Atom>[]) {
+		this.atoms.iterate(function(index: number, now: RenderPosition<Atom>) {
+			atoms.push(new RenderPosition<Atom>(now.data, now.location, now.zIndex + baseIndex));
+		});
+		this.puzzles.iterate(function(index: number, now: RenderPosition<Puzzle>) {
+			now.data.payAtoms(baseIndex + now.zIndex, atoms);
+		});
+	}
 }

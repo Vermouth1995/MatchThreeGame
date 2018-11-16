@@ -5,7 +5,7 @@ export default interface Render {
 	setSize(size: Coordinate): void;
 	getSize(): Coordinate;
 
-	registeredImage(image: Blob, onEnd: () => void): number;
+	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number;
 
 	getRootPuzzle(): Puzzle;
 
