@@ -70,7 +70,7 @@ export default class ItemCreator {
 	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
 		let success: OnceLast = new OnceLast();
-        success.setCallback(onSuccess);
+		success.setCallback(onSuccess);
 		ItemApple.LoadStaticResource(render, success.getCallback(), onError);
 		ItemDrink.LoadStaticResource(render, success.getCallback(), onError);
 		ItemPinecone.LoadStaticResource(render, success.getCallback(), onError);

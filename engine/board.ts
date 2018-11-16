@@ -350,9 +350,7 @@ export default class Board implements CellOwner {
 		return total;
 	}
 
-	// private static readonly backgroundImagePath: string = "/default.png";
-	// private static backgroundImageId: number;
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		// Board.backgroundImageId = render.registeredImage(Board.backgroundImagePath, onSuccess, onError);
+		onSuccess();
 	}
 }

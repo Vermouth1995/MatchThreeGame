@@ -3,6 +3,7 @@ import RenderPosition from "./render_position";
 import Render from "./render";
 import Puzzle from "./puzzle";
 import Atom from "./atom";
+import OnceAdapter from "../concept/once/once_adapter";
 
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;
@@ -24,7 +25,7 @@ export default abstract class RenderAdapter implements Render {
 	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
 		let imageId: number = this.images.length;
 		this.images.push(image);
-		onEnd();
+		OnceAdapter.delay(onEnd)();
 		return imageId;
 	}
 

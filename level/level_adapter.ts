@@ -22,7 +22,7 @@ export default abstract class LevelAdapter implements Level {
 			Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF),
 			LevelAdapter.PUZZLE_BOARD_Z_INDEX
 		);
-        this.init();
+		this.init();
 	}
 
 	abstract init(): void;
