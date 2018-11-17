@@ -34,12 +34,12 @@ export default class Game {
 	}
 
 	start(onError: (error: Error) => void) {
-		this.startLevel(this.levelIndex);
 		let self: Game = this;
 		this.LoadStaticResource(
 			this.render,
 			function() {
 				self.render.start();
+                self.startLevel(self.levelIndex);
 			},
 			function(error: Error) {
 				onError(error);

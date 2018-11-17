@@ -9,9 +9,6 @@ export default class LevelCreator {
 	}
 
 	static getLevel(index: number): Level {
-		if (index <= 0 || index > this.size()) {
-			return null;
-		}
 		switch (index) {
 			case 1:
 				return new Level1();
