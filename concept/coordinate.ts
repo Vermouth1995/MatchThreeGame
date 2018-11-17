@@ -19,7 +19,7 @@ export default class Coordinate {
 	}
 
 	split(size: Coordinate): Coordinate {
-		return new Coordinate(this.row / (size.row == 0 ? size.row : 1), this.col / (size.col == 0 ? size.col : 1));
+		return new Coordinate(this.row / (size.row == 0 ? 1 : size.row), this.col / (size.col == 0 ? 1 : size.col));
 	}
 
 	swell(size: Coordinate): Coordinate {
@@ -86,6 +86,7 @@ export default class Coordinate {
 	}
 
 	static readonly UNIT: Coordinate = new Coordinate(1, 1);
+	static readonly HALF: Coordinate = new Coordinate(0.5, 0.5);
 
 	static readonly ORIGIN: Coordinate = new Coordinate(0, 0);
 	static readonly UP: Coordinate = new Coordinate(0, -1);

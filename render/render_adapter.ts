@@ -46,7 +46,7 @@ export default abstract class RenderAdapter implements Render {
 
 	draw(timeStamp: number) {
 		let atoms: RenderPosition<Atom>[] = [];
-		this.getRootPuzzle().payAtoms(0, atoms);
+		this.getRootPuzzle().payAtoms(0, Coordinate.ORIGIN, atoms);
 		atoms.sort(function(left: RenderPosition<Atom>, right: RenderPosition<Atom>): number {
 			return left.zIndex - right.zIndex;
 		});

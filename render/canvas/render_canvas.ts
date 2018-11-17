@@ -48,7 +48,6 @@ export default class RenderCanvas extends RenderAdapter {
 				};
 
 				imageElement.src = self.imagePrefix + image;
-				console.log(self.imagePrefix + image);
 			},
 			onError
 		);

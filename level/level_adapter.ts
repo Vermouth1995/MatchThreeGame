@@ -17,12 +17,12 @@ export default abstract class LevelAdapter implements Level {
 	constructor() {
 		this.board = new Board();
 		this.puzzle = new Puzzle();
+		this.init();
 		this.getPuzzle().addChild(
 			this.board.getPuzzle(),
 			Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF),
 			LevelAdapter.PUZZLE_BOARD_Z_INDEX
 		);
-		this.init();
 	}
 
 	abstract init(): void;

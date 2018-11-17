@@ -20,7 +20,7 @@ export default class MatchThreeGame {
 		});
 	}
 
-	static readonly PixelSize: Coordinate = new Coordinate(300, 600);
+	static readonly PixelSize: Coordinate = new Coordinate(680, 1360);
 
 	static readonly ContainerId: string = "match_three_game";
 	static readonly staticResourcePrefix: string = "../../resource";

@@ -39,7 +39,7 @@ export default class Game {
 			this.render,
 			function() {
 				self.render.start();
-                self.startLevel(self.levelIndex);
+				self.startLevel(self.levelIndex);
 			},
 			function(error: Error) {
 				onError(error);

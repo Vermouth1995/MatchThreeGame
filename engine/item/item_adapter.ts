@@ -6,10 +6,14 @@ import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
 
 export default abstract class ItemAdapter implements Item {
+	static readonly DrawCoefficient = new Coordinate(0.85, 0.7);
+	static readonly DrawStart = Coordinate.UNIT.offset(ItemAdapter.DrawCoefficient.negative()).swell(Coordinate.HALF);
+	static readonly DrawImageSize = Coordinate.UNIT.swell(ItemAdapter.DrawCoefficient);
+
 	constructor() {
 		this.puzzle = new Puzzle();
-		this.atom = new AtomImage(this.getImageId(), Coordinate.UNIT, Coordinate.ORIGIN);
-		this.puzzle.addAtom(this.atom, Coordinate.ORIGIN, 0);
+		this.atom = new AtomImage(this.getImageId(), ItemAdapter.DrawImageSize, Coordinate.ORIGIN);
+		this.puzzle.addAtom(this.atom, ItemAdapter.DrawStart, 0);
 	}
 
 	protected owner: ItemOwner;

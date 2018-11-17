@@ -105,12 +105,12 @@ export default class Puzzle {
 		return this.renderSize;
 	}
 
-	payAtoms(baseIndex: number, atoms: RenderPosition<Atom>[]) {
+	payAtoms(baseIndex: number, baseLocation: Coordinate, atoms: RenderPosition<Atom>[]) {
 		this.atoms.iterate(function(index: number, now: RenderPosition<Atom>) {
-			atoms.push(new RenderPosition<Atom>(now.data, now.location, now.zIndex + baseIndex));
+			atoms.push(new RenderPosition<Atom>(now.data, baseLocation.offset(now.location), now.zIndex + baseIndex));
 		});
 		this.puzzles.iterate(function(index: number, now: RenderPosition<Puzzle>) {
-			now.data.payAtoms(baseIndex + now.zIndex, atoms);
+			now.data.payAtoms(baseIndex + now.zIndex, baseLocation.offset(now.location), atoms);
 		});
 	}
 }
