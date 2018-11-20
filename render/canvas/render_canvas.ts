@@ -1,5 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 import RenderAdapter from "../render_adapter";
+import Puzzle from "../puzzle";
 
 export default class RenderCanvas extends RenderAdapter {
 	constructor(size: Coordinate, pixel: Coordinate, imagePrefix: string) {
@@ -11,7 +12,34 @@ export default class RenderCanvas extends RenderAdapter {
 		this.canvas.width = pixel.col;
 		this.canvas.height = pixel.row;
 		this.pen = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+		this.initListener();
 	}
+
+	private initListener() {
+		let self: RenderCanvas = this;
+		let root: Puzzle = this.getRootPuzzle();
+		self.canvas.onmouseup = function(event: MouseEvent) {
+			if (self.listenerOn) {
+				root.triggerMouseUp(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+			}
+		};
+		self.canvas.onmousedown = function(event: MouseEvent) {
+			if (self.listenerOn) {
+				root.triggerMouseDown(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+			}
+		};
+		self.canvas.onmousemove = function(event: MouseEvent) {
+			if (self.listenerOn) {
+				root.triggerMouseMove(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+			}
+		};
+	}
+
+	private getLocationByPixelLocation(pixelLocation: Coordinate): Coordinate {
+		return pixelLocation.split(this.unitPixel);
+	}
+
+	private listenerOn: boolean = false;
 
 	private imagePrefix: string;
 
@@ -65,10 +93,12 @@ export default class RenderCanvas extends RenderAdapter {
 			self.draw(Date.now());
 			self.renderRequestId = requestAnimationFrame(renderCallback);
 		};
-		self.renderRequestId = requestAnimationFrame(renderCallback);
+		this.renderRequestId = requestAnimationFrame(renderCallback);
+		this.listenerOn = true;
 	}
 
 	close() {
+		this.listenerOn = false;
 		cancelAnimationFrame(this.renderRequestId);
 		super.close();
 	}

@@ -4,47 +4,55 @@ import LinkedList from "../concept/linked_list/linked_list";
 import RenderPosition from "./render_position";
 
 export default class Puzzle {
-	triggerClick(location: Coordinate): void {
-		if (this.clickListener != null) {
-			let isContinue: boolean = this.clickListener(location);
-			if (!isContinue) {
-				return;
-			}
+	private locationEventListener: { [key: number]: (location: Coordinate) => boolean } = {};
+
+	private triggerLocationEvent(eventName: number, location: Coordinate): void {
+		let listener: (location: Coordinate) => boolean = this.locationEventListener[eventName];
+		let isContinue: boolean = true;
+		if (listener != null) {
+			isContinue = listener(location);
 		}
+		if (!isContinue) {
+			return;
+		}
+
 		let child: RenderPosition<Puzzle> = this.triggerChild(location);
 		if (child == null) {
 			return;
 		}
-		child.data.triggerClick(location.offset(child.location.negative()));
+		child.data.triggerLocationEvent(eventName, location.offset(child.location.negative()));
 	}
 
-	private clickListener: (location: Coordinate) => boolean = null;
-
-	onClick(clickListener: (location: Coordinate) => boolean) {
-		this.clickListener = clickListener;
+	private onLocationEvent(eventName: number, clickListener: (location: Coordinate) => boolean) {
+		this.locationEventListener[eventName] = clickListener;
 	}
 
-	triggerExchange(from: Coordinate, to: Coordinate): void {
-		if (this.exchangeListener != null) {
-			let isContinue: boolean = this.exchangeListener(from, to);
-			if (!isContinue) {
-				return;
-			}
-		}
-		let child: RenderPosition<Puzzle> = this.triggerChild(from);
-		if (child == null) {
-			return;
-		}
-		if (!to.isIn(child.location, child.location.offset(child.data.size()))) {
-			return;
-		}
-		child.data.triggerExchange(from.offset(child.location.negative()), to.offset(child.location.negative()));
+	private static readonly MouseDown: number = 1;
+	private static readonly MouseUp: number = 2;
+	private static readonly MouseMove: number = 3;
+
+	triggerMouseDown(location: Coordinate): void {
+		this.triggerLocationEvent(Puzzle.MouseDown, location);
 	}
 
-	private exchangeListener: (from: Coordinate, to: Coordinate) => boolean = null;
+	onMouseDown(clickListener: (location: Coordinate) => boolean) {
+		this.onLocationEvent(Puzzle.MouseDown, clickListener);
+	}
 
-	onExchange(exchangeListener: (from: Coordinate, to: Coordinate) => boolean) {
-		this.exchangeListener = exchangeListener;
+	triggerMouseUp(location: Coordinate): void {
+		this.triggerLocationEvent(Puzzle.MouseUp, location);
+	}
+
+	onMouseUp(clickListener: (location: Coordinate) => boolean) {
+		this.onLocationEvent(Puzzle.MouseUp, clickListener);
+	}
+
+	triggerMouseMove(location: Coordinate): void {
+		this.triggerLocationEvent(Puzzle.MouseMove, location);
+	}
+
+	onMouseMove(clickListener: (location: Coordinate) => boolean) {
+		this.onLocationEvent(Puzzle.MouseMove, clickListener);
 	}
 
 	children(): LinkedList<RenderPosition<Puzzle>> {

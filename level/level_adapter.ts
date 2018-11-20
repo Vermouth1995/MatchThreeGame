@@ -18,6 +18,7 @@ export default abstract class LevelAdapter implements Level {
 		this.board = new Board();
 		this.puzzle = new Puzzle();
 		this.init();
+		this.getPuzzle().setSize(Game.RENDER_SIZE);
 		this.getPuzzle().addChild(
 			this.board.getPuzzle(),
 			Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF),

@@ -1,7 +1,6 @@
 import LevelAdapter from "../level_adapter";
 import Cell from "../../engine/cell";
 import CellLand from "../../engine/cell/cell_land";
-import CellEmpty from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 
@@ -44,14 +43,9 @@ export default class Level extends LevelAdapter {
 		for (let i = 0; i < Level.Size.row; i++) {
 			this.cells.push([]);
 			for (let j = 0; j < Level.Size.row; j++) {
-
-				let cell: Cell
-                if(j == 3 || i == 3){
-                    cell = new CellEmpty();
-                }else{
-                    cell = new CellLand();
-                    cell.setItem(this.birth.getItemWithoutLoction());
-                }
+				let cell: Cell;
+				cell = new CellLand();
+				cell.setItem(this.birth.getItemWithoutLoction());
 				cell.setOwner(this.board);
 				this.cells[i].push(cell);
 			}

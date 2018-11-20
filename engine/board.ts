@@ -11,6 +11,7 @@ import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
 import Puzzle from "../render/puzzle";
+import BoardPuzzle from "./board_puzzle";
 import Render from "../render/render";
 
 export default class Board implements CellOwner {
@@ -20,10 +21,19 @@ export default class Board implements CellOwner {
 
 	private birthPlace: CellBirth[];
 
-	private puzzle: Puzzle;
+	private puzzle: BoardPuzzle;
 
 	constructor() {
-		this.puzzle = new Puzzle();
+		this.puzzle = new BoardPuzzle();
+		this.puzzle.onBoardClick(function(location: Coordinate) {
+			console.log("click");
+			console.log(location);
+		});
+		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
+			console.log("exchange");
+			console.log(from);
+			console.log(to);
+		});
 	}
 
 	getPuzzle(): Puzzle {
@@ -49,6 +59,7 @@ export default class Board implements CellOwner {
 			}
 		}
 		this.cellsSize = new Coordinate(this.cells.length, maxRowLength);
+		this.puzzle.setSize(this.cellsSize);
 	}
 
 	size(): Coordinate {

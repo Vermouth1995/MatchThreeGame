@@ -14,6 +14,10 @@ export default class Coordinate {
 		return new Coordinate(this.row + (to.row - this.row) * degree, this.col + (to.col - this.col) * degree);
 	}
 
+	floor(): Coordinate {
+		return new Coordinate(Math.floor(this.row), Math.floor(this.col));
+	}
+
 	negative(): Coordinate {
 		return new Coordinate(0 - this.row, 0 - this.col);
 	}
