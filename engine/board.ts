@@ -1,5 +1,6 @@
 import Item from "./item";
 import Cell from "./cell";
+import CellAdapter from "./cell/cell_adapter";
 import CellOwner from "./cell_owner";
 import CellEmpty from "./cell/cell_empty";
 import CellBirth from "./cell/cell_birth";
@@ -44,28 +45,44 @@ export default class Board implements CellOwner {
 
 	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
 
-	setCells(cells: Cell[][]) {
-		this.cells = cells;
-		let maxRowLength: number = 0;
-		for (let i = 0; i < this.cells.length; i++) {
-			let row: Cell[] = this.cells[i];
-			if (row.length > maxRowLength) {
-				maxRowLength = row.length;
+	setCells(srcs: Cell[][]) {
+		if (srcs == null) {
+			srcs = [];
+		}
+		let rowSize: number = srcs.length;
+		let colSize: number = 0;
+		for (let i = 0; i < rowSize; i++) {
+			let row: Cell[] = srcs[i];
+			if (row == null) {
+				row = [];
 			}
-			for (let j = 0; j < row.length; j++) {
-				let cell: Cell = row[j];
-				if (cell == null) {
-					cell = CellEmpty.getEmpty();
-					row[j] = cell;
-				}
-				let cellPuzzle: Puzzle = cell.getPuzzle();
-				if (cellPuzzle != null) {
-					this.getPuzzle().addChild(cellPuzzle, new Coordinate(i, j), Board.PUZZLE_CELL_Z_INDEX);
-				}
+			if (row.length > colSize) {
+				colSize = row.length;
 			}
 		}
-		this.cellsSize = new Coordinate(this.cells.length, maxRowLength);
-		this.puzzle.setSize(this.cellsSize);
+
+		this.cells = [];
+		for (let i = 0; i < rowSize; i++) {
+			let cellRow: Cell[] = [];
+			let srcRow: Cell[] = srcs[i];
+			this.cells.push(cellRow);
+			for (let j = 0; j < colSize; j++) {
+				if (srcRow == null) {
+					cellRow.push(CellEmpty.getEmpty());
+					continue;
+				}
+				let src: Cell = srcRow[j];
+				if (src == null) {
+					cellRow.push(CellEmpty.getEmpty());
+					continue;
+				}
+				cellRow.push(src);
+				this.getPuzzle().addChild(src.getPuzzle(), new Coordinate(i, j), Board.PUZZLE_CELL_Z_INDEX);
+			}
+		}
+
+		this.cellsSize = new Coordinate(rowSize, colSize);
+		this.puzzle.setSize(this.cellsSize.swell(CellAdapter.RENDER_SIZE));
 	}
 
 	size(): Coordinate {
@@ -85,15 +102,15 @@ export default class Board implements CellOwner {
 	}
 
 	getCellByLocation(location: Coordinate): Cell {
-		if (location.row >= this.cells.length) {
+		if (
+			location.row >= this.cellsSize.row ||
+			location.row < 0 ||
+			location.col >= this.cellsSize.col ||
+			location.col < 0
+		) {
 			return CellEmpty.getEmpty();
 		}
-		console.log(this.cells);
-		if (location.col >= this.cells[location.row].length) {
-			return CellEmpty.getEmpty();
-		}
-		let cell: Cell = this.cells[location.row][location.col];
-		return cell == null ? CellEmpty.getEmpty() : cell;
+		return this.cells[location.row][location.col];
 	}
 
 	getCellsByLocations(locations: Coordinate[]): Cell[] {
@@ -173,7 +190,7 @@ export default class Board implements CellOwner {
 		let fromCell: Cell = this.getCellByLocation(area.getFrom());
 		let toCell: Cell = this.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
-			if (!success) {
+            if (!success) {
 				onEnd();
 				return;
 			}
