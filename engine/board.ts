@@ -24,15 +24,17 @@ export default class Board implements CellOwner {
 	private puzzle: BoardPuzzle;
 
 	constructor() {
+		let self: Board = this;
 		this.puzzle = new BoardPuzzle();
 		this.puzzle.onBoardClick(function(location: Coordinate) {
-			console.log("click");
-			console.log(location);
+			self.click(new Click(location), function() {
+				// OnClick
+			});
 		});
 		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
-			console.log("exchange");
-			console.log(from);
-			console.log(to);
+			self.exchange(new Exchange(from, to), function() {
+				// OnClick
+			});
 		});
 	}
 
@@ -52,6 +54,10 @@ export default class Board implements CellOwner {
 			}
 			for (let j = 0; j < row.length; j++) {
 				let cell: Cell = row[j];
+				if (cell == null) {
+					cell = CellEmpty.getEmpty();
+					row[j] = cell;
+				}
 				let cellPuzzle: Puzzle = cell.getPuzzle();
 				if (cellPuzzle != null) {
 					this.getPuzzle().addChild(cellPuzzle, new Coordinate(i, j), Board.PUZZLE_CELL_Z_INDEX);
@@ -82,10 +88,12 @@ export default class Board implements CellOwner {
 		if (location.row >= this.cells.length) {
 			return CellEmpty.getEmpty();
 		}
+		console.log(this.cells);
 		if (location.col >= this.cells[location.row].length) {
 			return CellEmpty.getEmpty();
 		}
-		return this.cells[location.row][location.col];
+		let cell: Cell = this.cells[location.row][location.col];
+		return cell == null ? CellEmpty.getEmpty() : cell;
 	}
 
 	getCellsByLocations(locations: Coordinate[]): Cell[] {
@@ -153,9 +161,7 @@ export default class Board implements CellOwner {
 
 	click(area: Click, onEnd: () => void) {
 		let location: Cell = this.getCellByLocation(area.getLocation());
-		location.clicked(function() {
-			// OnClick
-		});
+		location.clicked(onEnd);
 	}
 
 	exchange(area: Exchange, onEnd: () => void) {
@@ -166,14 +172,14 @@ export default class Board implements CellOwner {
 		}
 		let fromCell: Cell = this.getCellByLocation(area.getFrom());
 		let toCell: Cell = this.getCellByLocation(area.getTo());
-		let success: boolean = fromCell.exchange(toCell, function() {
+		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
 			if (!success) {
 				onEnd();
 				return;
 			}
 			let polymerize: Polymerize = self.check();
 			if (polymerize == null) {
-				fromCell.exchange(toCell, onEnd);
+				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), onEnd);
 				return;
 			}
 			self.polymerize(polymerize, function() {

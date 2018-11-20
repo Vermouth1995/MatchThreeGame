@@ -23,6 +23,10 @@ export default class CellBirth implements Cell {
 	getItem(): Item {
 		return this.birth.getItem(this.getLocation());
 	}
+
+	popItem(): Item {
+		return this.getItem();
+	}
 	setItem(item: Item) {}
 
 	canRobbed(): boolean {
@@ -52,7 +56,7 @@ export default class CellBirth implements Cell {
 		onEnd();
 		return false;
 	}
-	exchange(to: Cell, onEnd: () => void): boolean {
+	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}

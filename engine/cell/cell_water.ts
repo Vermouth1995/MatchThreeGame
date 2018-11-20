@@ -1,6 +1,7 @@
 import CellAdapter from "./cell_adapter";
 import Cell from "../cell";
 import Render from "../../render/render";
+import Coordinate from "../../concept/coordinate";
 
 export default class CellWater extends CellAdapter {
 	constructor() {
@@ -13,7 +14,7 @@ export default class CellWater extends CellAdapter {
 	canExchange(): boolean {
 		return false;
 	}
-	exchange(to: Cell, onEnd: () => void): boolean {
+	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}

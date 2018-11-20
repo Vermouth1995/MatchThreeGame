@@ -4,6 +4,7 @@ import Cell from "../cell";
 import CellEmpty from "./cell_empty";
 import ItemEmpty from "../item/item_empty";
 import Render from "../../render/render";
+import Coordinate from "../../concept/coordinate";
 
 export default class CellLand extends CellAdapter {
 	constructor() {
@@ -33,15 +34,21 @@ export default class CellLand extends CellAdapter {
 		this.item.clicked(onEnd);
 	}
 
-	exchange(to: Cell, onEnd: () => void): boolean {
+	static readonly EXCHANGE_ITEM_MOVE_TIME_COST = 200;
+
+	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
 		if (!this.canExchange() || !to.canExchange()) {
 			onEnd();
 			return false;
 		}
-		let toItem: Item = to.getItem();
-		to.setItem(this.getItem());
-		this.setItem(toItem);
-		onEnd();
+		let from: Cell = this;
+		let fromItem: Item = from.popItem();
+		let toItem: Item = to.popItem();
+		from.setItem(toItem);
+		to.setItem(fromItem);
+		fromItem.moved(offset, CellLand.EXCHANGE_ITEM_MOVE_TIME_COST);
+		toItem.moved(offset.negative(), CellLand.EXCHANGE_ITEM_MOVE_TIME_COST);
+		setTimeout(onEnd, CellLand.EXCHANGE_ITEM_MOVE_TIME_COST);
 		return true;
 	}
 

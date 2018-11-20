@@ -1,6 +1,7 @@
 import Item from "../item";
 import Puzzle from "../../render/puzzle";
 import ItemOwner from "../item_owner";
+import Coordinate from "../../concept/coordinate";
 
 export default class ItemEmpty implements Item {
 	constructor() {}
@@ -22,6 +23,8 @@ export default class ItemEmpty implements Item {
 	canPolymerize(): boolean {
 		return false;
 	}
+
+	moved(offset: Coordinate, timeCost: number): void {}
 
 	polymerizedAsOwner(size: number, onEnd: () => void) {
 		onEnd();

@@ -3,10 +3,15 @@ import Cell from "../cell";
 import ItemEmpty from "../item/item_empty";
 import Puzzle from "../../render/puzzle";
 import CellOwner from "../cell_owner";
+import Coordinate from "../../concept/coordinate";
 
 export default class CellEmpty implements Cell {
 	constructor() {}
 	getItem(): Item {
+		return ItemEmpty.getEmpty();
+	}
+
+	popItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
 
@@ -29,7 +34,7 @@ export default class CellEmpty implements Cell {
 		return false;
 	}
 
-	exchange(to: Cell, onEnd: () => void): boolean {
+	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}

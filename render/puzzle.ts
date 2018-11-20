@@ -65,6 +65,9 @@ export default class Puzzle {
 
 	protected atoms: LinkedList<RenderPosition<Atom>> = new LinkedList<RenderPosition<Atom>>();
 	addAtom(atom: Atom, location: Coordinate, zIndex: number) {
+		if (atom == null) {
+			return;
+		}
 		this.atoms.insertBy(new RenderPosition<Atom>(atom, location, zIndex), function(
 			now: RenderPosition<Atom>
 		): boolean {
@@ -72,6 +75,9 @@ export default class Puzzle {
 		});
 	}
 	removeAtom(atom: Atom) {
+		if (atom == null) {
+			return;
+		}
 		this.atoms.removeBy(function(now: RenderPosition<Atom>): boolean {
 			return atom == now.data;
 		});
@@ -90,6 +96,9 @@ export default class Puzzle {
 	}
 
 	addChild(puzzle: Puzzle, location: Coordinate, zIndex: number) {
+		if (puzzle == null) {
+			return;
+		}
 		this.puzzles.insertBy(new RenderPosition<Puzzle>(puzzle, location, zIndex), function(
 			now: RenderPosition<Puzzle>
 		): boolean {
@@ -98,6 +107,9 @@ export default class Puzzle {
 	}
 
 	removeChild(puzzle: Puzzle) {
+		if (puzzle == null) {
+			return;
+		}
 		this.puzzles.removeBy(function(now: RenderPosition<Puzzle>): boolean {
 			return puzzle == now.data;
 		});

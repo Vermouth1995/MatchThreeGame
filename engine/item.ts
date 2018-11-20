@@ -1,9 +1,12 @@
 import ItemOwner from "./item_owner";
 import PuzzleKeeper from "./puzzle_keeper";
+import Coordinate from "../concept/coordinate";
 
 export default interface Item extends PuzzleKeeper {
 	equals(item: Item): boolean;
 	canPolymerize(): boolean;
+
+	moved(offset: Coordinate, timeCost: number): void;
 
 	polymerizedAsOwner(size: number, onEnd: () => void): void;
 	polymerizedAsGuest(onEnd: () => void): void;

@@ -4,6 +4,8 @@ import Puzzle from "../../render/puzzle";
 import Atom from "../../render/atom";
 import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
+import EventMove from "../../render/event/event_move";
+import EventFromSetter from "../../render/event/event_from_setter";
 
 export default abstract class ItemAdapter implements Item {
 	static readonly DrawCoefficient = new Coordinate(0.85, 0.7);
@@ -29,6 +31,14 @@ export default abstract class ItemAdapter implements Item {
 
 	abstract equals(item: Item): boolean;
 	abstract canPolymerize(): boolean;
+
+	moved(offset: Coordinate, timeCost: number): void {
+		let fromSetter: EventFromSetter = new EventFromSetter(offset.negative());
+		this.atom.setEvent(fromSetter);
+
+		let move: EventMove = new EventMove(Coordinate.ORIGIN, timeCost);
+		this.atom.setEvent(move);
+	}
 
 	abstract polymerizedAsOwner(size: number, onEnd: () => void): void;
 	abstract polymerizedAsGuest(onEnd: () => void): void;
