@@ -8,11 +8,15 @@ import Coordinate from "../../concept/coordinate";
 import ItemEmpty from "../item/item_empty";
 
 export default abstract class CellAdapter implements Cell {
+
 	constructor() {
 		this.puzzle = new Puzzle();
-		this.atom = new AtomImage(this.getBackgroundImageId(), Coordinate.UNIT, Coordinate.ORIGIN);
+		this.puzzle.setSize(CellAdapter.RENDER_SIZE);
+		this.atom = new AtomImage(this.getBackgroundImageId(), CellAdapter.RENDER_SIZE, Coordinate.ORIGIN);
 		this.puzzle.addAtom(this.atom, Coordinate.ORIGIN, 0);
 	}
+
+    static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
 
 	static readonly PUZZLE_ITEM_Z_INDEX: number = 10;
 

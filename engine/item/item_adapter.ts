@@ -12,6 +12,7 @@ export default abstract class ItemAdapter implements Item {
 
 	constructor() {
 		this.puzzle = new Puzzle();
+		this.puzzle.setSize(Coordinate.UNIT);
 		this.atom = new AtomImage(this.getImageId(), ItemAdapter.DrawImageSize, Coordinate.ORIGIN);
 		this.puzzle.addAtom(this.atom, ItemAdapter.DrawStart, 0);
 	}
@@ -26,18 +27,15 @@ export default abstract class ItemAdapter implements Item {
 		this.owner = owner;
 	}
 
-	// state funcs
 	abstract equals(item: Item): boolean;
 	abstract canPolymerize(): boolean;
 
-	// action funcs
 	abstract polymerizedAsOwner(size: number, onEnd: () => void): void;
 	abstract polymerizedAsGuest(onEnd: () => void): void;
 	abstract exploded(onEnd: () => void): void;
 	abstract scraped(onEnd: () => void): void;
 	abstract clicked(onEnd: () => void): void;
 
-	// self funcs
 	cleared(onEnd: () => void) {
 		if (this.owner != null) {
 			this.owner.clearMe(onEnd);
