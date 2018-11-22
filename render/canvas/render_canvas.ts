@@ -20,17 +20,26 @@ export default class RenderCanvas extends RenderAdapter {
 		let root: Puzzle = this.getRootPuzzle();
 		self.canvas.onmouseup = function(event: MouseEvent) {
 			if (self.listenerOn) {
-				root.triggerMouseUp(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+				root.triggerMouseUp(
+					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					Date.now()
+				);
 			}
 		};
 		self.canvas.onmousedown = function(event: MouseEvent) {
 			if (self.listenerOn) {
-				root.triggerMouseDown(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+				root.triggerMouseDown(
+					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					Date.now()
+				);
 			}
 		};
 		self.canvas.onmousemove = function(event: MouseEvent) {
 			if (self.listenerOn) {
-				root.triggerMouseMove(self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)));
+				root.triggerMouseMove(
+					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					Date.now()
+				);
 			}
 		};
 	}

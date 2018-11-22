@@ -19,7 +19,9 @@ export default interface Cell extends ItemOwner {
 	clicked(onEnd: () => void): void;
 	// exchanged(onEnd: () => void): void;
 
-	rob(victims: Cell[], onEnd: () => void): boolean;
+	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean;
 	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean;
 	explode(size: number, onEnd: () => void): void;
+
+	renderSaveBack(where: Coordinate, when: number): void;
 }

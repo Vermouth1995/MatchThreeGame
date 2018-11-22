@@ -1,18 +1,22 @@
 import Cell from "../cell";
-import Item from "../item";
+import CellEmpty from "./cell_empty";
 import CellOwner from "../cell_owner";
 import Puzzle from "../../render/puzzle";
 import Atom from "../../render/atom";
 import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
+import Locus from "../../concept/locus";
+import EventMove from "../../concept/event/event_move";
+import EventFromSetter from "../../concept/event/event_from_setter";
 import ItemEmpty from "../item/item_empty";
+import Item from "../item";
 
 export default abstract class CellAdapter implements Cell {
 	constructor() {
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(CellAdapter.RENDER_SIZE);
-		this.atom = new AtomImage(this.getBackgroundImageId(), CellAdapter.RENDER_SIZE, Coordinate.ORIGIN);
-		this.puzzle.addAtom(this.atom, Coordinate.ORIGIN, 0);
+		this.atom = new AtomImage(this.getBackgroundImageId(), CellAdapter.RENDER_SIZE);
+		this.puzzle.addAtom(this.atom, new Locus(Coordinate.ORIGIN), 0);
 	}
 
 	static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
@@ -30,6 +34,15 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	protected item: Item;
+
+	protected itemLocus: Locus = new Locus(Coordinate.ORIGIN);
+
+	renderSaveBack(where: Coordinate, when: number) {
+		let fromSetter: EventFromSetter = new EventFromSetter(where);
+		this.itemLocus.setEvent(fromSetter);
+		let move: EventMove = new EventMove(Coordinate.ORIGIN, when);
+		this.itemLocus.setEvent(move);
+	}
 
 	getItem(): Item {
 		if (this.item == null) {
@@ -50,7 +63,7 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	setItem(item: Item) {
-		this.getPuzzle().addChild(item.getPuzzle(), Coordinate.ORIGIN, CellAdapter.PUZZLE_ITEM_Z_INDEX);
+		this.getPuzzle().addChild(item.getPuzzle(), this.itemLocus, CellAdapter.PUZZLE_ITEM_Z_INDEX);
 		this.item = item;
 		if (item != null) {
 			this.item.setOwner(this);
@@ -69,15 +82,77 @@ export default abstract class CellAdapter implements Cell {
 	abstract canRobbed(): boolean;
 	abstract canExchange(): boolean;
 
-	abstract polymerizedAsOwner(size: number, onEnd: () => void): void;
-	abstract polymerizedAsGuest(onEnd: () => void): void;
-	abstract exploded(onEnd: () => void): void;
-	abstract scraped(onEnd: () => void): void;
-	abstract clicked(onEnd: () => void): void;
+	polymerizedAsOwner(size: number, onEnd: () => void) {
+		this.getItem().polymerizedAsOwner(size, onEnd);
+	}
+	polymerizedAsGuest(onEnd: () => void) {
+		this.getItem().polymerizedAsGuest(onEnd);
+	}
+	exploded(onEnd: () => void) {
+		this.getItem().exploded(onEnd);
+	}
+	scraped(onEnd: () => void) {
+		this.getItem().scraped(onEnd);
+	}
+	clicked(onEnd: () => void) {
+		this.getItem().clicked(onEnd);
+	}
 
-	abstract rob(victims: Cell[], onEnd: () => void): boolean;
-	abstract exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean;
+	static readonly ROB_SAVE_BACK_TIME_COST = 70;
+	static readonly EXCHANGE_SAVE_BACK_TIME_COST = 200;
 
+	rob(victims: Cell[], victimLocations: Coordinate[], onEnd: () => void): boolean {
+		let self: Cell = this;
+		if (!ItemEmpty.isEmpty(this.getItem())) {
+			onEnd();
+			return false;
+		}
+		let validVictim: Cell = CellEmpty.getEmpty();
+		let validVictimLocation: Coordinate;
+		for (let i = 0; i < victims.length; i++) {
+			let victim: Cell = victims[i];
+			if (victim.canRobbed()) {
+				validVictim = victim;
+				validVictimLocation = victimLocations[i];
+				break;
+			}
+		}
+		if (CellEmpty.isEmpty(validVictim)) {
+			onEnd();
+			return false;
+		}
+		let victimItem: Item = validVictim.popItem();
+		if (ItemEmpty.isEmpty(victimItem)) {
+			onEnd();
+			return false;
+		}
+		validVictim.clearMe(function() {
+			self.setItem(victimItem);
+			self.renderSaveBack(validVictimLocation, CellAdapter.ROB_SAVE_BACK_TIME_COST);
+			setTimeout(onEnd, CellAdapter.ROB_SAVE_BACK_TIME_COST);
+		});
+
+		return true;
+	}
+
+	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
+		if (!this.canExchange() || !to.canExchange()) {
+			onEnd();
+			return false;
+		}
+		let from: Cell = this;
+		let fromItem: Item = from.popItem();
+		let toItem: Item = to.popItem();
+
+		from.setItem(toItem);
+		to.setItem(fromItem);
+
+		from.renderSaveBack(offset, CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
+		to.renderSaveBack(offset.negative(), CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
+
+		setTimeout(onEnd, CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
+		return true;
+	}
 	explode(size: number, onEnd: () => void) {
 		this.owner.explode(this, size, onEnd);
 	}

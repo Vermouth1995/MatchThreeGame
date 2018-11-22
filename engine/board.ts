@@ -11,6 +11,7 @@ import Click from "./sacrifice/click";
 import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
+import Locus from "../concept/locus";
 import Puzzle from "../render/puzzle";
 import BoardPuzzle from "./board_puzzle";
 import Render from "../render/render";
@@ -77,7 +78,7 @@ export default class Board implements CellOwner {
 					continue;
 				}
 				cellRow.push(src);
-				this.getPuzzle().addChild(src.getPuzzle(), new Coordinate(i, j), Board.PUZZLE_CELL_Z_INDEX);
+				this.getPuzzle().addChild(src.getPuzzle(), new Locus(new Coordinate(i, j)), Board.PUZZLE_CELL_Z_INDEX);
 			}
 		}
 
@@ -233,23 +234,34 @@ export default class Board implements CellOwner {
 		for (let i = this.cellsSize.row - 1; i >= 0; i--) {
 			for (let j = 0; j < this.cellsSize.col; j++) {
 				let location: Coordinate = new Coordinate(i, j);
+				let victims: Cell[] = [];
+				let victimLocations: Coordinate[] = [];
+				this.getVictimsByLocation(location, victims, victimLocations);
+
 				isActive =
-					isActive ||
-					this.getCellByLocation(location).rob(this.getVictimsByLocation(location), robEnd.getCallback());
+					isActive || this.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback());
 			}
 		}
 	}
 
-	private getVictimsByLocation(location: Coordinate): Cell[] {
+	private getVictimsByLocation(location: Coordinate, victims: Cell[], victimLocations: Coordinate[]) {
 		for (let i = 0; i < this.birthPlace.length; i++) {
 			let cellBirth: CellBirth = this.birthPlace[i];
-			if (location.equal(cellBirth.getLocation())) {
-				let victims: Cell[] = [];
+			let birthLocation: Coordinate = cellBirth.getLocation();
+
+			if (location.equal(birthLocation)) {
 				victims.push(cellBirth);
-				return victims;
+				victimLocations.push(Coordinate.UP);
+				return;
 			}
 		}
-		return this.getCellsByLocations(location.umbrella());
+		let seeds: Coordinate[] = Coordinate.umbrellaSeed();
+		let branchs: Coordinate[] = location.umbrella();
+		for (let i = 0; i < seeds.length; i++) {
+			let branch: Coordinate = branchs[i];
+			victims.push(this.getCellByLocation(branch));
+			victimLocations.push(seeds[i]);
+		}
 	}
 
 	static readonly CHECK_NUMBER_SELF: number = 1;

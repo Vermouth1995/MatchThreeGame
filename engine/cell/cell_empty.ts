@@ -7,6 +7,7 @@ import Coordinate from "../../concept/coordinate";
 
 export default class CellEmpty implements Cell {
 	constructor() {}
+
 	getItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
@@ -38,7 +39,7 @@ export default class CellEmpty implements Cell {
 		onEnd();
 		return false;
 	}
-	rob(victims: Cell[], onEnd: () => void): boolean {
+	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
@@ -69,4 +70,6 @@ export default class CellEmpty implements Cell {
 	getPuzzle(): Puzzle {
 		return null;
 	}
+
+	renderSaveBack(where: Coordinate, when: number): void {}
 }

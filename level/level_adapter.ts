@@ -1,6 +1,7 @@
 import Level from "./level";
 import Board from "../engine/board";
 import Coordinate from "../concept/coordinate";
+import Locus from "../concept/locus";
 import Puzzle from "../render/puzzle";
 import Game from "../game/game";
 export default abstract class LevelAdapter implements Level {
@@ -21,7 +22,7 @@ export default abstract class LevelAdapter implements Level {
 		this.getPuzzle().setSize(Game.RENDER_SIZE);
 		this.getPuzzle().addChild(
 			this.board.getPuzzle(),
-			Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF),
+			new Locus(Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF)),
 			LevelAdapter.PUZZLE_BOARD_Z_INDEX
 		);
 	}

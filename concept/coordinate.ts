@@ -6,8 +6,16 @@ export default class Coordinate {
 		this.row = row;
 		this.col = col;
 	}
-	offset(offset: Coordinate): Coordinate {
-		return new Coordinate(this.row + offset.row, this.col + offset.col);
+	offset(seed: Coordinate): Coordinate {
+		return new Coordinate(this.row + seed.row, this.col + seed.col);
+	}
+
+	offsets(seeds: Coordinate[]): Coordinate[] {
+		let leaves: Coordinate[] = [];
+		for (let i = 0; i < seeds.length; i++) {
+			leaves.push(this.offset(seeds[i]));
+		}
+		return leaves;
 	}
 
 	offsetTo(to: Coordinate, degree: number): Coordinate {
@@ -77,16 +85,18 @@ export default class Coordinate {
 	}
 
 	cross(): Coordinate[] {
-		return [
-			this.offset(Coordinate.UP),
-			this.offset(Coordinate.LEFT),
-			this.offset(Coordinate.DOWN),
-			this.offset(Coordinate.RIGHT)
-		];
+		return this.offsets(Coordinate.crossSeed());
 	}
 
 	umbrella(): Coordinate[] {
-		return [this.offset(Coordinate.UP), this.offset(Coordinate.LEFTUP), this.offset(Coordinate.RIGHTUP)];
+		return this.offsets(Coordinate.umbrellaSeed());
+	}
+
+	static crossSeed(): Coordinate[] {
+		return [Coordinate.UP, Coordinate.LEFT, Coordinate.DOWN, Coordinate.RIGHT];
+	}
+	static umbrellaSeed(): Coordinate[] {
+		return [Coordinate.UP, Coordinate.LEFTUP, Coordinate.RIGHTUP];
 	}
 
 	static readonly UNIT: Coordinate = new Coordinate(1, 1);

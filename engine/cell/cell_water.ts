@@ -1,7 +1,5 @@
 import CellAdapter from "./cell_adapter";
-import Cell from "../cell";
 import Render from "../../render/render";
-import Coordinate from "../../concept/coordinate";
 
 export default class CellWater extends CellAdapter {
 	constructor() {
@@ -11,32 +9,8 @@ export default class CellWater extends CellAdapter {
 	canRobbed(): boolean {
 		return false;
 	}
+
 	canExchange(): boolean {
-		return false;
-	}
-	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean {
-		onEnd();
-		return false;
-	}
-
-	polymerizedAsOwner(size: number, onEnd: () => void) {
-		onEnd();
-	}
-	polymerizedAsGuest(onEnd: () => void) {
-		onEnd();
-	}
-	exploded(onEnd: () => void) {
-		onEnd();
-	}
-	scraped(onEnd: () => void) {
-		onEnd();
-	}
-	clicked(onEnd: () => void) {
-		onEnd();
-	}
-
-	rob(victims: Cell[], onEnd: () => void): boolean {
-		onEnd();
 		return false;
 	}
 

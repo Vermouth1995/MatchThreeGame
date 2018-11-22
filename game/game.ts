@@ -3,6 +3,7 @@ import Board from "../engine/board";
 import Level from "../level/level";
 import LevelCreator from "../level/level_creator";
 import Coordinate from "../concept/coordinate";
+import Locus from "../concept/locus";
 import OnceLast from "../concept/once/once_last";
 import ItemCreator from "../engine/item_creator";
 import CellCreator from "../engine/cell_creator";
@@ -24,7 +25,9 @@ export default class Game {
 	startLevel(index: number) {
 		this.render.clear();
 		this.level = LevelCreator.getLevel(index);
-		this.render.getRootPuzzle().addChild(this.level.getPuzzle(), Coordinate.ORIGIN, Game.PUZZLE_LEVEL_Z_INDEX);
+		this.render
+			.getRootPuzzle()
+			.addChild(this.level.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);
 	}
 
 	closeLevel() {

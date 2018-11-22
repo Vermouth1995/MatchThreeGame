@@ -52,7 +52,7 @@ export default class CellBirth implements Cell {
 		onEnd();
 	}
 
-	rob(victims: Cell[], onEnd: () => void): boolean {
+	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
@@ -70,4 +70,5 @@ export default class CellBirth implements Cell {
 	getPuzzle(): Puzzle {
 		return null;
 	}
+	renderSaveBack(where: Coordinate, when: number): void {}
 }
