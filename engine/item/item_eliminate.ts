@@ -1,11 +1,7 @@
 import Item from "../item";
-import ItemBoom from "./item_boom";
 import ItemAdapter from "./item_adapter";
-import ItemFireCracker from "./boom/item_firecracker";
-import ItemGrenade from "./boom/item_grenade";
-import ItemDynamite from "./boom/item_dynamite";
-import ItemTrotyl from "./boom/item_trotyl";
 import ItemOwner from "../item_owner";
+import ItemCreator from "../item_creator";
 
 export default abstract class ItemEliminate extends ItemAdapter {
 	constructor() {
@@ -21,28 +17,10 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	polymerizedAsOwner(size: number, onEnd: () => void) {
 		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
-			let boom: ItemBoom = null;
-			if (size <= ItemEliminate.BOOM_GENERATE_RADIX) {
-				return;
+			let boom: Item = ItemCreator.createBoom(size);
+			if (boom != null) {
+				owner.setItem(boom);
 			}
-			switch (size - ItemEliminate.BOOM_GENERATE_RADIX) {
-				case ItemFireCracker.EXPLODE_SIZE:
-					boom = new ItemFireCracker();
-					break;
-				case ItemGrenade.EXPLODE_SIZE:
-					boom = new ItemGrenade();
-					break;
-				case ItemDynamite.EXPLODE_SIZE:
-					boom = new ItemDynamite();
-					break;
-				case ItemTrotyl.EXPLODE_SIZE:
-					boom = new ItemTrotyl();
-					break;
-				default:
-					boom = new ItemTrotyl();
-					break;
-			}
-			owner.setItem(boom);
 			onEnd();
 		});
 	}

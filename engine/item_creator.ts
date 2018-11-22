@@ -36,6 +36,30 @@ export default class ItemCreator {
 	static readonly GRENADE: number = 202;
 	static readonly TROTYL: number = 203;
 
+	static readonly BOOM_GENERATE_RADIX: number = 3;
+
+	static createBoom(polymerizeSize: number): Item {
+		if (polymerizeSize <= ItemCreator.BOOM_GENERATE_RADIX) {
+			return null;
+		}
+		switch (polymerizeSize - ItemCreator.BOOM_GENERATE_RADIX) {
+			case ItemFireCracker.EXPLODE_SIZE:
+				return ItemCreator.createItem(ItemCreator.FIRECRACKER);
+
+			case ItemGrenade.EXPLODE_SIZE:
+				return ItemCreator.createItem(ItemCreator.GRENADE);
+
+			case ItemDynamite.EXPLODE_SIZE:
+				return ItemCreator.createItem(ItemCreator.DYNAMITE);
+
+			case ItemTrotyl.EXPLODE_SIZE:
+				return ItemCreator.createItem(ItemCreator.TROTYL);
+
+			default:
+				return ItemCreator.createItem(ItemCreator.TROTYL);
+		}
+	}
+
 	static createItem(type: number): Item {
 		switch (type) {
 			case ItemCreator.EMPTY:
