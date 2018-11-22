@@ -93,14 +93,14 @@ export default class Coordinate {
 	static readonly HALF: Coordinate = new Coordinate(0.5, 0.5);
 
 	static readonly ORIGIN: Coordinate = new Coordinate(0, 0);
-	static readonly UP: Coordinate = new Coordinate(0, -1);
-	static readonly DOWN: Coordinate = new Coordinate(0, 1);
-	static readonly LEFT: Coordinate = new Coordinate(-1, 0);
-	static readonly RIGHT: Coordinate = new Coordinate(1, 0);
-	static readonly RIGHTUP: Coordinate = new Coordinate(1, -1);
+	static readonly UP: Coordinate = new Coordinate(-1, 0);
+	static readonly DOWN: Coordinate = new Coordinate(1, 0);
+	static readonly LEFT: Coordinate = new Coordinate(0, -1);
+	static readonly RIGHT: Coordinate = new Coordinate(0, 1);
+	static readonly RIGHTUP: Coordinate = new Coordinate(-1, 1);
 	static readonly RIGHTDOWN: Coordinate = new Coordinate(1, 1);
 	static readonly LEFTUP: Coordinate = new Coordinate(-1, -1);
-	static readonly LEFTDOWN: Coordinate = new Coordinate(-1, 1);
+	static readonly LEFTDOWN: Coordinate = new Coordinate(1, -1);
 
 	equal(point: Coordinate): boolean {
 		return point.row == this.row && point.col == this.col;
