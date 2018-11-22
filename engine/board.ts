@@ -230,8 +230,8 @@ export default class Board implements CellOwner {
 				onEnd(isActive);
 			}
 		});
-		for (let i = this.cells.length - 1; i >= 0; i--) {
-			for (let j = 0; j < this.cells[i].length; j++) {
+		for (let i = this.cellsSize.row - 1; i >= 0; i--) {
+			for (let j = 0; j < this.cellsSize.col; j++) {
 				let location: Coordinate = new Coordinate(i, j);
 				isActive =
 					isActive ||
