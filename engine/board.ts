@@ -190,7 +190,7 @@ export default class Board implements CellOwner {
 		let fromCell: Cell = this.getCellByLocation(area.getFrom());
 		let toCell: Cell = this.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
-            if (!success) {
+			if (!success) {
 				onEnd();
 				return;
 			}
@@ -292,11 +292,11 @@ export default class Board implements CellOwner {
 			this.checkPositionDirection(location, Coordinate.RIGHT)
 		);
 		if (vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			guests.concat(vertical);
+			guests = guests.concat(vertical);
 			direction++;
 		}
 		if (horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			guests.concat(horizontal);
+			guests = guests.concat(horizontal);
 			direction++;
 		}
 		if (direction == 0) {

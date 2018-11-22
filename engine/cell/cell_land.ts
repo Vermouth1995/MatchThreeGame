@@ -19,19 +19,19 @@ export default class CellLand extends CellAdapter {
 	}
 
 	polymerizedAsOwner(size: number, onEnd: () => void) {
-		this.item.polymerizedAsOwner(size, onEnd);
+		this.getItem().polymerizedAsOwner(size, onEnd);
 	}
 	polymerizedAsGuest(onEnd: () => void) {
-		this.item.polymerizedAsGuest(onEnd);
+		this.getItem().polymerizedAsGuest(onEnd);
 	}
 	exploded(onEnd: () => void) {
-		this.item.exploded(onEnd);
+		this.getItem().exploded(onEnd);
 	}
 	scraped(onEnd: () => void) {
-		this.item.scraped(onEnd);
+		this.getItem().scraped(onEnd);
 	}
 	clicked(onEnd: () => void) {
-		this.item.clicked(onEnd);
+		this.getItem().clicked(onEnd);
 	}
 
 	static readonly EXCHANGE_ITEM_MOVE_TIME_COST = 200;

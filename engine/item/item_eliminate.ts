@@ -5,7 +5,7 @@ import ItemFireCracker from "./boom/item_firecracker";
 import ItemGrenade from "./boom/item_grenade";
 import ItemDynamite from "./boom/item_dynamite";
 import ItemTrotyl from "./boom/item_trotyl";
-import Puzzle from "../../render/puzzle";
+import ItemOwner from "../item_owner";
 
 export default abstract class ItemEliminate extends ItemAdapter {
 	constructor() {
@@ -19,7 +19,7 @@ export default abstract class ItemEliminate extends ItemAdapter {
 
 	public static readonly BOOM_GENERATE_RADIX: number = 3;
 	polymerizedAsOwner(size: number, onEnd: () => void) {
-		let self: ItemEliminate = this;
+		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
 			let boom: ItemBoom = null;
 			if (size <= ItemEliminate.BOOM_GENERATE_RADIX) {
@@ -42,7 +42,7 @@ export default abstract class ItemEliminate extends ItemAdapter {
 					boom = new ItemTrotyl();
 					break;
 			}
-			self.owner.setItem(boom);
+			owner.setItem(boom);
 			onEnd();
 		});
 	}
