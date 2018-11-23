@@ -269,16 +269,23 @@ export default class Board implements CellOwner {
 
 	check(): Polymerize {
 		let max: Polymerize = null;
+		let lastCellUpdateTime: number = 0;
 		for (let i = 0; i < this.cells.length; i++) {
 			let rowCells: Cell[] = this.cells[i];
 			for (let j = 0; j < rowCells.length; j++) {
+				let cell: Cell = rowCells[j];
 				let location: Coordinate = new Coordinate(i, j);
 				let now: Polymerize = this.checkPosition(location);
 				if (now == null) {
 					continue;
 				}
-				if (max == null || max.getGuests().length < now.getGuests().length) {
+				if (
+					max == null ||
+					max.getGuests().length < now.getGuests().length ||
+					(max.getGuests().length == now.getGuests().length && lastCellUpdateTime < cell.getUpdateTime())
+				) {
 					max = now;
+					lastCellUpdateTime = cell.getUpdateTime();
 				}
 			}
 		}

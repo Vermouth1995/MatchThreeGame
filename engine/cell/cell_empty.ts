@@ -72,4 +72,8 @@ export default class CellEmpty implements Cell {
 	}
 
 	renderSaveBack(where: Coordinate, when: number): void {}
+
+	getUpdateTime(): number {
+		return 0;
+	}
 }

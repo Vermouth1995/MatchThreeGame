@@ -71,4 +71,8 @@ export default class CellBirth implements Cell {
 		return null;
 	}
 	renderSaveBack(where: Coordinate, when: number): void {}
+
+	getUpdateTime(): number {
+		return 0;
+	}
 }

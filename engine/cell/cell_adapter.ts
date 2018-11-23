@@ -52,6 +52,7 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	popItem(): Item {
+		this.timeUpdate();
 		if (this.item == null) {
 			return ItemEmpty.getEmpty();
 		}
@@ -63,6 +64,7 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	setItem(item: Item) {
+		this.timeUpdate();
 		this.getPuzzle().addChild(item.getPuzzle(), this.itemLocus, CellAdapter.PUZZLE_ITEM_Z_INDEX);
 		this.item = item;
 		if (item != null) {
@@ -71,6 +73,7 @@ export default abstract class CellAdapter implements Cell {
 	}
 
 	clearMe(onEnd: () => void) {
+		this.timeUpdate();
 		if (this.item != null) {
 			this.puzzle.removeChild(this.item.getPuzzle());
 			this.item.setOwner(null);
@@ -102,7 +105,7 @@ export default abstract class CellAdapter implements Cell {
 	static readonly EXCHANGE_SAVE_BACK_TIME_COST = 200;
 
 	rob(victims: Cell[], victimLocations: Coordinate[], onEnd: () => void): boolean {
-		let self: Cell = this;
+		let self: CellAdapter = this;
 		if (!ItemEmpty.isEmpty(this.getItem())) {
 			onEnd();
 			return false;
@@ -151,10 +154,21 @@ export default abstract class CellAdapter implements Cell {
 		to.renderSaveBack(offset.negative(), CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
 
 		setTimeout(onEnd, CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
+
 		return true;
 	}
 	explode(size: number, onEnd: () => void) {
 		this.owner.explode(this, size, onEnd);
+	}
+
+	private updateTime: number = 0;
+
+	getUpdateTime(): number {
+		return this.updateTime;
+	}
+
+	protected timeUpdate() {
+		this.updateTime = Date.now();
 	}
 
 	getPuzzle(): Puzzle {
