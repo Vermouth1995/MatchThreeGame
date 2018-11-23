@@ -1,6 +1,7 @@
 import Item from "../item";
 import ItemAdapter from "./item_adapter";
 import Puzzle from "../../render/puzzle";
+import ItemOwner from "../item_owner";
 
 export default abstract class ItemBoom extends ItemAdapter {
 	constructor() {
@@ -21,8 +22,9 @@ export default abstract class ItemBoom extends ItemAdapter {
 	abstract getExplodeSize(): number;
 	exploded(onEnd: () => void) {
 		let self: ItemBoom = this;
+		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
-			self.owner.explode(this.getExplodeSize(), onEnd);
+			owner.explode(self.getExplodeSize(), onEnd);
 		});
 	}
 	scraped(onEnd: () => void) {
