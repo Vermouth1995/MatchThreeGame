@@ -178,13 +178,13 @@ export default class Board implements CellOwner {
 	}
 
 	click(area: Click, onEnd: () => void) {
-        let self: Board = this;
+		let self: Board = this;
 		let location: Cell = this.getCellByLocation(area.getLocation());
-		location.clicked(function () {
-            self.fall(function(isChanged: boolean) {
-                onEnd();
-            });
-        });
+		location.clicked(function() {
+			self.fall(function(isChanged: boolean) {
+				onEnd();
+			});
+		});
 	}
 
 	exchange(area: Exchange, onEnd: () => void) {
