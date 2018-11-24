@@ -63,8 +63,8 @@ export default class CellEmpty implements Cell {
 		onEnd();
 	}
 
-	clearMe(onEnd: () => void) {
-		onEnd();
+	clearMe(onEnd: (onHide:()=>void) => void) {
+		onEnd(function () {});
 	}
 
 	getPuzzle(): Puzzle {

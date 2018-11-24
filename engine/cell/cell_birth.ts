@@ -63,8 +63,8 @@ export default class CellBirth implements Cell {
 	explode(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	clearMe(onEnd: () => void) {
-		onEnd();
+	clearMe(onEnd: (onHide:()=>void) => void) {
+		onEnd(function () {});
 	}
 
 	getPuzzle(): Puzzle {

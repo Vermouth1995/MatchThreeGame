@@ -72,14 +72,19 @@ export default abstract class CellAdapter implements Cell {
 		}
 	}
 
-	clearMe(onEnd: () => void) {
+	clearMe(onEnd: (onHide:()=>void) => void) {
+        let self : CellAdapter = this;
 		this.timeUpdate();
-		if (this.item != null) {
-			this.puzzle.removeChild(this.item.getPuzzle());
-			this.item.setOwner(null);
+		if (this.item == null) {
+			onEnd(function () {});
+            return;
 		}
+        let oldItem = this.item;
 		this.item = null;
-		onEnd();
+		onEnd(function () {
+            self.puzzle.removeChild(oldItem.getPuzzle());
+			oldItem.setOwner(null);
+        });
 	}
 
 	abstract canRobbed(): boolean;
