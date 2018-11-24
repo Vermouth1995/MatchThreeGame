@@ -12,7 +12,7 @@ export default abstract class ItemAdapter implements Item {
 	static readonly DrawStart = Coordinate.UNIT.offset(ItemAdapter.DrawCoefficient.negative()).swell(Coordinate.HALF);
 	static readonly DrawImageSize = Coordinate.UNIT.swell(ItemAdapter.DrawCoefficient);
 
-	static readonly ClearedTimeCost: number = 50;
+	static readonly ClearedTimeCost: number = 100;
 
 	constructor() {
 		this.puzzle = new Puzzle();

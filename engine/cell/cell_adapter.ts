@@ -7,7 +7,7 @@ import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
 import Locus from "../../concept/locus";
 import EventMove from "../../concept/event/event_move";
-import EventFromSetter from "../../concept/event/event_from_setter";
+import EventLocationSetter from "../../concept/event/event_location_setter";
 import ItemEmpty from "../item/item_empty";
 import Item from "../item";
 
@@ -38,7 +38,7 @@ export default abstract class CellAdapter implements Cell {
 	protected itemLocus: Locus = new Locus(Coordinate.ORIGIN);
 
 	renderSaveBack(where: Coordinate, when: number) {
-		let fromSetter: EventFromSetter = new EventFromSetter(where);
+		let fromSetter: EventLocationSetter = new EventLocationSetter(where);
 		this.itemLocus.setEvent(fromSetter);
 		let move: EventMove = new EventMove(Coordinate.ORIGIN, when);
 		this.itemLocus.setEvent(move);

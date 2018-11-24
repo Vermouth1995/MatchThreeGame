@@ -1,4 +1,4 @@
-import RenderCanvas from "../../render/canvas/render_canvas";
+import RenderCanvas from "../../platform/canvas/render_canvas";
 import Game from "../../game/game";
 import Coordinate from "../../concept/coordinate";
 export default class MatchThreeGame {

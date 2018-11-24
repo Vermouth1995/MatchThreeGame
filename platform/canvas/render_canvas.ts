@@ -1,6 +1,6 @@
 import Coordinate from "../../concept/coordinate";
-import RenderAdapter from "../render_adapter";
-import Puzzle from "../puzzle";
+import RenderAdapter from "../../render/render_adapter";
+import Puzzle from "../../render/puzzle";
 
 export default class RenderCanvas extends RenderAdapter {
 	constructor(size: Coordinate, pixel: Coordinate, imagePrefix: string) {
