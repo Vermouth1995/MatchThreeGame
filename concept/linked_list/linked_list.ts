@@ -174,7 +174,7 @@ export default class LinkedList<T> {
 			if (equal(current.data)) {
 				break;
 			}
-            previous = current;
+			previous = current;
 			current = current.next;
 		}
 

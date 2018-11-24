@@ -45,16 +45,16 @@ export default abstract class ItemAdapter implements Item {
 
 	cleared(onEnd: () => void) {
 		let self: ItemAdapter = this;
-        this.atomImageSize.setEvent(new EventMove(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost));
-        this.atomImageLocation.setEvent(new EventMove(Coordinate.HALF, ItemAdapter.ClearedTimeCost));
+		this.atomImageSize.setEvent(new EventMove(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost));
+		this.atomImageLocation.setEvent(new EventMove(Coordinate.HALF, ItemAdapter.ClearedTimeCost));
 
 		if (this.owner != null) {
-			self.owner.clearMe(function (onHide:()=>void) {
-                setTimeout(function () {
-                    onEnd();
-                    onHide();
-                }, ItemAdapter.ClearedTimeCost);
-            });
+			self.owner.clearMe(function(onHide: () => void) {
+				setTimeout(function() {
+					onEnd();
+					onHide();
+				}, ItemAdapter.ClearedTimeCost);
+			});
 		}
 	}
 

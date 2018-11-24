@@ -72,19 +72,19 @@ export default abstract class CellAdapter implements Cell {
 		}
 	}
 
-	clearMe(onEnd: (onHide:()=>void) => void) {
-        let self : CellAdapter = this;
+	clearMe(onEnd: (onHide: () => void) => void) {
+		let self: CellAdapter = this;
 		this.timeUpdate();
 		if (this.item == null) {
-			onEnd(function () {});
-            return;
+			onEnd(function() {});
+			return;
 		}
-        let oldItem = this.item;
+		let oldItem = this.item;
 		this.item = null;
-		onEnd(function () {
-            self.puzzle.removeChild(oldItem.getPuzzle());
+		onEnd(function() {
+			self.puzzle.removeChild(oldItem.getPuzzle());
 			oldItem.setOwner(null);
-        });
+		});
 	}
 
 	abstract canRobbed(): boolean;
@@ -134,11 +134,11 @@ export default abstract class CellAdapter implements Cell {
 			onEnd();
 			return false;
 		}
-		validVictim.clearMe(function() {
-			self.setItem(victimItem);
-			self.renderSaveBack(validVictimLocation, CellAdapter.ROB_SAVE_BACK_TIME_COST);
-			setTimeout(onEnd, CellAdapter.ROB_SAVE_BACK_TIME_COST);
-		});
+		self.setItem(victimItem);
+		self.renderSaveBack(validVictimLocation, CellAdapter.ROB_SAVE_BACK_TIME_COST);
+		setTimeout(function() {
+			onEnd();
+		}, CellAdapter.ROB_SAVE_BACK_TIME_COST);
 
 		return true;
 	}
