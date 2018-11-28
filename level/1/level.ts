@@ -1,4 +1,5 @@
 import LevelAdapter from "../level_adapter";
+import Board from "../../engine/board";
 import Cell from "../../engine/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
@@ -38,18 +39,28 @@ export default class Level extends LevelAdapter {
 		this.board.setBirthPlace(birthPlace);
 	}
 
-	private initCell() {
-		this.cells = [];
+	private getCell(): Cell[][] {
+		let cells: Cell[][] = [];
 		for (let i = 0; i < Level.Size.row; i++) {
-			this.cells.push([]);
-			for (let j = 0; j < Level.Size.row; j++) {
+			cells.push([]);
+			for (let j = 0; j < Level.Size.col; j++) {
 				let cell: Cell;
 				cell = new CellLand();
 				cell.setItem(this.birth.getItemWithoutLoction());
 				cell.setOwner(this.board);
-				this.cells[i].push(cell);
+				cells[i].push(cell);
 			}
 		}
+		return cells;
+	}
+
+	private initCell() {
+		let cells: Cell[][];
+		do {
+			cells = this.getCell();
+			Board.formatCells(cells, Level.Size);
+		} while (Board.check(cells, Level.Size) != null || Board.precheck(cells, Level.Size) == null);
+		this.cells = cells;
 		this.board.setCells(this.cells);
 	}
 }

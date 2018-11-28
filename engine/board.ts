@@ -35,7 +35,7 @@ export default class Board implements CellOwner {
 		});
 		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
 			self.exchange(new Exchange(from, to), function() {
-				// OnClick
+				// OnExchange
 			});
 		});
 	}
@@ -46,43 +46,49 @@ export default class Board implements CellOwner {
 
 	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
 
+	static formatCells(cells: Cell[][], size?: Coordinate): Coordinate {
+		if (size == null) {
+			let rowSize: number = cells.length;
+			let colSize: number = 0;
+			for (let i = 0; i < rowSize; i++) {
+				let row: Cell[] = cells[i];
+				if (row != null && row.length > colSize) {
+					colSize = row.length;
+				}
+			}
+			size = new Coordinate(rowSize, colSize);
+		}
+		for (let i = 0; i < size.row; i++) {
+			let row: Cell[] = cells[i];
+			if (row == null) {
+				row = [];
+				cells[i] = row;
+			}
+			for (let j = 0; j < size.col; j++) {
+				let col: Cell = row[j];
+				if (col == null) {
+					row[j] = CellEmpty.getEmpty();
+				}
+			}
+		}
+
+		return size;
+	}
+
 	setCells(srcs: Cell[][]) {
 		if (srcs == null) {
 			srcs = [];
 		}
-		let rowSize: number = srcs.length;
-		let colSize: number = 0;
-		for (let i = 0; i < rowSize; i++) {
+		let size: Coordinate = Board.formatCells(srcs);
+		for (let i = 0; i < size.row; i++) {
 			let row: Cell[] = srcs[i];
-			if (row == null) {
-				row = [];
-			}
-			if (row.length > colSize) {
-				colSize = row.length;
+			for (let j = 0; j < size.col; j++) {
+				let cell: Cell = row[j];
+				this.getPuzzle().addChild(cell.getPuzzle(), new Locus(new Coordinate(i, j)), Board.PUZZLE_CELL_Z_INDEX);
 			}
 		}
-
-		this.cells = [];
-		for (let i = 0; i < rowSize; i++) {
-			let cellRow: Cell[] = [];
-			let srcRow: Cell[] = srcs[i];
-			this.cells.push(cellRow);
-			for (let j = 0; j < colSize; j++) {
-				if (srcRow == null) {
-					cellRow.push(CellEmpty.getEmpty());
-					continue;
-				}
-				let src: Cell = srcRow[j];
-				if (src == null) {
-					cellRow.push(CellEmpty.getEmpty());
-					continue;
-				}
-				cellRow.push(src);
-				this.getPuzzle().addChild(src.getPuzzle(), new Locus(new Coordinate(i, j)), Board.PUZZLE_CELL_Z_INDEX);
-			}
-		}
-
-		this.cellsSize = new Coordinate(rowSize, colSize);
+		this.cellsSize = size;
+		this.cells = srcs;
 		this.puzzle.setSize(this.cellsSize.swell(CellAdapter.RENDER_SIZE));
 	}
 
@@ -103,15 +109,14 @@ export default class Board implements CellOwner {
 	}
 
 	getCellByLocation(location: Coordinate): Cell {
-		if (
-			location.row >= this.cellsSize.row ||
-			location.row < 0 ||
-			location.col >= this.cellsSize.col ||
-			location.col < 0
-		) {
+		return Board.getCellByLocation(this.cells, this.cellsSize, location);
+	}
+
+	static getCellByLocation(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Cell {
+		if (location.row >= cellsSize.row || location.row < 0 || location.col >= cellsSize.col || location.col < 0) {
 			return CellEmpty.getEmpty();
 		}
-		return this.cells[location.row][location.col];
+		return cells[location.row][location.col];
 	}
 
 	getCellsByLocations(locations: Coordinate[]): Cell[] {
@@ -181,9 +186,7 @@ export default class Board implements CellOwner {
 		let self: Board = this;
 		let location: Cell = this.getCellByLocation(area.getLocation());
 		location.clicked(function() {
-			self.fall(function(isChanged: boolean) {
-				onEnd();
-			});
+			self.startFall(onEnd);
 		});
 	}
 
@@ -206,14 +209,35 @@ export default class Board implements CellOwner {
 				return;
 			}
 			self.polymerize(polymerize, function() {
-				self.fall(function(isChanged: boolean) {
-					onEnd();
-				});
+				self.startFall(onEnd);
 			});
 		});
 	}
 
-	fall(onEnd?: (isChanged: boolean) => void) {
+	startFall(onNextFallEnd?: () => void) {
+		let self: Board = this;
+		if (onNextFallEnd != null) {
+			this.nextFallEnd.push(onNextFallEnd);
+		}
+		if (this.isFalling) {
+			return;
+		}
+		this.isFalling = true;
+		this.fall(function(isChanged: boolean) {
+			let onEnd: (() => void)[] = self.nextFallEnd;
+			self.nextFallEnd = [];
+			for (let i = 0; i < onEnd.length; i++) {
+				onEnd[i]();
+			}
+			self.isFalling = false;
+		});
+	}
+
+	private nextFallEnd: (() => void)[] = [];
+
+	private isFalling: boolean = false;
+
+	private fall(onEnd?: (isChanged: boolean) => void) {
 		let self: Board = this;
 		let isActive: boolean = false;
 		let robEnd: OnceLast = new OnceLast();
@@ -273,14 +297,17 @@ export default class Board implements CellOwner {
 	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
 
 	check(): Polymerize {
+		return Board.check(this.cells, this.cellsSize);
+	}
+	static check(cells: Cell[][], cellsSize: Coordinate): Polymerize {
 		let max: Polymerize = null;
 		let lastCellUpdateTime: number = 0;
-		for (let i = 0; i < this.cells.length; i++) {
-			let rowCells: Cell[] = this.cells[i];
+		for (let i = 0; i < cells.length; i++) {
+			let rowCells: Cell[] = cells[i];
 			for (let j = 0; j < rowCells.length; j++) {
 				let cell: Cell = rowCells[j];
 				let location: Coordinate = new Coordinate(i, j);
-				let now: Polymerize = this.checkPosition(location);
+				let now: Polymerize = Board.checkPosition(cells, cellsSize, location);
 				if (now == null) {
 					continue;
 				}
@@ -297,10 +324,10 @@ export default class Board implements CellOwner {
 		return max;
 	}
 
-	private checkPosition(location: Coordinate): Polymerize {
+	private static checkPosition(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Polymerize {
 		let direction: number = 0;
 		if (
-			!this.getCellByLocation(location)
+			!Board.getCellByLocation(cells, cellsSize, location)
 				.getItem()
 				.canPolymerize()
 		) {
@@ -309,11 +336,11 @@ export default class Board implements CellOwner {
 
 		let guests: Coordinate[] = [];
 
-		let vertical: Coordinate[] = this.checkPositionDirection(location, Coordinate.UP).concat(
-			this.checkPositionDirection(location, Coordinate.DOWN)
+		let vertical: Coordinate[] = Board.checkPositionDirection(cells, cellsSize, location, Coordinate.UP).concat(
+			Board.checkPositionDirection(cells, cellsSize, location, Coordinate.DOWN)
 		);
-		let horizontal: Coordinate[] = this.checkPositionDirection(location, Coordinate.LEFT).concat(
-			this.checkPositionDirection(location, Coordinate.RIGHT)
+		let horizontal: Coordinate[] = Board.checkPositionDirection(cells, cellsSize, location, Coordinate.LEFT).concat(
+			Board.checkPositionDirection(cells, cellsSize, location, Coordinate.RIGHT)
 		);
 		if (vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
 			guests = guests.concat(vertical);
@@ -330,12 +357,17 @@ export default class Board implements CellOwner {
 		return new Polymerize(location, guests);
 	}
 
-	private checkPositionDirection(location: Coordinate, direction: Coordinate): Coordinate[] {
+	private static checkPositionDirection(
+		cells: Cell[][],
+		cellsSize: Coordinate,
+		location: Coordinate,
+		direction: Coordinate
+	): Coordinate[] {
 		let total: Coordinate[] = [];
-		let item: Item = this.getCellByLocation(location).getItem();
+		let item: Item = Board.getCellByLocation(cells, cellsSize, location).getItem();
 		while (true) {
 			let directLocation: Coordinate = location.offset(direction);
-			if (!item.equals(this.getCellByLocation(directLocation).getItem())) {
+			if (!item.equals(Board.getCellByLocation(cells, cellsSize, directLocation).getItem())) {
 				break;
 			}
 			total.push(directLocation);
@@ -345,9 +377,13 @@ export default class Board implements CellOwner {
 	}
 
 	precheck(): Exchange {
-		for (let i = 0; i < this.cells.length; i++) {
-			for (let j = 0; j < this.cells[i].length; j++) {
-				let exchange: Exchange = this.precheckPositon(new Coordinate(i, j));
+		return Board.precheck(this.cells, this.cellsSize);
+	}
+
+	static precheck(cells: Cell[][], cellsSize: Coordinate): Exchange {
+		for (let i = 0; i < cells.length; i++) {
+			for (let j = 0; j < cells[i].length; j++) {
+				let exchange: Exchange = Board.precheckPositon(cells, cellsSize, new Coordinate(i, j));
 				if (exchange != null) {
 					return exchange;
 				}
@@ -356,8 +392,8 @@ export default class Board implements CellOwner {
 		return null;
 	}
 
-	private precheckPositon(location: Coordinate): Exchange {
-		let cell: Cell = this.getCellByLocation(location);
+	private static precheckPositon(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Exchange {
+		let cell: Cell = Board.getCellByLocation(cells, cellsSize, location);
 		if (!cell.canExchange()) {
 			return null;
 		}
@@ -367,27 +403,35 @@ export default class Board implements CellOwner {
 		}
 		let cross: Coordinate[] = location.cross();
 		for (let i = 0; i < cross.length; i++) {
-			if (this.precheckPositonCross(item, cross[i], location)) {
+			if (Board.precheckPositonCross(cells, cellsSize, item, cross[i], location)) {
 				return new Exchange(location, cross[i]);
 			}
 		}
 		return null;
 	}
 
-	private precheckPositonCross(item: Item, location: Coordinate, ignore: Coordinate): boolean {
-		let vertical: Coordinate[] = this.precheckPositionDirection(item, location, ignore, Coordinate.UP).concat(
-			this.precheckPositionDirection(item, location, ignore, Coordinate.DOWN)
-		);
-		let horizontal: Coordinate[] = this.precheckPositionDirection(item, location, ignore, Coordinate.LEFT).concat(
-			this.precheckPositionDirection(item, location, ignore, Coordinate.RIGHT)
-		);
+	private static precheckPositonCross(
+		cells: Cell[][],
+		cellsSize: Coordinate,
+		item: Item,
+		location: Coordinate,
+		ignore: Coordinate
+	): boolean {
+		let vertical: Coordinate[] = []
+			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.UP))
+			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.DOWN));
+		let horizontal: Coordinate[] = []
+			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.LEFT))
+			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.RIGHT));
 		return (
 			vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE ||
 			horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE
 		);
 	}
 
-	private precheckPositionDirection(
+	private static precheckPositionDirection(
+		cells: Cell[][],
+		cellsSize: Coordinate,
 		item: Item,
 		location: Coordinate,
 		ignore: Coordinate,
@@ -399,7 +443,7 @@ export default class Board implements CellOwner {
 			if (directLocation.equal(ignore)) {
 				break;
 			}
-			if (!item.equals(this.getCellByLocation(directLocation).getItem())) {
+			if (!item.equals(Board.getCellByLocation(cells, cellsSize, directLocation).getItem())) {
 				break;
 			}
 			total.push(directLocation);

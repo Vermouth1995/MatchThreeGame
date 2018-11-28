@@ -55,6 +55,8 @@ export default abstract class ItemAdapter implements Item {
 					onHide();
 				}, ItemAdapter.ClearedTimeCost);
 			});
+		} else {
+			onEnd();
 		}
 	}
 

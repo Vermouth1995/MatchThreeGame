@@ -35,7 +35,7 @@ export default abstract class CellAdapter implements Cell {
 
 	protected item: Item;
 
-	protected itemLocus: Locus = new Locus(Coordinate.ORIGIN);
+	protected itemLocus: Locus;
 
 	renderSaveBack(where: Coordinate, when: number) {
 		let fromSetter: EventLocationSetter = new EventLocationSetter(where);
@@ -60,11 +60,13 @@ export default abstract class CellAdapter implements Cell {
 		this.puzzle.removeChild(item.getPuzzle());
 		this.item.setOwner(null);
 		this.item = null;
+		this.itemLocus = null;
 		return item;
 	}
 
 	setItem(item: Item) {
 		this.timeUpdate();
+		this.itemLocus = new Locus(Coordinate.ORIGIN);
 		this.getPuzzle().addChild(item.getPuzzle(), this.itemLocus, CellAdapter.PUZZLE_ITEM_Z_INDEX);
 		this.item = item;
 		if (item != null) {
@@ -81,6 +83,7 @@ export default abstract class CellAdapter implements Cell {
 		}
 		let oldItem = this.item;
 		this.item = null;
+		this.itemLocus = null;
 		onEnd(function() {
 			self.puzzle.removeChild(oldItem.getPuzzle());
 			oldItem.setOwner(null);
