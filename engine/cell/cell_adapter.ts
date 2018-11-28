@@ -18,7 +18,9 @@ export default abstract class CellAdapter implements Cell {
 		this.atom = new AtomImage(this.getBackgroundImageId(), new Locus(CellAdapter.RENDER_SIZE));
 		this.puzzle.addAtom(this.atom, new Locus(Coordinate.ORIGIN), 0);
 	}
-
+	isEmpty(): boolean {
+		return false;
+	}
 	static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
 
 	static readonly PUZZLE_ITEM_Z_INDEX: number = 10;
@@ -109,12 +111,12 @@ export default abstract class CellAdapter implements Cell {
 		this.getItem().clicked(onEnd);
 	}
 
-	static readonly ROB_SAVE_BACK_TIME_COST = 70;
+	static readonly ROB_SAVE_BACK_TIME_COST = 120;
 	static readonly EXCHANGE_SAVE_BACK_TIME_COST = 200;
 
 	rob(victims: Cell[], victimLocations: Coordinate[], onEnd: () => void): boolean {
 		let self: CellAdapter = this;
-		if (!ItemEmpty.isEmpty(this.getItem())) {
+		if (!this.getItem().isEmpty()) {
 			onEnd();
 			return false;
 		}
@@ -128,12 +130,12 @@ export default abstract class CellAdapter implements Cell {
 				break;
 			}
 		}
-		if (CellEmpty.isEmpty(validVictim)) {
+		if (validVictim.isEmpty()) {
 			onEnd();
 			return false;
 		}
 		let victimItem: Item = validVictim.popItem();
-		if (ItemEmpty.isEmpty(victimItem)) {
+		if (victimItem.isEmpty()) {
 			onEnd();
 			return false;
 		}

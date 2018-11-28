@@ -2,6 +2,7 @@ import ItemOwner from "./item_owner";
 import PuzzleKeeper from "./puzzle_keeper";
 
 export default interface Item extends PuzzleKeeper {
+	isEmpty(): boolean;
 	equals(item: Item): boolean;
 	canPolymerize(): boolean;
 

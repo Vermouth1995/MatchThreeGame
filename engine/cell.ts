@@ -4,6 +4,8 @@ import CellOwner from "./cell_owner";
 import Coordinate from "../concept/coordinate";
 
 export default interface Cell extends ItemOwner {
+	isEmpty(): boolean;
+
 	getItem(): Item;
 	popItem(): Item;
 	setItem(item: Item): void;

@@ -10,7 +10,9 @@ export default class CellBirth implements Cell {
 
 	private birth: Birth;
 	private location: Coordinate;
-
+	isEmpty(): boolean {
+		return false;
+	}
 	setOwner(owner: CellOwner) {}
 	setBirth(birth: Birth, location: Coordinate) {
 		this.birth = birth;

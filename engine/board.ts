@@ -268,7 +268,7 @@ export default class Board implements CellOwner {
 				this.getVictimsByLocation(location, victims, victimLocations);
 
 				isActive =
-					isActive || this.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback());
+					this.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) || isActive;
 			}
 		}
 	}

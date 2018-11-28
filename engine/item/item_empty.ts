@@ -10,10 +10,6 @@ export default class ItemEmpty implements Item {
 		return false;
 	}
 
-	static isEmpty(item: Item): boolean {
-		return item instanceof ItemEmpty;
-	}
-
 	private static instance: ItemEmpty = new ItemEmpty();
 
 	static getEmpty(): ItemEmpty {
@@ -50,4 +46,8 @@ export default class ItemEmpty implements Item {
 	}
 
 	setOwner(owner: ItemOwner): void {}
+
+	isEmpty(): boolean {
+		return true;
+	}
 }

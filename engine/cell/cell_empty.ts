@@ -7,7 +7,9 @@ import Coordinate from "../../concept/coordinate";
 
 export default class CellEmpty implements Cell {
 	constructor() {}
-
+	isEmpty(): boolean {
+		return true;
+	}
 	getItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
@@ -23,9 +25,6 @@ export default class CellEmpty implements Cell {
 
 	static getEmpty(): CellEmpty {
 		return CellEmpty.instance;
-	}
-	static isEmpty(cell: Cell): boolean {
-		return cell instanceof CellEmpty;
 	}
 
 	canRobbed(): boolean {
