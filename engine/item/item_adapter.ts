@@ -44,6 +44,7 @@ export default abstract class ItemAdapter implements Item {
 	abstract exploded(onEnd: () => void): void;
 	abstract scraped(onEnd: () => void): void;
 	abstract clicked(onEnd: () => void): void;
+	abstract exchanged(onEnd: () => void): boolean;
 
 	cleared(onEnd: () => void) {
 		let self: ItemAdapter = this;

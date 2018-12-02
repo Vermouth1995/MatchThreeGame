@@ -38,6 +38,10 @@ export default class ItemDrink extends ItemAdapter {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	exchanged(onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 	getPuzzle(): Puzzle {
 		return null;
 		//TODO

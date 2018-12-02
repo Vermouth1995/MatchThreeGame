@@ -61,6 +61,10 @@ export default class CellEmpty implements Cell {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	exchanged(onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 
 	onItemClear(item: Item) {}
 

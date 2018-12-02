@@ -38,5 +38,9 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	exchanged(onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 	abstract getImageId(): number;
 }

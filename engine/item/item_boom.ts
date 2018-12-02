@@ -20,11 +20,7 @@ export default abstract class ItemBoom extends ItemAdapter {
 	}
 	abstract getExplodeSize(): number;
 	exploded(onEnd: () => void) {
-		let self: ItemBoom = this;
-		let owner: ItemOwner = this.owner;
-		this.cleared(function() {
-			owner.explode(self.getExplodeSize(), onEnd);
-		});
+		this.boom(onEnd);
 	}
 	scraped(onEnd: () => void) {
 		onEnd();
@@ -32,6 +28,19 @@ export default abstract class ItemBoom extends ItemAdapter {
 
 	clicked(onEnd: () => void) {
 		this.exploded(onEnd);
+	}
+
+	private boom(onEnd: () => void) {
+		let self: ItemBoom = this;
+		let owner: ItemOwner = this.owner;
+		this.cleared(function() {
+			owner.explode(self.getExplodeSize(), onEnd);
+		});
+	}
+
+	exchanged(onEnd: () => void): boolean {
+		this.boom(onEnd);
+		return true;
 	}
 
 	abstract getImageId(): number;

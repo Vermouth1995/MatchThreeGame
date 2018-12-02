@@ -11,7 +11,7 @@ export default interface Item extends PuzzleKeeper {
 	exploded(onEnd: () => void): void;
 	scraped(onEnd: () => void): void;
 	clicked(onEnd: () => void): void;
-	// exchanged(onEnd: () => void): void;
+	exchanged(onEnd: () => void): boolean;
 
 	cleared(onEnd: () => void): void;
 	created(onEnd: () => void): void;

@@ -204,14 +204,28 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				onEnd();
 				return;
 			}
+			let exchangeEnd: OnceLast = new OnceLast();
+			exchangeEnd.setCallback(onEnd);
+
 			let polymerize: Polymerize = self.check();
-			if (polymerize == null) {
+			if (polymerize != null) {
+				let polymerizeEnd = exchangeEnd.getCallback();
+				self.polymerize(polymerize, function() {
+					self.startFall(polymerizeEnd);
+				});
+			}
+			let fromEnd = exchangeEnd.getCallback();
+			let toEnd = exchangeEnd.getCallback();
+			let fromBlock: boolean = fromCell.exchanged(function() {
+				self.startFall(fromEnd);
+			});
+			let toBlock: boolean = toCell.exchanged(function() {
+				self.startFall(toEnd);
+			});
+			if (polymerize == null && !fromBlock && !toBlock) {
 				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), onEnd);
 				return;
 			}
-			self.polymerize(polymerize, function() {
-				self.startFall(onEnd);
-			});
 		});
 	}
 

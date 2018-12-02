@@ -20,7 +20,7 @@ export default interface Cell extends ItemOwner, PuzzleKeeper {
 	exploded(onEnd: () => void): void;
 	scraped(onEnd: () => void): void;
 	clicked(onEnd: () => void): void;
-	// exchanged(onEnd: () => void): void;
+	exchanged(onEnd: () => void): boolean;
 
 	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean;
 	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean;

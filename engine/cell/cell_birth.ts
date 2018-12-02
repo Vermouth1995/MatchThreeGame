@@ -53,6 +53,10 @@ export default class CellBirth implements Cell {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	exchanged(onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 
 	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean {
 		onEnd();

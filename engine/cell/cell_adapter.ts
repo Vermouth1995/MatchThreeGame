@@ -110,6 +110,9 @@ export default abstract class CellAdapter implements Cell {
 	clicked(onEnd: () => void) {
 		this.getItem().clicked(onEnd);
 	}
+	exchanged(onEnd: () => void): boolean {
+		return this.getItem().exchanged(onEnd);
+	}
 
 	static readonly ROB_SAVE_BACK_TIME_COST = 120;
 	static readonly EXCHANGE_SAVE_BACK_TIME_COST = 200;

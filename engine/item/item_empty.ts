@@ -37,6 +37,10 @@ export default class ItemEmpty implements Item {
 	clicked(onEnd: () => void) {
 		onEnd();
 	}
+	exchanged(onEnd: () => void): boolean {
+		onEnd();
+		return false;
+	}
 	cleared(onEnd: () => void) {
 		onEnd();
 	}
