@@ -76,7 +76,7 @@ export default abstract class CellAdapter implements Cell {
 		}
 	}
 
-	clearMe(onEnd: (onHide: () => void) => void) {
+	onItemClear(onEnd: (onHide: () => void) => void) {
 		let self: CellAdapter = this;
 		this.timeUpdate();
 		if (this.item == null) {

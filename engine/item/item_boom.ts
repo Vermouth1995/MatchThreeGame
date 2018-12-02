@@ -1,6 +1,5 @@
 import Item from "../item";
 import ItemAdapter from "./item_adapter";
-import Puzzle from "../../render/puzzle";
 import ItemOwner from "../item_owner";
 
 export default abstract class ItemBoom extends ItemAdapter {

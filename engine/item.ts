@@ -10,9 +10,10 @@ export default interface Item extends PuzzleKeeper {
 	polymerizedAsGuest(onEnd: () => void): void;
 	exploded(onEnd: () => void): void;
 	scraped(onEnd: () => void): void;
-	cleared(onEnd: () => void): void;
 	clicked(onEnd: () => void): void;
 	// exchanged(onEnd: () => void): void;
+
+	cleared(onEnd: () => void): void;
 
 	setOwner(owner: ItemOwner): void;
 }

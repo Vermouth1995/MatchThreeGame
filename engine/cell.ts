@@ -2,8 +2,9 @@ import Item from "./item";
 import ItemOwner from "./item_owner";
 import CellOwner from "./cell_owner";
 import Coordinate from "../concept/coordinate";
+import PuzzleKeeper from "./puzzle_keeper";
 
-export default interface Cell extends ItemOwner {
+export default interface Cell extends ItemOwner, PuzzleKeeper {
 	isEmpty(): boolean;
 
 	getItem(): Item;

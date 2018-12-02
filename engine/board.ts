@@ -15,8 +15,9 @@ import Locus from "../concept/locus";
 import Puzzle from "../render/puzzle";
 import BoardPuzzle from "./board_puzzle";
 import Render from "../render/render";
+import PuzzleKeeper from "./puzzle_keeper";
 
-export default class Board implements CellOwner {
+export default class Board implements CellOwner, PuzzleKeeper {
 	private cells: Cell[][];
 
 	private cellsSize: Coordinate = Coordinate.ORIGIN;

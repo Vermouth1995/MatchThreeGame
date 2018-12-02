@@ -1,8 +1,7 @@
 import Item from "./item";
-import PuzzleKeeper from "./puzzle_keeper";
 
-export default interface ItemOwner extends PuzzleKeeper {
+export default interface ItemOwner {
 	setItem(item: Item): void;
 	explode(size: number, onEnd: () => void): void;
-	clearMe(onEnd: (onHide: () => void) => void): void;
+	onItemClear(onEnd: (onHide: () => void) => void): void;
 }

@@ -49,14 +49,16 @@ export default abstract class ItemAdapter implements Item {
 		this.atomImageLocation.setEvent(new EventMove(Coordinate.HALF, ItemAdapter.ClearedTimeCost));
 
 		if (this.owner != null) {
-			self.owner.clearMe(function(onHide: () => void) {
+			self.owner.onItemClear(function(onHide: () => void) {
 				setTimeout(function() {
 					onEnd();
 					onHide();
 				}, ItemAdapter.ClearedTimeCost);
 			});
 		} else {
-			onEnd();
+			setTimeout(function() {
+				onEnd();
+			}, ItemAdapter.ClearedTimeCost);
 		}
 	}
 

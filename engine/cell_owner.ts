@@ -1,6 +1,5 @@
 import Cell from "./cell";
-import PuzzleKeeper from "./puzzle_keeper";
 
-export default interface CellOwner extends PuzzleKeeper {
+export default interface CellOwner {
 	explode(cell: Cell, size: number, onEnd: () => void): void;
 }

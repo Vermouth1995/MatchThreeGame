@@ -62,7 +62,7 @@ export default class CellEmpty implements Cell {
 		onEnd();
 	}
 
-	clearMe(onEnd: (onHide: () => void) => void) {
+	onItemClear(onEnd: (onHide: () => void) => void) {
 		onEnd(function() {});
 	}
 
