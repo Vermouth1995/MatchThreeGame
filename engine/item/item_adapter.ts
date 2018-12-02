@@ -62,13 +62,21 @@ export default abstract class ItemAdapter implements Item {
 	}
 
 	created(onEnd: () => void) {
+		let self: ItemAdapter = this;
 		this.atomImageSize.setEvent(new EventLocationSetter(Coordinate.ORIGIN));
 		this.atomImageLocation.setEvent(new EventLocationSetter(Coordinate.HALF));
 
 		this.atomImageSize.setEvent(new EventMove(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost));
 		this.atomImageLocation.setEvent(new EventMove(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost));
 
+		if (this.owner != null) {
+			this.owner.onItemCreate(this);
+		}
+
 		setTimeout(function() {
+			if (self.owner != null) {
+				self.owner.onItemCreateAnimationEnd(self);
+			}
 			onEnd();
 		}, ItemAdapter.CreatedTimeCost);
 	}

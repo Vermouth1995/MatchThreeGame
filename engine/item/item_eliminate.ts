@@ -18,7 +18,9 @@ export default abstract class ItemEliminate extends ItemAdapter {
 		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
 			let boom: Item = ItemCreator.createBoom(size);
+
 			if (boom != null) {
+				boom.created(function() {});
 				owner.setItem(boom);
 			}
 			onEnd();

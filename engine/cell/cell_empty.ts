@@ -69,6 +69,7 @@ export default class CellEmpty implements Cell {
 	onItemCreate(item: Item) {}
 
 	onItemCreateAnimationEnd(item: Item) {}
+
 	getPuzzle(): Puzzle {
 		return null;
 	}
