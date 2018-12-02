@@ -1,6 +1,5 @@
 import Item from "../item";
 import ItemAdapter from "./item_adapter";
-import Puzzle from "../../render/puzzle";
 import Render from "../../render/render";
 
 export default class ItemPinecone extends ItemAdapter {
@@ -40,9 +39,5 @@ export default class ItemPinecone extends ItemAdapter {
 	exchanged(onEnd: () => void): boolean {
 		onEnd();
 		return false;
-	}
-	getPuzzle(): Puzzle {
-		return null;
-		//TODO
 	}
 }

@@ -127,7 +127,7 @@ export default abstract class CellAdapter implements Cell {
 		let validVictimLocation: Coordinate;
 		for (let i = 0; i < victims.length; i++) {
 			let victim: Cell = victims[i];
-			if (victim.canRobbed()) {
+			if (victim.canRobbed() && !victim.getItem().isEmpty()) {
 				validVictim = victim;
 				validVictimLocation = victimLocations[i];
 				break;
