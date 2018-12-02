@@ -14,6 +14,7 @@ export default interface Item extends PuzzleKeeper {
 	// exchanged(onEnd: () => void): void;
 
 	cleared(onEnd: () => void): void;
+	created(onEnd: () => void): void;
 
 	setOwner(owner: ItemOwner): void;
 }

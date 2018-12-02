@@ -62,10 +62,13 @@ export default class CellEmpty implements Cell {
 		onEnd();
 	}
 
-	onItemClear(onEnd: (onHide: () => void) => void) {
-		onEnd(function() {});
-	}
+	onItemClear(item: Item) {}
 
+	onItemClearAnimationEnd(item: Item) {}
+
+	onItemCreate(item: Item) {}
+
+	onItemCreateAnimationEnd(item: Item) {}
 	getPuzzle(): Puzzle {
 		return null;
 	}

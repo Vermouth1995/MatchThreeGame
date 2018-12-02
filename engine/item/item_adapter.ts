@@ -6,12 +6,14 @@ import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
 import Locus from "../../concept/locus";
 import EventMove from "../../concept/event/event_move";
+import EventLocationSetter from "../../concept/event/event_location_setter";
 
 export default abstract class ItemAdapter implements Item {
 	static readonly DrawCoefficient = new Coordinate(0.85, 0.7);
 	static readonly DrawStart = Coordinate.UNIT.offset(ItemAdapter.DrawCoefficient.negative()).swell(Coordinate.HALF);
 	static readonly DrawImageSize = Coordinate.UNIT.swell(ItemAdapter.DrawCoefficient);
 
+	static readonly CreatedTimeCost: number = 150;
 	static readonly ClearedTimeCost: number = 150;
 
 	constructor() {
@@ -49,17 +51,26 @@ export default abstract class ItemAdapter implements Item {
 		this.atomImageLocation.setEvent(new EventMove(Coordinate.HALF, ItemAdapter.ClearedTimeCost));
 
 		if (this.owner != null) {
-			self.owner.onItemClear(function(onHide: () => void) {
-				setTimeout(function() {
-					onEnd();
-					onHide();
-				}, ItemAdapter.ClearedTimeCost);
-			});
-		} else {
-			setTimeout(function() {
-				onEnd();
-			}, ItemAdapter.ClearedTimeCost);
+			this.owner.onItemClear(this);
 		}
+		setTimeout(function() {
+			if (self.owner != null) {
+				self.owner.onItemClearAnimationEnd(self);
+			}
+			onEnd();
+		}, ItemAdapter.ClearedTimeCost);
+	}
+
+	created(onEnd: () => void) {
+		this.atomImageSize.setEvent(new EventLocationSetter(Coordinate.ORIGIN));
+		this.atomImageLocation.setEvent(new EventLocationSetter(Coordinate.HALF));
+
+		this.atomImageSize.setEvent(new EventMove(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost));
+		this.atomImageLocation.setEvent(new EventMove(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost));
+
+		setTimeout(function() {
+			onEnd();
+		}, ItemAdapter.CreatedTimeCost);
 	}
 
 	getPuzzle(): Puzzle {

@@ -40,6 +40,9 @@ export default class ItemEmpty implements Item {
 	cleared(onEnd: () => void) {
 		onEnd();
 	}
+	created(onEnd: () => void) {
+		onEnd();
+	}
 
 	getPuzzle(): Puzzle {
 		return null;

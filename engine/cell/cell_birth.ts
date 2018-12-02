@@ -65,9 +65,14 @@ export default class CellBirth implements Cell {
 	explode(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	onItemClear(onEnd: (onHide: () => void) => void) {
-		onEnd(function() {});
-	}
+
+	onItemClear(item: Item) {}
+
+	onItemClearAnimationEnd(item: Item) {}
+
+	onItemCreate(item: Item) {}
+
+	onItemCreateAnimationEnd(item: Item) {}
 
 	getPuzzle(): Puzzle {
 		return null;
