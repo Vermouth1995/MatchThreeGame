@@ -193,37 +193,30 @@ export default class Board implements CellOwner, PuzzleKeeper {
 
 	exchange(area: Exchange, onEnd: () => void) {
 		let self: Board = this;
+		let exchangeEnd: OnceLast = new OnceLast();
+		exchangeEnd.setCallback(function() {
+			self.startFall(onEnd);
+		});
 		if (area == null || !area.isNeighbor()) {
-			onEnd();
+			exchangeEnd.getCallback()();
 			return;
 		}
 		let fromCell: Cell = this.getCellByLocation(area.getFrom());
 		let toCell: Cell = this.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
 			if (!success) {
-				onEnd();
+				exchangeEnd.getCallback()();
 				return;
 			}
-			let exchangeEnd: OnceLast = new OnceLast();
-			exchangeEnd.setCallback(onEnd);
 
 			let polymerize: Polymerize = self.check();
 			if (polymerize != null) {
-				let polymerizeEnd = exchangeEnd.getCallback();
-				self.polymerize(polymerize, function() {
-					self.startFall(polymerizeEnd);
-				});
+				self.polymerize(polymerize, exchangeEnd.getCallback());
 			}
-			let fromEnd = exchangeEnd.getCallback();
-			let toEnd = exchangeEnd.getCallback();
-			let fromBlock: boolean = fromCell.exchanged(function() {
-				self.startFall(fromEnd);
-			});
-			let toBlock: boolean = toCell.exchanged(function() {
-				self.startFall(toEnd);
-			});
+			let fromBlock: boolean = fromCell.exchanged(exchangeEnd.getCallback());
+			let toBlock: boolean = toCell.exchanged(exchangeEnd.getCallback());
 			if (polymerize == null && !fromBlock && !toBlock) {
-				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), onEnd);
+				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), exchangeEnd.getCallback());
 				return;
 			}
 		});
