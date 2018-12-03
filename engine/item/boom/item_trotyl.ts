@@ -17,7 +17,9 @@ export default class ItemTrotyl extends ItemBoom {
 	equals(item: Item): boolean {
 		return item instanceof ItemTrotyl;
 	}
-	public static readonly EXPLODE_SIZE: number = 4;
+
+	static readonly POLYMERIZE_SIZE: number = 7;
+	static readonly EXPLODE_SIZE: number = 4.2;
 	getExplodeSize(): number {
 		return ItemTrotyl.EXPLODE_SIZE;
 	}

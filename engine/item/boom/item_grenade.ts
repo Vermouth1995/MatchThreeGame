@@ -17,7 +17,9 @@ export default class ItemGrenade extends ItemBoom {
 	equals(item: Item): boolean {
 		return item instanceof ItemGrenade;
 	}
-	public static readonly EXPLODE_SIZE: number = 2;
+
+	static readonly POLYMERIZE_SIZE: number = 5;
+	static readonly EXPLODE_SIZE: number = 2.5;
 	getExplodeSize(): number {
 		return ItemGrenade.EXPLODE_SIZE;
 	}

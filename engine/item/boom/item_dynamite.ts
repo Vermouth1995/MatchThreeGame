@@ -17,7 +17,9 @@ export default class ItemDynamite extends ItemBoom {
 	equals(item: Item): boolean {
 		return item instanceof ItemDynamite;
 	}
-	public static readonly EXPLODE_SIZE: number = 3;
+
+	static readonly POLYMERIZE_SIZE: number = 6;
+	static readonly EXPLODE_SIZE: number = 3.2;
 	getExplodeSize(): number {
 		return ItemDynamite.EXPLODE_SIZE;
 	}

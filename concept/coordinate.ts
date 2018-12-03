@@ -70,8 +70,8 @@ export default class Coordinate {
 
 	radiation(radix: number): Coordinate[] {
 		let radiationArea: Coordinate[] = [];
-		for (let i = this.row - radix; i <= this.row + radix; ++i) {
-			for (let j = this.col - radix; j <= this.col + radix; ++j) {
+		for (let i = Math.ceil(this.row - radix); i <= Math.floor(this.row + radix); ++i) {
+			for (let j = Math.ceil(this.col - radix); j <= Math.floor(this.col + radix); ++j) {
 				if (i == this.row && j == this.col) {
 					continue;
 				}

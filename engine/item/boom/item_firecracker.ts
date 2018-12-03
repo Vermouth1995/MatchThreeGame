@@ -17,7 +17,9 @@ export default class ItemFireCracker extends ItemBoom {
 	equals(item: Item): boolean {
 		return item instanceof ItemFireCracker;
 	}
-	public static readonly EXPLODE_SIZE: number = 1;
+
+	static readonly POLYMERIZE_SIZE: number = 4;
+	static readonly EXPLODE_SIZE: number = 1;
 	getExplodeSize(): number {
 		return ItemFireCracker.EXPLODE_SIZE;
 	}

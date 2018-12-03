@@ -3,6 +3,7 @@ import OnceLast from "../concept/once/once_last";
 import Item from "./item";
 
 import ItemEmpty from "./item/item_empty";
+
 import ItemDrink from "./item/item_drink";
 import ItemPinecone from "./item/item_pinecone";
 
@@ -42,17 +43,17 @@ export default class ItemCreator {
 		if (polymerizeSize <= ItemCreator.BOOM_GENERATE_RADIX) {
 			return null;
 		}
-		switch (polymerizeSize - ItemCreator.BOOM_GENERATE_RADIX) {
-			case ItemFireCracker.EXPLODE_SIZE:
+		switch (polymerizeSize) {
+			case ItemFireCracker.POLYMERIZE_SIZE:
 				return ItemCreator.createItem(ItemCreator.FIRECRACKER);
 
-			case ItemGrenade.EXPLODE_SIZE:
+			case ItemGrenade.POLYMERIZE_SIZE:
 				return ItemCreator.createItem(ItemCreator.GRENADE);
 
-			case ItemDynamite.EXPLODE_SIZE:
+			case ItemDynamite.POLYMERIZE_SIZE:
 				return ItemCreator.createItem(ItemCreator.DYNAMITE);
 
-			case ItemTrotyl.EXPLODE_SIZE:
+			case ItemTrotyl.POLYMERIZE_SIZE:
 				return ItemCreator.createItem(ItemCreator.TROTYL);
 
 			default:
