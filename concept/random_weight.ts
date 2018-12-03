@@ -6,6 +6,9 @@ export default class RandomWeight<T> {
 	private totalWeight: number = 0;
 
 	addFactor(factor: T, weight: number) {
+		if (weight < 0) {
+			weight = 0;
+		}
 		this.factors.push(factor);
 		this.totalWeight += weight;
 		this.weights.push(this.totalWeight);
@@ -21,7 +24,7 @@ export default class RandomWeight<T> {
 				return this.factors[i];
 			}
 		}
-		// It'll never be executed
-		return this.factors[0];
+
+		return null;
 	}
 }

@@ -8,7 +8,7 @@ export default class MatchThreeGame {
 		let render: RenderCanvas = new RenderCanvas(
 			Game.RENDER_SIZE,
 			MatchThreeGame.PixelSize,
-			MatchThreeGame.staticResourcePrefix
+			MatchThreeGame.StaticResourcePrefix
 		);
 
 		let main: Game = new Game(render);
@@ -23,7 +23,7 @@ export default class MatchThreeGame {
 	static readonly PixelSize: Coordinate = new Coordinate(680, 1360);
 
 	static readonly ContainerId: string = "match_three_game";
-	static readonly staticResourcePrefix: string = "../../resource";
+	static readonly StaticResourcePrefix: string = "../../resource";
 }
 
 new MatchThreeGame();

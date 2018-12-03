@@ -1,33 +1,27 @@
-import BirthAdapter from "./birth_adapter";
-import Coordinate from "../../concept/coordinate";
+import BirthItemWeight from "./birth_item_weight";
 import Item from "../item";
 import ItemCreator from "../item_creator";
-import RandomWeight from "../../concept/random_weight";
+import BirthWithoutLocation from "./birth_without_location";
 
-export default class BirthEliminate extends BirthAdapter {
+export default class BirthEliminate extends BirthWithoutLocation {
 	constructor() {
 		super();
-		new RandomWeight();
 	}
 
 	private static readonly OUR_WEIGHTS: number = 1;
 
-	private static random: RandomWeight<number> = (function(): RandomWeight<number> {
-		let random: RandomWeight<number> = new RandomWeight<number>();
-		random.addFactor(ItemCreator.APPLE, BirthEliminate.OUR_WEIGHTS);
-		random.addFactor(ItemCreator.BLUEBERRY, BirthEliminate.OUR_WEIGHTS);
-		random.addFactor(ItemCreator.FLOWER, BirthEliminate.OUR_WEIGHTS);
-		random.addFactor(ItemCreator.LEAF, BirthEliminate.OUR_WEIGHTS);
-		random.addFactor(ItemCreator.PEAR, BirthEliminate.OUR_WEIGHTS);
-		random.addFactor(ItemCreator.WATER, BirthEliminate.OUR_WEIGHTS);
-		return random;
+	private static birth: BirthItemWeight = (function(): BirthItemWeight {
+		let birth: BirthItemWeight = new BirthItemWeight();
+		birth.addItemWeight(ItemCreator.APPLE, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.BLUEBERRY, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.FLOWER, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.LEAF, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.PEAR, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.WATER, BirthEliminate.OUR_WEIGHTS);
+		return birth;
 	})();
 
-	getItemWithoutLoction(): Item {
-		return ItemCreator.createItem(BirthEliminate.random.getFactor());
-	}
-
-	getItem(loc: Coordinate): Item {
-		return this.getItemWithoutLoction();
+	getItemWithoutLocation(): Item {
+		return BirthEliminate.birth.getItemWithoutLocation();
 	}
 }
