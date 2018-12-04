@@ -1,27 +1,36 @@
-import Item from "./item";
 import Cell from "./cell";
 import CellAdapter from "./cell/cell_adapter";
 import CellOwner from "./cell_owner";
-import CellEmpty from "./cell/cell_empty";
 import CellBirth from "./cell/cell_birth";
+import PuzzleKeeper from "./puzzle_keeper";
+
 import Polymerize from "./sacrifice/polymerize";
 import Explode from "./sacrifice/explode";
 import Scrape from "./sacrifice/scrape";
 import Click from "./sacrifice/click";
 import Exchange from "./sacrifice/exchange";
+
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import RandomWeight from "../concept/random_weight";
-import Puzzle from "../render/puzzle";
-import BoardPuzzle from "./board_puzzle";
+
+import BoardPuzzle from "./board/board_puzzle";
+import BoardCheck from "./board/board_check";
+import BoardArrivable from "./board/board_arrivable";
+import BoardCells from "./board/board_cells";
+
 import Render from "../render/render";
-import PuzzleKeeper from "./puzzle_keeper";
+import Puzzle from "../render/puzzle";
 
 export default class Board implements CellOwner, PuzzleKeeper {
-	private cells: Cell[][];
+	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
 
-	private cellsSize: Coordinate = Coordinate.ORIGIN;
+	private cells: BoardCells;
+
+	private check: BoardCheck;
+
+	private arrivable: BoardArrivable;
 
 	private birthPlace: CellBirth[];
 
@@ -42,106 +51,36 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		});
 	}
 
+	size(): Coordinate {
+		if (this.cells == null) {
+			return Coordinate.ORIGIN;
+		}
+		return this.cells.size();
+	}
+
 	getPuzzle(): Puzzle {
 		return this.puzzle;
 	}
 
-	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
+	setCells(cells: BoardCells) {
+		let self: Board = this;
+		this.cells = cells;
+		this.check = new BoardCheck(cells);
+		this.arrivable = new BoardArrivable(cells, this.birthPlace);
 
-	static formatCells(cells: Cell[][], size?: Coordinate): Coordinate {
-		if (size == null) {
-			let rowSize: number = cells.length;
-			let colSize: number = 0;
-			for (let i = 0; i < rowSize; i++) {
-				let row: Cell[] = cells[i];
-				if (row != null && row.length > colSize) {
-					colSize = row.length;
-				}
-			}
-			size = new Coordinate(rowSize, colSize);
-		}
-		for (let i = 0; i < size.row; i++) {
-			let row: Cell[] = cells[i];
-			if (row == null) {
-				row = [];
-				cells[i] = row;
-			}
-			for (let j = 0; j < size.col; j++) {
-				let col: Cell = row[j];
-				if (col == null) {
-					row[j] = CellEmpty.getEmpty();
-				}
-			}
-		}
-
-		return size;
-	}
-
-	setCells(srcs: Cell[][]) {
-		if (srcs == null) {
-			srcs = [];
-		}
-		let size: Coordinate = Board.formatCells(srcs);
-		for (let i = 0; i < size.row; i++) {
-			let row: Cell[] = srcs[i];
-			for (let j = 0; j < size.col; j++) {
-				let cell: Cell = row[j];
-				this.getPuzzle().addChild(cell.getPuzzle(), new Locus(new Coordinate(i, j)), Board.PUZZLE_CELL_Z_INDEX);
-			}
-		}
-		this.cellsSize = size;
-		this.cells = srcs;
-		this.puzzle.setSize(this.cellsSize.swell(CellAdapter.RENDER_SIZE));
-	}
-
-	size(): Coordinate {
-		return this.cellsSize;
+		cells.iterate(function(location: Coordinate, cell: Cell): boolean {
+			self.getPuzzle().addChild(cell.getPuzzle(), new Locus(location), Board.PUZZLE_CELL_Z_INDEX);
+			return true;
+		});
+		this.puzzle.setSize(this.cells.size().swell(CellAdapter.RENDER_SIZE));
 	}
 
 	setBirthPlace(place: CellBirth[]) {
 		this.birthPlace = place;
 	}
 
-	getCellByCellOffset(cell: Cell, offset: Coordinate): Cell {
-		return this.getCellByLocation(this.getLocationOfCell(cell).offset(offset));
-	}
-
-	getCellByLocationOffset(location: Coordinate, offset: Coordinate): Cell {
-		return this.getCellByLocation(location.offset(offset));
-	}
-
-	getCellByLocation(location: Coordinate): Cell {
-		return Board.getCellByLocation(this.cells, this.cellsSize, location);
-	}
-
-	static getCellByLocation(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Cell {
-		if (location.row >= cellsSize.row || location.row < 0 || location.col >= cellsSize.col || location.col < 0) {
-			return CellEmpty.getEmpty();
-		}
-		return cells[location.row][location.col];
-	}
-
-	getCellsByLocations(locations: Coordinate[]): Cell[] {
-		let victims: Cell[] = [];
-		for (let i = 0; i < locations.length; i++) {
-			victims.push(this.getCellByLocation(locations[i]));
-		}
-		return victims;
-	}
-
-	getLocationOfCell(cell: Cell): Coordinate {
-		for (let i = 0; i < this.cells.length; ++i) {
-			for (let j = 0; j < this.cells[i].length; ++j) {
-				if (this.cells[i][j] == cell) {
-					return new Coordinate(i, j);
-				}
-			}
-		}
-		return new Coordinate(0, 0);
-	}
-
 	explode(cell: Cell, size: number, onEnd: () => void) {
-		let point: Coordinate = this.getLocationOfCell(cell);
+		let point: Coordinate = this.cells.getLocationOfCell(cell);
 
 		let area: Explode = new Explode(point, size);
 
@@ -151,10 +90,10 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		end.setCallback(onEnd);
 
 		for (let i = 0; i < guests.length; ++i) {
-			this.getCellByLocation(guests[i]).exploded(end.getCallback());
+			this.cells.getCellByLocation(guests[i]).exploded(end.getCallback());
 		}
 
-		this.getCellByLocation(area.getOwner()).exploded(end.getCallback());
+		this.cells.getCellByLocation(area.getOwner()).exploded(end.getCallback());
 	}
 
 	polymerize(area: Polymerize, onEnd: () => void) {
@@ -168,9 +107,9 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		let guests: Coordinate[] = area.getGuests();
 
 		for (let i = 0; i < guests.length; ++i) {
-			this.getCellByLocation(guests[i]).polymerizedAsGuest(end.getCallback());
+			this.cells.getCellByLocation(guests[i]).polymerizedAsGuest(end.getCallback());
 		}
-		this.getCellByLocation(area.getOwner()).polymerizedAsOwner(guests.length + 1, end.getCallback());
+		this.cells.getCellByLocation(area.getOwner()).polymerizedAsOwner(guests.length + 1, end.getCallback());
 		this.scrape(area.getScrape(), end.getCallback());
 	}
 
@@ -180,13 +119,13 @@ export default class Board implements CellOwner, PuzzleKeeper {
 
 		let goals: Coordinate[] = area.getGoals();
 		for (let i = 0; i < goals.length; ++i) {
-			this.getCellByLocation(goals[i]).scraped(end.getCallback());
+			this.cells.getCellByLocation(goals[i]).scraped(end.getCallback());
 		}
 	}
 
 	click(area: Click, onEnd: () => void) {
 		let self: Board = this;
-		let location: Cell = this.getCellByLocation(area.getLocation());
+		let location: Cell = this.cells.getCellByLocation(area.getLocation());
 		location.clicked(function() {
 			self.startFall(onEnd);
 		});
@@ -202,15 +141,15 @@ export default class Board implements CellOwner, PuzzleKeeper {
 			exchangeEnd.getCallback()();
 			return;
 		}
-		let fromCell: Cell = this.getCellByLocation(area.getFrom());
-		let toCell: Cell = this.getCellByLocation(area.getTo());
+		let fromCell: Cell = this.cells.getCellByLocation(area.getFrom());
+		let toCell: Cell = this.cells.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
 			if (!success) {
 				exchangeEnd.getCallback()();
 				return;
 			}
 
-			let polymerize: Polymerize = self.check();
+			let polymerize: Polymerize = self.check.check();
 			if (polymerize != null) {
 				self.polymerize(polymerize, exchangeEnd.getCallback());
 			}
@@ -258,7 +197,7 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				});
 				return;
 			}
-			let area: Polymerize = self.check();
+			let area: Polymerize = self.check.check();
 			if (area != null) {
 				self.polymerize(area, function() {
 					self.fall(onEnd);
@@ -269,51 +208,19 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				onEnd(isActive);
 			}
 		});
-		this.updateArrivable();
-		for (let i = this.cellsSize.row - 1; i >= 0; i--) {
-			for (let j = 0; j < this.cellsSize.col; j++) {
+		this.arrivable.update();
+		for (let i = this.size().row - 1; i >= 0; i--) {
+			for (let j = 0; j < this.size().col; j++) {
 				let location: Coordinate = new Coordinate(i, j);
 				let victims: Cell[] = [];
 				let victimLocations: Coordinate[] = [];
 				this.getVictimsByLocation(location, victims, victimLocations);
 
 				isActive =
-					this.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) || isActive;
+					this.cells.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) ||
+					isActive;
 			}
 		}
-	}
-
-	private arrivable: boolean[][] = [];
-
-	private isArrivable(location: Coordinate): boolean {
-		return this.arrivable[location.row][location.col];
-	}
-
-	private updateArrivable() {
-		this.arrivable = [];
-		for (let i = 0; i < this.cellsSize.row; i++) {
-			this.arrivable.push([]);
-			for (let j = 0; j < this.cellsSize.col; j++) {
-				this.arrivable[i].push(false);
-			}
-		}
-		for (let i = 0; i < this.birthPlace.length; i++) {
-			this.updateArrivableLocation(this.birthPlace[i].getLocation());
-		}
-	}
-
-	private updateArrivableLocation(location: Coordinate) {
-		let cell: Cell = this.getCellByLocation(location);
-
-		if (!cell.canRobbed()) {
-			return;
-		}
-
-		this.arrivable[location.row][location.col] = true;
-
-		this.updateArrivableLocation(location.offset(Coordinate.LEFTDOWN));
-		this.updateArrivableLocation(location.offset(Coordinate.DOWN));
-		this.updateArrivableLocation(location.offset(Coordinate.RIGHTDOWN));
 	}
 
 	private chooser: RandomWeight<boolean> = new RandomWeight<boolean>().addFactor(false).addFactor(true);
@@ -336,177 +243,18 @@ export default class Board implements CellOwner, PuzzleKeeper {
 			seeds.push(Coordinate.RIGHTUP);
 		} else {
 			seeds.push(Coordinate.RIGHTUP);
-            seeds.push(Coordinate.LEFTUP);
+			seeds.push(Coordinate.LEFTUP);
 		}
 
 		let branchs: Coordinate[] = location.offsets(seeds);
 		for (let i = 0; i < seeds.length; i++) {
 			let branch: Coordinate = branchs[i];
-			if (this.isArrivable(branch)) {
-				victims.push(this.getCellByLocation(branch));
+			if (this.arrivable.isArrivable(branch)) {
+				victims.push(this.cells.getCellByLocation(branch));
 				victimLocations.push(seeds[i]);
 				break;
 			}
 		}
-	}
-
-	static readonly CHECK_NUMBER_SELF: number = 1;
-	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
-
-	check(): Polymerize {
-		return Board.check(this.cells, this.cellsSize);
-	}
-	static check(cells: Cell[][], cellsSize: Coordinate): Polymerize {
-		let max: Polymerize = null;
-		let lastCellUpdateTime: number = 0;
-		for (let i = 0; i < cells.length; i++) {
-			let rowCells: Cell[] = cells[i];
-			for (let j = 0; j < rowCells.length; j++) {
-				let cell: Cell = rowCells[j];
-				let location: Coordinate = new Coordinate(i, j);
-				let now: Polymerize = Board.checkPosition(cells, cellsSize, location);
-				if (now == null) {
-					continue;
-				}
-				if (
-					max == null ||
-					max.getGuests().length < now.getGuests().length ||
-					(max.getGuests().length == now.getGuests().length && lastCellUpdateTime < cell.getUpdateTime())
-				) {
-					max = now;
-					lastCellUpdateTime = cell.getUpdateTime();
-				}
-			}
-		}
-		return max;
-	}
-
-	private static checkPosition(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Polymerize {
-		let direction: number = 0;
-		if (
-			!Board.getCellByLocation(cells, cellsSize, location)
-				.getItem()
-				.canPolymerize()
-		) {
-			return null;
-		}
-
-		let guests: Coordinate[] = [];
-
-		let vertical: Coordinate[] = Board.checkPositionDirection(cells, cellsSize, location, Coordinate.UP).concat(
-			Board.checkPositionDirection(cells, cellsSize, location, Coordinate.DOWN)
-		);
-		let horizontal: Coordinate[] = Board.checkPositionDirection(cells, cellsSize, location, Coordinate.LEFT).concat(
-			Board.checkPositionDirection(cells, cellsSize, location, Coordinate.RIGHT)
-		);
-		if (vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			guests = guests.concat(vertical);
-			direction++;
-		}
-		if (horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE) {
-			guests = guests.concat(horizontal);
-			direction++;
-		}
-		if (direction == 0) {
-			return null;
-		}
-
-		return new Polymerize(location, guests);
-	}
-
-	private static checkPositionDirection(
-		cells: Cell[][],
-		cellsSize: Coordinate,
-		location: Coordinate,
-		direction: Coordinate
-	): Coordinate[] {
-		let total: Coordinate[] = [];
-		let item: Item = Board.getCellByLocation(cells, cellsSize, location).getItem();
-		while (true) {
-			let directLocation: Coordinate = location.offset(direction);
-			if (!item.equals(Board.getCellByLocation(cells, cellsSize, directLocation).getItem())) {
-				break;
-			}
-			total.push(directLocation);
-			location = directLocation;
-		}
-		return total;
-	}
-
-	precheck(): Exchange {
-		return Board.precheck(this.cells, this.cellsSize);
-	}
-
-	static precheck(cells: Cell[][], cellsSize: Coordinate): Exchange {
-		for (let i = 0; i < cells.length; i++) {
-			for (let j = 0; j < cells[i].length; j++) {
-				let exchange: Exchange = Board.precheckPositon(cells, cellsSize, new Coordinate(i, j));
-				if (exchange != null) {
-					return exchange;
-				}
-			}
-		}
-		return null;
-	}
-
-	private static precheckPositon(cells: Cell[][], cellsSize: Coordinate, location: Coordinate): Exchange {
-		let cell: Cell = Board.getCellByLocation(cells, cellsSize, location);
-		if (!cell.canExchange()) {
-			return null;
-		}
-		let item: Item = cell.getItem();
-		if (!item.canPolymerize()) {
-			return null;
-		}
-		let cross: Coordinate[] = location.cross();
-		for (let i = 0; i < cross.length; i++) {
-			if (Board.precheckPositonCross(cells, cellsSize, item, cross[i], location)) {
-				return new Exchange(location, cross[i]);
-			}
-		}
-		return null;
-	}
-
-	private static precheckPositonCross(
-		cells: Cell[][],
-		cellsSize: Coordinate,
-		item: Item,
-		location: Coordinate,
-		ignore: Coordinate
-	): boolean {
-		let vertical: Coordinate[] = []
-			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.UP))
-			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.DOWN));
-		let horizontal: Coordinate[] = []
-			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.LEFT))
-			.concat(Board.precheckPositionDirection(cells, cellsSize, item, location, ignore, Coordinate.RIGHT));
-		return (
-			vertical.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE ||
-			horizontal.length + Board.CHECK_NUMBER_SELF >= Board.CHECK_NUMBER_OK_MINIZE
-		);
-	}
-
-	private static precheckPositionDirection(
-		cells: Cell[][],
-		cellsSize: Coordinate,
-		item: Item,
-		location: Coordinate,
-		ignore: Coordinate,
-		direction: Coordinate
-	): Coordinate[] {
-		let total: Coordinate[] = [];
-		while (true) {
-			let directLocation: Coordinate = location.offset(direction);
-			if (directLocation.equal(ignore)) {
-				break;
-			}
-			if (!item.equals(Board.getCellByLocation(cells, cellsSize, directLocation).getItem())) {
-				break;
-			}
-			total.push(directLocation);
-			location = directLocation;
-		}
-		return total;
 	}
 
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {

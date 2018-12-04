@@ -1,5 +1,5 @@
-import Coordinate from "../concept/coordinate";
-import Puzzle from "../render/puzzle";
+import Coordinate from "../../concept/coordinate";
+import Puzzle from "../../render/puzzle";
 
 export default class BoardPuzzle extends Puzzle {
 	private isHold: boolean = false;
