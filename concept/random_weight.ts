@@ -5,13 +5,16 @@ export default class RandomWeight<T> {
 	private weights: number[] = [];
 	private totalWeight: number = 0;
 
-	addFactor(factor: T, weight: number) {
+	static readonly DEFAULT_WEIGHT = 1;
+
+	addFactor(factor: T, weight: number = RandomWeight.DEFAULT_WEIGHT): RandomWeight<T> {
 		if (weight < 0) {
 			weight = 0;
 		}
 		this.factors.push(factor);
 		this.totalWeight += weight;
 		this.weights.push(this.totalWeight);
+		return this;
 	}
 
 	getFactor(): T {

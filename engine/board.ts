@@ -12,6 +12,7 @@ import Exchange from "./sacrifice/exchange";
 import OnceLast from "../concept/once/once_last";
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
+import RandomWeight from "../concept/random_weight";
 import Puzzle from "../render/puzzle";
 import BoardPuzzle from "./board_puzzle";
 import Render from "../render/render";
@@ -252,8 +253,8 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		robEnd.setCallback(function() {
 			if (isActive) {
 				self.fall(function(isChanged: boolean) {
-					isActive = isActive || isChanged;
-					onEnd(isActive);
+					isChanged = isActive || isChanged;
+					onEnd(isChanged);
 				});
 				return;
 			}
@@ -268,6 +269,7 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				onEnd(isActive);
 			}
 		});
+		this.updateArrivable();
 		for (let i = this.cellsSize.row - 1; i >= 0; i--) {
 			for (let j = 0; j < this.cellsSize.col; j++) {
 				let location: Coordinate = new Coordinate(i, j);
@@ -281,6 +283,41 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		}
 	}
 
+	private arrivable: boolean[][] = [];
+
+	private isArrivable(location: Coordinate): boolean {
+		return this.arrivable[location.row][location.col];
+	}
+
+	private updateArrivable() {
+		this.arrivable = [];
+		for (let i = 0; i < this.cellsSize.row; i++) {
+			this.arrivable.push([]);
+			for (let j = 0; j < this.cellsSize.col; j++) {
+				this.arrivable[i].push(false);
+			}
+		}
+		for (let i = 0; i < this.birthPlace.length; i++) {
+			this.updateArrivableLocation(this.birthPlace[i].getLocation());
+		}
+	}
+
+	private updateArrivableLocation(location: Coordinate) {
+		let cell: Cell = this.getCellByLocation(location);
+
+		if (!cell.canRobbed()) {
+			return;
+		}
+
+		this.arrivable[location.row][location.col] = true;
+
+		this.updateArrivableLocation(location.offset(Coordinate.LEFTDOWN));
+		this.updateArrivableLocation(location.offset(Coordinate.DOWN));
+		this.updateArrivableLocation(location.offset(Coordinate.RIGHTDOWN));
+	}
+
+	private chooser: RandomWeight<boolean> = new RandomWeight<boolean>().addFactor(false).addFactor(true);
+
 	private getVictimsByLocation(location: Coordinate, victims: Cell[], victimLocations: Coordinate[]) {
 		for (let i = 0; i < this.birthPlace.length; i++) {
 			let cellBirth: CellBirth = this.birthPlace[i];
@@ -292,12 +329,24 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				return;
 			}
 		}
-		let seeds: Coordinate[] = Coordinate.umbrellaSeed();
-		let branchs: Coordinate[] = location.umbrella();
+		let seeds: Coordinate[] = [];
+		seeds.push(Coordinate.UP);
+		if (this.chooser.getFactor()) {
+			seeds.push(Coordinate.LEFTUP);
+			seeds.push(Coordinate.RIGHTUP);
+		} else {
+			seeds.push(Coordinate.RIGHTUP);
+            seeds.push(Coordinate.LEFTUP);
+		}
+
+		let branchs: Coordinate[] = location.offsets(seeds);
 		for (let i = 0; i < seeds.length; i++) {
 			let branch: Coordinate = branchs[i];
-			victims.push(this.getCellByLocation(branch));
-			victimLocations.push(seeds[i]);
+			if (this.isArrivable(branch)) {
+				victims.push(this.getCellByLocation(branch));
+				victimLocations.push(seeds[i]);
+				break;
+			}
 		}
 	}
 

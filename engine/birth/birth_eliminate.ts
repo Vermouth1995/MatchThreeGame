@@ -8,16 +8,14 @@ export default class BirthEliminate extends BirthWithoutLocation {
 		super();
 	}
 
-	private static readonly OUR_WEIGHTS: number = 1;
-
 	private static birth: BirthItemWeight = (function(): BirthItemWeight {
 		let birth: BirthItemWeight = new BirthItemWeight();
-		birth.addItemWeight(ItemCreator.APPLE, BirthEliminate.OUR_WEIGHTS);
-		birth.addItemWeight(ItemCreator.BLUEBERRY, BirthEliminate.OUR_WEIGHTS);
-		birth.addItemWeight(ItemCreator.FLOWER, BirthEliminate.OUR_WEIGHTS);
-		birth.addItemWeight(ItemCreator.LEAF, BirthEliminate.OUR_WEIGHTS);
-		birth.addItemWeight(ItemCreator.PEAR, BirthEliminate.OUR_WEIGHTS);
-		birth.addItemWeight(ItemCreator.WATER, BirthEliminate.OUR_WEIGHTS);
+		birth.addItemWeight(ItemCreator.APPLE);
+		birth.addItemWeight(ItemCreator.BLUEBERRY);
+		birth.addItemWeight(ItemCreator.FLOWER);
+		birth.addItemWeight(ItemCreator.LEAF);
+		birth.addItemWeight(ItemCreator.PEAR);
+		birth.addItemWeight(ItemCreator.WATER);
 		return birth;
 	})();
 

@@ -10,7 +10,7 @@ export default class BirthItemWeight extends BirthWithoutLocation {
 
 	private random: RandomWeight<number> = new RandomWeight<number>();
 
-	addItemWeight(itemCreatorId: number, weight: number) {
+	addItemWeight(itemCreatorId: number, weight?: number) {
 		this.random.addFactor(itemCreatorId, weight);
 	}
 
