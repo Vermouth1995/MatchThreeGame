@@ -46,7 +46,7 @@ export default class Level extends LevelAdapter {
 			for (let j = 0; j < Level.Size.col; j++) {
 				let cell: Cell;
 				cell = new CellLand();
-				cell.setItem(this.birth.getItemWithoutLoction());
+				cell.setItem(this.birth.getItemWithoutLocation());
 				cell.setOwner(this.board);
 				cells[i].push(cell);
 			}
