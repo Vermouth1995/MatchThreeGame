@@ -1,7 +1,10 @@
 import LevelAdapter from "../level_adapter";
-import Board from "../../engine/board";
+import BoardCells from "../../engine/board/board_cells";
+import BoardCheck from "../../engine/board/board_check";
+import BoardPrecheck from "../../engine/board/board_precheck";
 import Cell from "../../engine/cell";
 import CellLand from "../../engine/cell/cell_land";
+import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 
@@ -12,7 +15,7 @@ export default class Level extends LevelAdapter {
 
 	private birth: BirthEliminate;
 
-	private cells: Cell[][];
+	private cells: BoardCells;
 
 	constructor() {
 		super();
@@ -45,9 +48,13 @@ export default class Level extends LevelAdapter {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
 				let cell: Cell;
-				cell = new CellLand();
-				cell.setItem(this.birth.getItemWithoutLoction());
-				cell.setOwner(this.board);
+				if (i == j || (i == 1 && j == 0)) {
+					cell = CellEmpty.getEmpty();
+				} else {
+					cell = new CellLand();
+					cell.setItem(this.birth.getItemWithoutLocation());
+					cell.setOwner(this.board);
+				}
 				cells[i].push(cell);
 			}
 		}
@@ -55,11 +62,12 @@ export default class Level extends LevelAdapter {
 	}
 
 	private initCell() {
-		let cells: Cell[][];
+		let cells: BoardCells = new BoardCells();
+		let check: BoardCheck = new BoardCheck(cells);
+		let precheck: BoardPrecheck = new BoardPrecheck(cells);
 		do {
-			cells = this.getCell();
-			Board.formatCells(cells, Level.Size);
-		} while (Board.check(cells, Level.Size) != null || Board.precheck(cells, Level.Size) == null);
+			cells.setCells(this.getCell());
+		} while (check.check() != null || precheck.precheck() == null);
 		this.cells = cells;
 		this.board.setCells(this.cells);
 	}
