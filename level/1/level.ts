@@ -48,7 +48,7 @@ export default class Level extends LevelAdapter {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
 				let cell: Cell;
-				if (i == j || (i == 1 && j == 0)) {
+				if (i + j == 5 || j - i == 6) {
 					cell = CellEmpty.getEmpty();
 				} else {
 					cell = new CellLand();
