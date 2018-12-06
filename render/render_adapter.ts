@@ -57,4 +57,5 @@ export default abstract class RenderAdapter implements Render {
 	}
 
 	abstract drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
+	abstract drawString(text: string, location: Coordinate, size: string, color: string): void;
 }

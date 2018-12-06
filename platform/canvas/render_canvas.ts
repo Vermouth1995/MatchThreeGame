@@ -123,4 +123,11 @@ export default class RenderCanvas extends RenderAdapter {
 
 		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
 	}
+
+	drawString(text: string, location: Coordinate, size: string, color: string): void {
+		let locationPixel: Coordinate = location.swell(this.unitPixel);
+		this.pen.fillStyle = color;
+		this.pen.font = size;
+		this.pen.fillText(text, locationPixel.col, locationPixel.row);
+	}
 }

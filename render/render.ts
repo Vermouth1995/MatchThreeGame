@@ -14,4 +14,5 @@ export default interface Render {
 	close(): void;
 
 	drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
+	drawString(text: string, location: Coordinate, size: string, color: string): void;
 }
