@@ -1,3 +1,4 @@
+import Color from "../concept/color";
 import Coordinate from "../concept/coordinate";
 import Puzzle from "./puzzle";
 
@@ -14,5 +15,5 @@ export default interface Render {
 	close(): void;
 
 	drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
-	drawString(text: string, location: Coordinate, size: string, color: string): void;
+	drawString(text: string, location: Coordinate, size: string, color: Color): void;
 }

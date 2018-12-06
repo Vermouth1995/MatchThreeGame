@@ -1,3 +1,4 @@
+import Color from "../../concept/color";
 import Coordinate from "../../concept/coordinate";
 import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
@@ -124,9 +125,9 @@ export default class RenderCanvas extends RenderAdapter {
 		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
 	}
 
-	drawString(text: string, location: Coordinate, size: string, color: string): void {
+	drawString(text: string, location: Coordinate, size: string, color: Color): void {
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
-		this.pen.fillStyle = color;
+		this.pen.fillStyle = color.toRGBA();
 		this.pen.font = size;
 		this.pen.fillText(text, locationPixel.col, locationPixel.row);
 	}

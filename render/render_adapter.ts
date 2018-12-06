@@ -1,3 +1,4 @@
+import Color from "../concept/color";
 import Coordinate from "../concept/coordinate";
 import RenderPosition from "./render_position";
 import Render from "./render";
@@ -57,5 +58,5 @@ export default abstract class RenderAdapter implements Render {
 	}
 
 	abstract drawImage(imageId: number, location: Coordinate, size: Coordinate): void;
-	abstract drawString(text: string, location: Coordinate, size: string, color: string): void;
+	abstract drawString(text: string, location: Coordinate, size: string, color: Color): void;
 }

@@ -15,7 +15,10 @@ export default abstract class CellAdapter implements Cell {
 	constructor() {
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(CellAdapter.RENDER_SIZE);
-		this.atom = new AtomImage(this.getBackgroundImageId(), new Locus<Coordinate>(CellAdapter.RENDER_SIZE));
+		this.atom = new AtomImage(
+			new Locus<number>(this.getBackgroundImageId()),
+			new Locus<Coordinate>(CellAdapter.RENDER_SIZE)
+		);
 		this.puzzle.addAtom(this.atom, new Locus<Coordinate>(Coordinate.ORIGIN), 0);
 	}
 	isEmpty(): boolean {

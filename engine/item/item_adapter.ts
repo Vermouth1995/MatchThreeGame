@@ -19,7 +19,7 @@ export default abstract class ItemAdapter implements Item {
 	constructor() {
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(Coordinate.UNIT);
-		this.atom = new AtomImage(this.getImageId(), this.atomImageSize);
+		this.atom = new AtomImage(new Locus<number>(this.getImageId()), this.atomImageSize);
 		this.puzzle.addAtom(this.atom, this.atomImageLocation, 0);
 	}
 
