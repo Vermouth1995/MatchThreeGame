@@ -1,10 +1,12 @@
 import Locus from "../concept/locus";
+import Coordinate from "../concept/coordinate";
 import RenderPosition from "./render_position";
+
 export default class RenderLocus<T> {
 	data: T;
-	locus: Locus;
+	locus: Locus<Coordinate>;
 	zIndex: number;
-	constructor(data: T, locus: Locus, zIndex: number) {
+	constructor(data: T, locus: Locus<Coordinate>, zIndex: number) {
 		this.data = data;
 		this.locus = locus;
 		this.zIndex = zIndex;

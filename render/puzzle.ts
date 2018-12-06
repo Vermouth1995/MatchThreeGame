@@ -67,7 +67,7 @@ export default class Puzzle {
 
 	protected atoms: LinkedList<RenderLocus<Atom>> = new LinkedList<RenderLocus<Atom>>();
 
-	addAtom(atom: Atom, locus: Locus, zIndex: number) {
+	addAtom(atom: Atom, locus: Locus<Coordinate>, zIndex: number) {
 		if (atom == null) {
 			return;
 		}
@@ -97,7 +97,7 @@ export default class Puzzle {
 		return active;
 	}
 
-	addChild(puzzle: Puzzle, locus: Locus, zIndex: number) {
+	addChild(puzzle: Puzzle, locus: Locus<Coordinate>, zIndex: number) {
 		if (puzzle == null) {
 			return;
 		}

@@ -1,26 +1,25 @@
 import Event from "./event";
 import EventKeep from "./event/event_keep";
-import Coordinate from "../concept/coordinate";
 
-export default class Locus {
-	private location: Coordinate;
-	constructor(location: Coordinate) {
+export default class Locus<T> {
+	private location: T;
+	constructor(location: T) {
 		this.location = location;
 		this.initEvent();
 	}
 
 	private initEvent() {
-		this.setEvent(new EventKeep());
+		this.setEvent(new EventKeep<T>());
 	}
 
-	getLocation(timeStamp: number): Coordinate {
+	getLocation(timeStamp: number): T {
 		this.location = this.event.getLocation(timeStamp);
 		return this.location;
 	}
 
-	private event: Event;
+	private event: Event<T>;
 
-	setEvent(event: Event) {
+	setEvent(event: Event<T>) {
 		if (this.event != null) {
 			this.location = this.event.getEndLocation();
 		}

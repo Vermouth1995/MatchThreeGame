@@ -1,11 +1,11 @@
-import Coordinate from "../../concept/coordinate";
 import EventAdapter from "./event_adapter";
-export default class EventKeep extends EventAdapter {
-	getLocation(timeStamp: number): Coordinate {
+
+export default class EventKeep<T> extends EventAdapter<T> {
+	getLocation(timeStamp: number): T {
 		return this.from;
 	}
 
-	getEndLocation(): Coordinate {
+	getEndLocation(): T {
 		return this.from;
 	}
 }

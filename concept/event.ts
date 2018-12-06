@@ -1,8 +1,6 @@
-import Coordinate from "../concept/coordinate";
-
-export default interface Event {
-	getLocation(timeStamp: number): Coordinate;
-	getEndLocation(): Coordinate;
-	setFrom(from: Coordinate): void;
+export default interface Event<T> {
+	getLocation(timeStamp: number): T;
+	getEndLocation(): T;
+	setFrom(from: T): void;
 	start(startStamp: number): void;
 }

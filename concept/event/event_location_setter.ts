@@ -1,17 +1,17 @@
-import Coordinate from "../../concept/coordinate";
 import EventAdapter from "./event_adapter";
-export default class EventLocationSetter extends EventAdapter {
-	private newLocation: Coordinate;
 
-	constructor(newLocation: Coordinate) {
+export default class EventLocationSetter<T> extends EventAdapter<T> {
+	private newLocation: T;
+
+	constructor(newLocation: T) {
 		super();
 		this.newLocation = newLocation;
 	}
-	getLocation(timeStamp: number): Coordinate {
+	getLocation(timeStamp: number): T {
 		return this.newLocation;
 	}
 
-	getEndLocation(): Coordinate {
+	getEndLocation(): T {
 		return this.newLocation;
 	}
 }

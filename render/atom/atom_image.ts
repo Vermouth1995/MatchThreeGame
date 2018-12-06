@@ -5,8 +5,8 @@ import Render from "../render";
 
 export default class AtomImage extends AtomAdapter {
 	private imageId: number;
-	private imageSize: Locus;
-	constructor(imageId: number, imageSize: Locus) {
+	private imageSize: Locus<Coordinate>;
+	constructor(imageId: number, imageSize: Locus<Coordinate>) {
 		super();
 		this.imageSize = imageSize;
 		this.imageId = imageId;

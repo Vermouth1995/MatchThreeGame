@@ -15,8 +15,8 @@ export default abstract class CellAdapter implements Cell {
 	constructor() {
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(CellAdapter.RENDER_SIZE);
-		this.atom = new AtomImage(this.getBackgroundImageId(), new Locus(CellAdapter.RENDER_SIZE));
-		this.puzzle.addAtom(this.atom, new Locus(Coordinate.ORIGIN), 0);
+		this.atom = new AtomImage(this.getBackgroundImageId(), new Locus<Coordinate>(CellAdapter.RENDER_SIZE));
+		this.puzzle.addAtom(this.atom, new Locus<Coordinate>(Coordinate.ORIGIN), 0);
 	}
 	isEmpty(): boolean {
 		return false;
@@ -37,12 +37,19 @@ export default abstract class CellAdapter implements Cell {
 
 	protected item: Item;
 
-	protected itemLocus: Locus;
+	protected itemLocus: Locus<Coordinate>;
 
 	renderSaveBack(where: Coordinate, when: number) {
-		let fromSetter: EventLocationSetter = new EventLocationSetter(where);
+		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove = new EventMove(Coordinate.ORIGIN, when);
+		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.ORIGIN, when, function(
+			from: Coordinate,
+			to: Coordinate,
+			timeCost: number,
+			relativeTime: number
+		): Coordinate {
+			return from.offsetTo(to, relativeTime / timeCost);
+		});
 		this.itemLocus.setEvent(move);
 	}
 

@@ -23,8 +23,8 @@ export default abstract class ItemAdapter implements Item {
 		this.puzzle.addAtom(this.atom, this.atomImageLocation, 0);
 	}
 
-	protected atomImageSize: Locus = new Locus(ItemAdapter.DrawImageSize);
-	protected atomImageLocation: Locus = new Locus(ItemAdapter.DrawStart);
+	protected atomImageSize: Locus<Coordinate> = new Locus<Coordinate>(ItemAdapter.DrawImageSize);
+	protected atomImageLocation: Locus<Coordinate> = new Locus<Coordinate>(ItemAdapter.DrawStart);
 
 	protected owner: ItemOwner;
 
@@ -48,8 +48,26 @@ export default abstract class ItemAdapter implements Item {
 
 	cleared(onEnd: () => void) {
 		let self: ItemAdapter = this;
-		this.atomImageSize.setEvent(new EventMove(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost));
-		this.atomImageLocation.setEvent(new EventMove(Coordinate.HALF, ItemAdapter.ClearedTimeCost));
+		this.atomImageSize.setEvent(
+			new EventMove<Coordinate>(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost, function(
+				from: Coordinate,
+				to: Coordinate,
+				timeCost: number,
+				relativeTime: number
+			): Coordinate {
+				return from.offsetTo(to, relativeTime / timeCost);
+			})
+		);
+		this.atomImageLocation.setEvent(
+			new EventMove<Coordinate>(Coordinate.HALF, ItemAdapter.ClearedTimeCost, function(
+				from: Coordinate,
+				to: Coordinate,
+				timeCost: number,
+				relativeTime: number
+			): Coordinate {
+				return from.offsetTo(to, relativeTime / timeCost);
+			})
+		);
 
 		if (this.owner != null) {
 			this.owner.onItemClear(this);
@@ -64,11 +82,29 @@ export default abstract class ItemAdapter implements Item {
 
 	created(onEnd: () => void) {
 		let self: ItemAdapter = this;
-		this.atomImageSize.setEvent(new EventLocationSetter(Coordinate.ORIGIN));
-		this.atomImageLocation.setEvent(new EventLocationSetter(Coordinate.HALF));
+		this.atomImageSize.setEvent(new EventLocationSetter<Coordinate>(Coordinate.ORIGIN));
+		this.atomImageLocation.setEvent(new EventLocationSetter<Coordinate>(Coordinate.HALF));
 
-		this.atomImageSize.setEvent(new EventMove(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost));
-		this.atomImageLocation.setEvent(new EventMove(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost));
+		this.atomImageSize.setEvent(
+			new EventMove<Coordinate>(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost, function(
+				from: Coordinate,
+				to: Coordinate,
+				timeCost: number,
+				relativeTime: number
+			): Coordinate {
+				return from.offsetTo(to, relativeTime / timeCost);
+			})
+		);
+		this.atomImageLocation.setEvent(
+			new EventMove<Coordinate>(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost, function(
+				from: Coordinate,
+				to: Coordinate,
+				timeCost: number,
+				relativeTime: number
+			): Coordinate {
+				return from.offsetTo(to, relativeTime / timeCost);
+			})
+		);
 
 		if (this.owner != null) {
 			this.owner.onItemCreate(this);

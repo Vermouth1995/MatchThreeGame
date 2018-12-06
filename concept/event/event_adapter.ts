@@ -1,10 +1,9 @@
 import Event from "../event";
-import Coordinate from "../../concept/coordinate";
 
-export default abstract class EventAdapter implements Event {
-	protected from: Coordinate = EventAdapter.DEFAULT_NOW;
+export default abstract class EventAdapter<T> implements Event<T> {
+	protected from: T;
 
-	setFrom(from: Coordinate) {
+	setFrom(from: T) {
 		this.from = from;
 	}
 
@@ -14,9 +13,8 @@ export default abstract class EventAdapter implements Event {
 		this.startStamp = startStamp;
 	}
 
-	static readonly DEFAULT_NOW = Coordinate.ORIGIN;
 	static readonly DEFAULT_START_STAMP = Number.MAX_VALUE;
 
-	abstract getLocation(timeStamp: number): Coordinate;
-	abstract getEndLocation(): Coordinate;
+	abstract getLocation(timeStamp: number): T;
+	abstract getEndLocation(): T;
 }
