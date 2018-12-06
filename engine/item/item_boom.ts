@@ -34,7 +34,7 @@ export default abstract class ItemBoom extends ItemAdapter {
 		let self: ItemBoom = this;
 		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
-			owner.explode(self.getExplodeSize(), onEnd);
+			owner.onExplode(self.getExplodeSize(), onEnd);
 		});
 	}
 

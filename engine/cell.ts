@@ -24,7 +24,6 @@ export default interface Cell extends ItemOwner, PuzzleKeeper {
 
 	rob(victims: Cell[], offsets: Coordinate[], onEnd: () => void): boolean;
 	exchange(to: Cell, offset: Coordinate, onEnd: () => void): boolean;
-	explode(size: number, onEnd: () => void): void;
 
 	getUpdateTime(): number;
 

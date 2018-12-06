@@ -66,10 +66,10 @@ export default class CellBirth implements Cell {
 		onEnd();
 		return false;
 	}
-	explode(size: number, onEnd: () => void) {
+
+	onExplode(size: number, onEnd: () => void) {
 		onEnd();
 	}
-
 	onItemClear(item: Item) {}
 
 	onItemClearAnimationEnd(item: Item) {}

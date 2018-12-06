@@ -17,6 +17,7 @@ import RandomWeight from "../concept/random_weight";
 
 import BoardPuzzle from "./board/board_puzzle";
 import BoardCheck from "./board/board_check";
+import BoardExplode from "./board/board_explode";
 import BoardArrivable from "./board/board_arrivable";
 import BoardCells from "./board/board_cells";
 
@@ -31,6 +32,8 @@ export default class Board implements CellOwner, PuzzleKeeper {
 	private check: BoardCheck;
 
 	private arrivable: BoardArrivable;
+
+	private explode: BoardExplode;
 
 	private birthPlace: CellBirth[];
 
@@ -66,6 +69,7 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		let self: Board = this;
 		this.cells = cells;
 		this.check = new BoardCheck(cells);
+		this.explode = new BoardExplode(cells);
 		this.arrivable = new BoardArrivable(cells, this.birthPlace);
 
 		cells.iterate(function(location: Coordinate, cell: Cell): boolean {
@@ -77,23 +81,6 @@ export default class Board implements CellOwner, PuzzleKeeper {
 
 	setBirthPlace(place: CellBirth[]) {
 		this.birthPlace = place;
-	}
-
-	explode(cell: Cell, size: number, onEnd: () => void) {
-		let point: Coordinate = this.cells.getLocationOfCell(cell);
-
-		let area: Explode = new Explode(point, size);
-
-		let guests: Coordinate[] = area.getGuests();
-
-		let end: OnceLast = new OnceLast();
-		end.setCallback(onEnd);
-
-		for (let i = 0; i < guests.length; ++i) {
-			this.cells.getCellByLocation(guests[i]).exploded(end.getCallback());
-		}
-
-		this.cells.getCellByLocation(area.getOwner()).exploded(end.getCallback());
 	}
 
 	polymerize(area: Polymerize, onEnd: () => void) {
@@ -255,6 +242,10 @@ export default class Board implements CellOwner, PuzzleKeeper {
 				break;
 			}
 		}
+	}
+
+	onExplode(cell: Cell, size: number, onEnd: () => void): void {
+		this.explode.explode(cell, size, onEnd);
 	}
 
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {

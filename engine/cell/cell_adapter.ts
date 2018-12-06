@@ -170,8 +170,8 @@ export default abstract class CellAdapter implements Cell {
 
 		return true;
 	}
-	explode(size: number, onEnd: () => void) {
-		this.owner.explode(this, size, onEnd);
+	onExplode(size: number, onEnd: () => void) {
+		this.owner.onExplode(this, size, onEnd);
 	}
 
 	private updateTime: number = 0;
