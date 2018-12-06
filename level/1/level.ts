@@ -1,5 +1,6 @@
 import LevelAdapter from "../level_adapter";
 import BoardCells from "../../engine/board/board_cells";
+import BoardBirths from "../../engine/board/board_births";
 import BoardCheck from "../../engine/board/board_check";
 import BoardPrecheck from "../../engine/board/board_precheck";
 import Cell from "../../engine/cell";
@@ -17,6 +18,8 @@ export default class Level extends LevelAdapter {
 
 	private cells: BoardCells;
 
+	private births: BoardBirths;
+
 	constructor() {
 		super();
 	}
@@ -28,18 +31,18 @@ export default class Level extends LevelAdapter {
 	init() {
 		this.initBirth();
 		this.initCell();
+		this.board.setCells(this.cells, this.births);
 	}
 
 	private initBirth() {
 		this.birth = new BirthEliminate();
-
 		let birthPlace: CellBirth[] = [];
 		for (let i = 0; i < Level.Size.col; i++) {
 			let place: CellBirth = new CellBirth();
 			place.setBirth(this.birth, new Coordinate(0, i));
 			birthPlace.push(place);
 		}
-		this.board.setBirthPlace(birthPlace);
+		this.births = new BoardBirths(birthPlace);
 	}
 
 	private getCell(): Cell[][] {
@@ -69,6 +72,5 @@ export default class Level extends LevelAdapter {
 			cells.setCells(this.getCell());
 		} while (check.check() != null || precheck.precheck() == null);
 		this.cells = cells;
-		this.board.setCells(this.cells);
 	}
 }

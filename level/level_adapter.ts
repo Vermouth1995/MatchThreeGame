@@ -25,7 +25,7 @@ export default abstract class LevelAdapter implements Level {
 			new Locus(Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF)),
 			LevelAdapter.PUZZLE_BOARD_Z_INDEX
 		);
-		this.board.startFall();
+		this.board.start();
 	}
 
 	abstract init(): void;

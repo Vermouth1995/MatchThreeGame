@@ -1,19 +1,18 @@
 import Cell from "../cell";
 import CellBirth from "../cell/cell_birth";
-
+import BoardBirths from "../board/board_births";
 import Coordinate from "../../concept/coordinate";
-
 import BoardCells from "./board_cells";
 
 export default class BoardArrivable {
-	constructor(cells: BoardCells, birthPlace: CellBirth[]) {
+	constructor(cells: BoardCells, births: BoardBirths) {
 		this.cells = cells;
-		this.birthPlace = birthPlace;
+		this.births = births;
 	}
 
 	private cells: BoardCells;
 
-	private birthPlace: CellBirth[];
+	private births: BoardBirths;
 
 	private arrivable: boolean[][] = [];
 
@@ -22,6 +21,7 @@ export default class BoardArrivable {
 	}
 
 	update() {
+		let self: BoardArrivable = this;
 		this.arrivable = [];
 		for (let i = 0; i < this.cells.size().row; i++) {
 			this.arrivable.push([]);
@@ -29,9 +29,10 @@ export default class BoardArrivable {
 				this.arrivable[i].push(false);
 			}
 		}
-		for (let i = 0; i < this.birthPlace.length; i++) {
-			this.updateLocation(this.birthPlace[i].getLocation());
-		}
+
+		this.births.iterate(function(birth: CellBirth) {
+			self.updateLocation(birth.getLocation());
+		});
 	}
 
 	private updateLocation(location: Coordinate) {
