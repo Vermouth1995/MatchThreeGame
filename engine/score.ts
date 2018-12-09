@@ -1,5 +1,6 @@
 import PuzzleKeeper from "./puzzle_keeper";
 import Goal from "./goal";
+import BoardOn from "./board/board_on";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
@@ -55,9 +56,19 @@ export default class Score implements PuzzleKeeper {
 		goals.map(function(goal: Goal, index: number) {
 			self.puzzle.addChild(
 				goal.getPuzzle(),
-				new Locus<Coordinate>(Score.GOAL_LOCATION.offsetTo(Score.GOAL_LOCATION_END, index / (self.goals.length) )),
+				new Locus<Coordinate>(Score.GOAL_LOCATION.offsetTo(Score.GOAL_LOCATION_END, index / self.goals.length)),
 				Score.GOAL_Z_INDEX
 			);
+		});
+	}
+
+	private on: BoardOn;
+
+	setOn(on: BoardOn) {
+		this.on = on;
+		let self = this;
+		this.on.onStep(function() {
+			self.stepMinus();
 		});
 	}
 
@@ -71,7 +82,7 @@ export default class Score implements PuzzleKeeper {
 		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
 	}
 
-	stepReduce() {
+	stepMinus() {
 		this.step--;
 		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
 	}

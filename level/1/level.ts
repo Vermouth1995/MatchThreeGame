@@ -1,8 +1,10 @@
 import LevelAdapter from "../level_adapter";
+import BoardOn from "../../engine/board/board_on";
 import BoardCells from "../../engine/board/board_cells";
 import BoardBirths from "../../engine/board/board_births";
 import BoardCheck from "../../engine/board/board_check";
 import BoardPrecheck from "../../engine/board/board_precheck";
+import Goal from "../../engine/goal";
 import Cell from "../../engine/cell";
 import ItemCreator from "../../engine/item_creator";
 import GoalItem from "../../engine/goal/goal_item";
@@ -30,22 +32,39 @@ export default class Level extends LevelAdapter {
 		return Level.Size;
 	}
 
-	init() {
-		this.initBirth();
-		this.initCell();
-		this.board.setCells(this.cells, this.births);
-		this.initScore();
+	getBirths(): BoardBirths {
+		if (this.births == null) {
+			this.initBirths();
+		}
+		return this.births;
 	}
 
-	private initScore() {
-		this.score.setStep(100);
-		this.score.addGoal([
-			new GoalItem(this.board.getOn(), ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
-			new GoalItem(this.board.getOn(), ItemCreator.createItem(ItemCreator.LEAF), 50)
-		]);
+	getCells(): BoardCells {
+		if (this.births == null) {
+			this.initCells();
+		}
+		return this.cells;
 	}
 
-	private initBirth() {
+	getGoals(on: BoardOn): Goal[] {
+		return [
+			new GoalItem(on, ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
+			new GoalItem(on, ItemCreator.createItem(ItemCreator.LEAF), 50)
+		];
+	}
+
+	getStep(): number {
+		return 100;
+	}
+
+	private createBirth() {
+		this.birth = new BirthEliminate();
+	}
+
+	private initBirths() {
+		if (this.birth == null) {
+			this.createBirth();
+		}
 		this.birth = new BirthEliminate();
 		let birthPlace: CellBirth[] = [];
 		for (let i = 0; i < Level.Size.col; i++) {
@@ -56,7 +75,20 @@ export default class Level extends LevelAdapter {
 		this.births = new BoardBirths(birthPlace);
 	}
 
-	private getCell(): Cell[][] {
+	private initCells() {
+		let cells: BoardCells = new BoardCells();
+		let check: BoardCheck = new BoardCheck(cells);
+		let precheck: BoardPrecheck = new BoardPrecheck(cells);
+		do {
+			cells.setCells(this.getCellArray());
+		} while (check.check() != null || precheck.precheck() == null);
+		this.cells = cells;
+	}
+
+	private getCellArray(): Cell[][] {
+		if (this.birth == null) {
+			this.createBirth();
+		}
 		let cells: Cell[][] = [];
 		for (let i = 0; i < Level.Size.row; i++) {
 			cells.push([]);
@@ -73,15 +105,5 @@ export default class Level extends LevelAdapter {
 			}
 		}
 		return cells;
-	}
-
-	private initCell() {
-		let cells: BoardCells = new BoardCells();
-		let check: BoardCheck = new BoardCheck(cells);
-		let precheck: BoardPrecheck = new BoardPrecheck(cells);
-		do {
-			cells.setCells(this.getCell());
-		} while (check.check() != null || precheck.precheck() == null);
-		this.cells = cells;
 	}
 }
