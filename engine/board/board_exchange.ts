@@ -20,11 +20,25 @@ export default class BoardExchange {
 	private polymerize: BoardPolymerize;
 	private check: BoardCheck;
 
-	exchange(area: Exchange, onEnd: () => void) {
+	private exchangelisteners: ((isSuccess: boolean) => void)[] = [];
+
+	onExchange(listener: (isSuccess: boolean) => void) {
+		if (listener != null) {
+			this.exchangelisteners.push(listener);
+		}
+	}
+
+	private callExchangeListener(isSuccess: boolean) {
+		for (let i = 0; i < this.exchangelisteners.length; i++) {
+			this.exchangelisteners[i](isSuccess);
+		}
+	}
+
+	exchange(area: Exchange) {
 		let self: BoardExchange = this;
 		let exchangeEnd: OnceLast = new OnceLast();
 		exchangeEnd.setCallback(function() {
-			self.fall.start(onEnd);
+			self.fall.start();
 		});
 		if (area == null || !area.isNeighbor()) {
 			exchangeEnd.getCallback()();
@@ -34,6 +48,7 @@ export default class BoardExchange {
 		let toCell: Cell = this.cells.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
 			if (!success) {
+				self.callExchangeListener(false);
 				exchangeEnd.getCallback()();
 				return;
 			}
@@ -45,8 +60,10 @@ export default class BoardExchange {
 			let fromBlock: boolean = fromCell.exchanged(exchangeEnd.getCallback());
 			let toBlock: boolean = toCell.exchanged(exchangeEnd.getCallback());
 			if (polymerize == null && !fromBlock && !toBlock) {
+				self.callExchangeListener(false);
 				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), exchangeEnd.getCallback());
-				return;
+			} else {
+				self.callExchangeListener(true);
 			}
 		});
 	}

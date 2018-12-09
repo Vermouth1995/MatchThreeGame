@@ -12,11 +12,13 @@ export default class BoardClick {
 	private cells: BoardCells;
 	private fall: BoardFall;
 
-	click(area: Click, onEnd: () => void) {
+	click(area: Click) {
 		let self: BoardClick = this;
 		let location: Cell = this.cells.getCellByLocation(area.getLocation());
 		location.clicked(function() {
-			self.fall.start(onEnd);
+			self.fall.start(function() {
+				//OnEnd
+			});
 		});
 	}
 }

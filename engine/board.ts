@@ -20,6 +20,7 @@ import BoardArrivable from "./board/board_arrivable";
 import BoardFall from "./board/board_fall";
 import BoardExchange from "./board/board_exchange";
 import BoardClick from "./board/board_click";
+import BoardOn from "./board/board_on";
 
 import Render from "../render/render";
 import Puzzle from "../render/puzzle";
@@ -31,14 +32,10 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		let self: Board = this;
 		this.puzzle = new BoardPuzzle();
 		this.puzzle.onBoardClick(function(location: Coordinate) {
-			self.click.click(new Click(location), function() {
-				// OnClick
-			});
+			self.click.click(new Click(location));
 		});
 		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
-			self.exchange.exchange(new Exchange(from, to), function() {
-				// OnExchange
-			});
+			self.exchange.exchange(new Exchange(from, to));
 		});
 	}
 
@@ -64,6 +61,8 @@ export default class Board implements CellOwner, PuzzleKeeper {
 
 	private puzzle: BoardPuzzle;
 
+	private on: BoardOn;
+
 	setCells(cells: BoardCells, births: BoardBirths) {
 		let self: Board = this;
 		this.births = births;
@@ -76,12 +75,16 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		this.fall = new BoardFall(this.cells, this.births, this.polymerize, this.check, this.arrivable);
 		this.exchange = new BoardExchange(this.cells, this.fall, this.polymerize, this.check);
 		this.click = new BoardClick(this.cells, this.fall);
-
+		this.on = new BoardOn(this.cells, this.click, this.exchange, this.fall);
 		this.cells.iterate(function(location: Coordinate, cell: Cell): boolean {
 			self.getPuzzle().addChild(cell.getPuzzle(), new Locus(location), Board.PUZZLE_CELL_Z_INDEX);
 			return true;
 		});
 		this.puzzle.setSize(this.cells.size().swell(CellAdapter.RENDER_SIZE));
+	}
+
+	getOn() {
+		return this.on;
 	}
 
 	onExplode(cell: Cell, size: number, onEnd: () => void): void {

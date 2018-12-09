@@ -4,6 +4,26 @@ export default class Font {
 	align: string = Font.DEFAULT_ALIGN;
 	baseline: string = Font.DEFAULT_BASELINE;
 
+	setSize(size: number): Font {
+		this.size = size;
+		return this;
+	}
+
+	setFamily(family: string): Font {
+		this.family = family;
+		return this;
+	}
+
+	setAlign(align: string): Font {
+		this.align = align;
+		return this;
+	}
+
+	setBaseline(baseline: string): Font {
+		this.baseline = baseline;
+		return this;
+	}
+
 	static readonly ALIGN_START: string = "start";
 	static readonly ALIGN_END: string = "end";
 	static readonly ALIGN_LEFT: string = "left";

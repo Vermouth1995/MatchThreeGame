@@ -20,15 +20,30 @@ export default class LevelCreator {
 		Score.LoadStaticResource(render, success.getCallback(), onError);
 	}
 
-	public static readonly LevelSize: number = 1;
+	static readonly LevelSize: number = 1;
 
 	static size(): number {
 		return LevelCreator.LevelSize;
 	}
 
-	static getLevel(index: number): Level {
+	static readonly TypeCommon: string = "common";
+
+	static getLevel(type: string, name: string): Level {
+		let level: Level;
+		switch (type) {
+			case LevelCreator.TypeCommon:
+				level = LevelCreator.getCommonLevel(name);
+				break;
+		}
+		if (level != null) {
+			level.setName(name);
+		}
+		return level;
+	}
+
+	private static getCommonLevel(index: string): Level {
 		switch (index) {
-			case 1:
+			case "1":
 				return new Level1();
 			default:
 				return null;

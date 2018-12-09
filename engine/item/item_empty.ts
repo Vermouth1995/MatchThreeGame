@@ -1,5 +1,6 @@
 import Item from "../item";
 import Puzzle from "../../render/puzzle";
+import RenderAdapter from "../../render/render_adapter";
 import ItemOwner from "../item_owner";
 import Coordinate from "../../concept/coordinate";
 
@@ -56,5 +57,9 @@ export default class ItemEmpty implements Item {
 
 	isEmpty(): boolean {
 		return true;
+	}
+
+	getImageId(): number {
+		return RenderAdapter.IMAGE_ID_EMPTY;
 	}
 }

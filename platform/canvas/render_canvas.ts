@@ -120,6 +120,9 @@ export default class RenderCanvas extends RenderAdapter {
 	}
 
 	drawImage(imageId: number, location: Coordinate, size: Coordinate) {
+		if (imageId == RenderAdapter.IMAGE_ID_EMPTY) {
+			return;
+		}
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
 		let sizePixel: Coordinate = size.swell(this.unitPixel);
 

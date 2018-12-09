@@ -17,4 +17,5 @@ export default interface Item extends PuzzleKeeper {
 	created(onEnd: () => void): void;
 
 	setOwner(owner: ItemOwner): void;
+	getImageId(): number;
 }

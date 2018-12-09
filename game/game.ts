@@ -19,9 +19,9 @@ export default class Game {
 
 	private level: Level;
 
-	startLevel(index: number) {
+	startLevel(type: string, index: string) {
 		this.render.clear();
-		this.level = LevelCreator.getLevel(index);
+		this.level = LevelCreator.getLevel(type, index);
 		this.render
 			.getRootPuzzle()
 			.addChild(this.level.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);
@@ -39,7 +39,7 @@ export default class Game {
 			this.render,
 			function() {
 				self.render.start();
-				self.startLevel(self.levelIndex);
+				self.startLevel(LevelCreator.TypeCommon, self.levelIndex.toString());
 			},
 			function(error: Error) {
 				onError(error);

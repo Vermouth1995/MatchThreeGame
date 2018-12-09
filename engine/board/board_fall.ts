@@ -45,9 +45,20 @@ export default class BoardFall {
 			for (let i = 0; i < onEnd.length; i++) {
 				onEnd[i]();
 			}
+			for (let i = 0; i < self.fallEnd.length; i++) {
+				self.fallEnd[i]();
+			}
 			self.isFalling = false;
 		});
 	}
+
+	onFallEnd(onEnd: () => void) {
+		if (onEnd != null) {
+			this.fallEnd.push(onEnd);
+		}
+	}
+
+	private fallEnd: (() => void)[] = [];
 
 	private nextFallEnd: (() => void)[] = [];
 

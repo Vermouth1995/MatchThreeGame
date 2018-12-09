@@ -4,6 +4,8 @@ import BoardBirths from "../../engine/board/board_births";
 import BoardCheck from "../../engine/board/board_check";
 import BoardPrecheck from "../../engine/board/board_precheck";
 import Cell from "../../engine/cell";
+import ItemCreator from "../../engine/item_creator";
+import GoalItem from "../../engine/goal/goal_item";
 import CellLand from "../../engine/cell/cell_land";
 import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
@@ -32,6 +34,15 @@ export default class Level extends LevelAdapter {
 		this.initBirth();
 		this.initCell();
 		this.board.setCells(this.cells, this.births);
+		this.initScore();
+	}
+
+	private initScore() {
+		this.score.setStep(100);
+		this.score.addGoal([
+			new GoalItem(this.board.getOn(), ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
+			new GoalItem(this.board.getOn(), ItemCreator.createItem(ItemCreator.LEAF), 50)
+		]);
 	}
 
 	private initBirth() {
