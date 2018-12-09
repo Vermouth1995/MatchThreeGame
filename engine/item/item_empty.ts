@@ -35,8 +35,9 @@ export default class ItemEmpty implements Item {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void) {
+	clicked(onEnd: () => void): boolean {
 		onEnd();
+		return false;
 	}
 	exchanged(onEnd: () => void): boolean {
 		onEnd();

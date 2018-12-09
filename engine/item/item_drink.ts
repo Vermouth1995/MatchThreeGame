@@ -34,8 +34,9 @@ export default class ItemDrink extends ItemAdapter {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void) {
+	clicked(onEnd: () => void): boolean {
 		onEnd();
+		return false;
 	}
 	exchanged(onEnd: () => void): boolean {
 		onEnd();

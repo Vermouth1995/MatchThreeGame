@@ -3,6 +3,7 @@ import Explode from "../sacrifice/explode";
 import Cell from "../cell";
 import BoardCells from "./board_cells";
 import OnceLast from "../../concept/once/once_last";
+import Once from "../../concept/once";
 
 export default class BoardExplode {
 	private cells: BoardCells;
@@ -18,8 +19,7 @@ export default class BoardExplode {
 
 		let guests: Coordinate[] = area.getGuests();
 
-		let end: OnceLast = new OnceLast();
-		end.setCallback(onEnd);
+		let end: Once = new OnceLast().setCallback(onEnd);
 
 		for (let i = 0; i < guests.length; ++i) {
 			this.cells.getCellByLocation(guests[i]).exploded(end.getCallback());

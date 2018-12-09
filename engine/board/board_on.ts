@@ -13,11 +13,11 @@ export default class BoardOn {
 	) {}
 
 	onStep(step: () => void) {
-		// this.click.onClick(function(isSuccess : boolean){
-		//     if(isSuccess){
-		//         step();
-		//     }
-		// })
+		this.click.onClick(function(isSuccess : boolean){
+		    if(isSuccess){
+		        step();
+		    }
+		})
 		this.exchange.onExchange(function(isSuccess: boolean) {
 			if (isSuccess) {
 				step();

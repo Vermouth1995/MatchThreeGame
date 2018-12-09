@@ -43,7 +43,7 @@ export default abstract class ItemAdapter implements Item {
 	abstract polymerizedAsGuest(onEnd: () => void): void;
 	abstract exploded(onEnd: () => void): void;
 	abstract scraped(onEnd: () => void): void;
-	abstract clicked(onEnd: () => void): void;
+	abstract clicked(onEnd: () => void): boolean;
 	abstract exchanged(onEnd: () => void): boolean;
 
 	cleared(onEnd: () => void) {

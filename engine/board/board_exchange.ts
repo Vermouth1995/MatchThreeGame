@@ -1,6 +1,7 @@
 import Cell from "../cell";
 import BoardCells from "./board_cells";
 import OnceLast from "../../concept/once/once_last";
+import Once from "../../concept/once";
 import Exchange from "../sacrifice/exchange";
 import Polymerize from "../sacrifice/polymerize";
 import BoardFall from "../board/board_fall";
@@ -36,8 +37,7 @@ export default class BoardExchange {
 
 	exchange(area: Exchange) {
 		let self: BoardExchange = this;
-		let exchangeEnd: OnceLast = new OnceLast();
-		exchangeEnd.setCallback(function() {
+		let exchangeEnd: Once = new OnceLast().setCallback(function() {
 			self.fall.start();
 		});
 		if (area == null || !area.isNeighbor()) {

@@ -117,8 +117,8 @@ export default abstract class CellAdapter implements Cell {
 	scraped(onEnd: () => void) {
 		this.getItem().scraped(onEnd);
 	}
-	clicked(onEnd: () => void) {
-		this.getItem().clicked(onEnd);
+	clicked(onEnd: () => void): boolean {
+		return this.getItem().clicked(onEnd);
 	}
 	exchanged(onEnd: () => void): boolean {
 		return this.getItem().exchanged(onEnd);

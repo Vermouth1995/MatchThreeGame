@@ -50,8 +50,9 @@ export default class CellBirth implements Cell {
 	scraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void) {
+	clicked(onEnd: () => void): boolean {
 		onEnd();
+		return false;
 	}
 	exchanged(onEnd: () => void): boolean {
 		onEnd();

@@ -26,8 +26,9 @@ export default abstract class ItemBoom extends ItemAdapter {
 		onEnd();
 	}
 
-	clicked(onEnd: () => void) {
+	clicked(onEnd: () => void): boolean {
 		this.boom(onEnd);
+		return true;
 	}
 
 	private boom(onEnd: () => void) {
