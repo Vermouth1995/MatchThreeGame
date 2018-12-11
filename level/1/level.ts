@@ -48,13 +48,13 @@ export default class Level extends LevelAdapter {
 
 	getGoals(on: BoardOn): Goal[] {
 		return [
-			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
-			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), 50)
+			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.BLUEBERRY), 6),
+			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), 6)
 		];
 	}
 
 	getStep(): number {
-		return 100;
+		return 10;
 	}
 
 	private createBirth() {

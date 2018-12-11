@@ -44,17 +44,40 @@ export default abstract class LevelAdapter implements Level {
 	}
 
 	init() {
+		let self = this;
 		this.board.setCells(this.getCells(), this.getBirths());
 		this.score.setOn(this.board.getOn());
-		this.score.setStep(100);
+		this.score.setStep(this.getStep());
 		this.score.addGoal(this.getGoals(this.board.getOn()));
 		this.board.start();
+		this.score.onStepEnd(function() {
+			self.board.close();
+		});
+		this.score.onEnd(function(success: boolean) {
+			self.board.close();
+			self.end(success);
+		});
 	}
 
 	abstract getBirths(): BoardBirths;
 	abstract getCells(): BoardCells;
 	abstract getGoals(on: BoardOn): Goal[];
 	abstract getStep(): number;
+
+	private endListener: ((success: boolean) => void)[] = [];
+
+	private end(success: boolean) {
+		for (let i = 0; i < this.endListener.length; i++) {
+			this.endListener[i](success);
+		}
+	}
+
+	onEnd(listener: (success: boolean) => void) {
+		if (listener == null) {
+			return;
+		}
+		this.endListener.push(listener);
+	}
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;

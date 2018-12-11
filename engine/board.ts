@@ -31,12 +31,20 @@ export default class Board implements PuzzleKeeper {
 		let self: Board = this;
 		this.puzzle = new BoardPuzzle();
 		this.puzzle.onBoardClick(function(location: Coordinate) {
+			if (!self.active) {
+				return;
+			}
 			self.click.click(new Click(location));
 		});
 		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
+			if (!self.active) {
+				return;
+			}
 			self.exchange.exchange(new Exchange(from, to));
 		});
 	}
+
+	private active: boolean = false;
 
 	private births: BoardBirths;
 
@@ -87,7 +95,12 @@ export default class Board implements PuzzleKeeper {
 	}
 
 	start() {
+		this.active = true;
 		this.fall.start();
+	}
+
+	close() {
+		this.active = false;
 	}
 
 	size(): Coordinate {

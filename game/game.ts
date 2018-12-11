@@ -25,6 +25,9 @@ export default class Game {
 		this.render
 			.getRootPuzzle()
 			.addChild(this.level.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);
+		this.level.onEnd(function(success: boolean) {
+			console.log("level end : " + success);
+		});
 	}
 
 	closeLevel() {

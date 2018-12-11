@@ -29,18 +29,18 @@ export default class GoalItemCleared extends GoalBoardOn {
 		this.steps--;
 		this.stepLocus.setEvent(new EventLocationSetter<string>(this.steps.toString()));
 		if (this.isSuccess()) {
-			this.successCaller.map((caller: () => void) => {
-				caller();
-			});
+			for (let i = 0; i < this.successListener.length; i++) {
+				this.successListener[i]();
+			}
 		}
 	}
 
-	private successCaller: (() => void)[] = [];
-	onSuccess(success: () => void): void {
-		if (success) {
+	private successListener: (() => void)[] = [];
+	onSuccess(listener: () => void): void {
+		if (listener == null) {
 			return;
 		}
-		this.successCaller.push(success);
+		this.successListener.push(listener);
 	}
 	isSuccess(): boolean {
 		return this.steps == 0;

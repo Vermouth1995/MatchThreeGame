@@ -6,6 +6,8 @@ import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import Font from "../concept/font";
 import Color from "../concept/color";
+import Once from "../concept/once";
+import OnceLast from "../concept/once/once_last";
 import EventLocationSetter from "../concept/event/event_location_setter";
 import EventMove from "../concept/event/event_move";
 
@@ -53,12 +55,16 @@ export default class Score implements PuzzleKeeper {
 	addGoal(goals: Goal[]) {
 		let self: Score = this;
 		this.goals = goals;
+		let successEnd: Once = new OnceLast().setCallback(function() {
+			self.end(true);
+		});
 		goals.map(function(goal: Goal, index: number) {
 			self.puzzle.addChild(
 				goal.getPuzzle(),
 				new Locus<Coordinate>(Score.GOAL_LOCATION.offsetTo(Score.GOAL_LOCATION_END, index / self.goals.length)),
 				Score.GOAL_Z_INDEX
 			);
+			goal.onSuccess(successEnd.getCallback());
 		});
 	}
 
@@ -69,6 +75,11 @@ export default class Score implements PuzzleKeeper {
 		let self = this;
 		this.on.onStep(function() {
 			self.stepMinus();
+		});
+		this.on.onFallEnd(function() {
+			if (self.step == 0) {
+				self.end(false);
+			}
 		});
 	}
 
@@ -83,8 +94,14 @@ export default class Score implements PuzzleKeeper {
 	}
 
 	stepMinus() {
+		if (this.step == 0) {
+			return;
+		}
 		this.step--;
 		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
+		if (this.step == 0) {
+			this.stepEnd();
+		}
 	}
 
 	stepAdd(newStep: number) {
@@ -100,6 +117,42 @@ export default class Score implements PuzzleKeeper {
 			})
 		);
 		this.step = finalStep;
+	}
+
+	private endListener: ((success: boolean) => void)[] = [];
+
+	private isEnd: boolean = false;
+
+	private end(success: boolean) {
+		if (this.isEnd) {
+			return;
+		}
+		this.isEnd = true;
+		for (let i = 0; i < this.endListener.length; i++) {
+			this.endListener[i](success);
+		}
+	}
+
+	onEnd(listener: (success: boolean) => void) {
+		if (listener == null) {
+			return;
+		}
+		this.endListener.push(listener);
+	}
+
+	private stepEndListener: (() => void)[] = [];
+
+	private stepEnd() {
+		for (let i = 0; i < this.stepEndListener.length; i++) {
+			this.stepEndListener[i]();
+		}
+	}
+
+	onStepEnd(listener: () => void) {
+		if (listener == null) {
+			return;
+		}
+		this.stepEndListener.push(listener);
 	}
 
 	getPuzzle(): Puzzle {
