@@ -1,6 +1,5 @@
 import Cell from "./cell";
 import CellAdapter from "./cell/cell_adapter";
-import CellOwner from "./cell_owner";
 import PuzzleKeeper from "./puzzle_keeper";
 
 import Click from "./sacrifice/click";
@@ -25,7 +24,7 @@ import BoardOn from "./board/board_on";
 import Render from "../render/render";
 import Puzzle from "../render/puzzle";
 
-export default class Board implements CellOwner, PuzzleKeeper {
+export default class Board implements PuzzleKeeper {
 	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
 
 	constructor() {
@@ -85,10 +84,6 @@ export default class Board implements CellOwner, PuzzleKeeper {
 
 	getOn() {
 		return this.on;
-	}
-
-	exploded(cell: Cell, size: number, onEnd: () => void): void {
-		this.explode.explode(cell, size, onEnd);
 	}
 
 	start() {

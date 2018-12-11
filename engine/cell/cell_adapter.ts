@@ -91,6 +91,9 @@ export default abstract class CellAdapter implements Cell {
 			this.timeUpdate();
 			this.item = null;
 			this.itemLocus = null;
+			if (this.owner != null) {
+				this.owner.itemCleared(item);
+			}
 		}
 	}
 
@@ -181,7 +184,11 @@ export default abstract class CellAdapter implements Cell {
 		return true;
 	}
 	exploded(size: number, onEnd: () => void) {
-		this.owner.exploded(this, size, onEnd);
+		if (this.owner != null) {
+			this.owner.exploded(this, size, onEnd);
+		} else {
+			onEnd();
+		}
 	}
 
 	private updateTime: number = 0;

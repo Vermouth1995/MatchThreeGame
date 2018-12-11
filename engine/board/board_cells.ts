@@ -1,9 +1,12 @@
 import Coordinate from "../../concept/coordinate";
 import CellEmpty from "../cell/cell_empty";
+import OnceLast from "../../concept/once/once_last";
+import Once from "../../concept/once";
+import CellOwner from "../cell_owner";
 import Cell from "../cell";
 import Item from "../item";
 
-export default class BoardCells {
+export default class BoardCells implements CellOwner {
 	static readonly CHECK_NUMBER_SELF: number = 1;
 	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
 
@@ -13,16 +16,29 @@ export default class BoardCells {
 
 	private itemClearedListener: ((item: Item) => void)[] = [];
 
-	private callItemClearedListener(item: Item) {
+	itemCleared(item: Item): void {
 		for (let i = 0; i < this.itemClearedListener.length; i++) {
 			this.itemClearedListener[i](item);
 		}
 	}
 
-	onItemCleard(onCleared: (item: Item) => void) {
-		if (onCleared != null) {
-			this.itemClearedListener.push(onCleared);
+	onItemClear(listener: (item: Item) => void) {
+		if (listener != null) {
+			this.itemClearedListener.push(listener);
 		}
+	}
+
+	private explodedListener: ((cell: Cell, size: number, onEnd: () => void) => void)[] = [];
+
+	exploded(cell: Cell, size: number, onEnd: () => void): void {
+		let end: Once = new OnceLast().setCallback(onEnd);
+		for (let i = 0; i < this.explodedListener.length; i++) {
+			this.explodedListener[i](cell, size, end.getCallback());
+		}
+	}
+
+	onExplode(listener: (cell: Cell, size: number, onEnd: () => void) => void) {
+		this.explodedListener.push(listener);
 	}
 
 	getCells(): Cell[][] {
@@ -30,11 +46,16 @@ export default class BoardCells {
 	}
 
 	setCells(cells: Cell[][]) {
+		let self = this;
 		if (cells == null) {
 			cells = [];
 		}
 		this.cellsSize = BoardCells.formatCells(cells);
 		this.cells = cells;
+		this.iterate(function(location: Coordinate, cell: Cell): boolean {
+			cell.setOwner(self);
+			return true;
+		});
 	}
 
 	iterate(onElement: (location: Coordinate, cell: Cell) => boolean) {

@@ -29,7 +29,7 @@ export default class BoardOn {
 		this.fall.onFallEnd(onEnd);
 	}
 
-	onItemCleard(onCleared: (item: Item) => void) {
-		this.cells.onItemCleard(onCleared);
+	onItemClear(onCleared: (item: Item) => void) {
+		this.cells.onItemClear(onCleared);
 	}
 }

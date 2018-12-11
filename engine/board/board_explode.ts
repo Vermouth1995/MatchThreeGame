@@ -9,10 +9,14 @@ export default class BoardExplode {
 	private cells: BoardCells;
 
 	constructor(cells: BoardCells) {
+		let self = this;
 		this.cells = cells;
+		this.cells.onExplode(function(cell: Cell, size: number, onEnd: () => void) {
+			self.explode(cell, size, onEnd);
+		});
 	}
 
-	explode(cell: Cell, size: number, onEnd: () => void) {
+	private explode(cell: Cell, size: number, onEnd: () => void) {
 		let point: Coordinate = this.cells.getLocationOfCell(cell);
 
 		let area: Explode = new Explode(point, size);

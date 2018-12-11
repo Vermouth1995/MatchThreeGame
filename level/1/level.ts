@@ -99,7 +99,6 @@ export default class Level extends LevelAdapter {
 				} else {
 					cell = new CellLand();
 					cell.setItem(this.birth.getItemWithoutLocation());
-					cell.setOwner(this.board);
 				}
 				cells[i].push(cell);
 			}
