@@ -39,12 +39,12 @@ export default abstract class ItemAdapter implements Item {
 	abstract equals(item: Item): boolean;
 	abstract canPolymerize(): boolean;
 
-	abstract polymerizedAsOwner(size: number, onEnd: () => void): void;
-	abstract polymerizedAsGuest(onEnd: () => void): void;
-	abstract exploded(onEnd: () => void): void;
-	abstract scraped(onEnd: () => void): void;
-	abstract clicked(onEnd: () => void): boolean;
-	abstract exchanged(onEnd: () => void): boolean;
+	abstract bePolymerizedAsOwner(size: number, onEnd: () => void): void;
+	abstract bePolymerizedAsGuest(onEnd: () => void): void;
+	abstract beExploded(onEnd: () => void): void;
+	abstract beScraped(onEnd: () => void): void;
+	abstract beClicked(onEnd: () => void): boolean;
+	abstract beExchanged(onEnd: () => void): boolean;
 
 	cleared(onEnd: () => void) {
 		let self: ItemAdapter = this;
@@ -70,11 +70,11 @@ export default abstract class ItemAdapter implements Item {
 		);
 
 		if (this.owner != null) {
-			this.owner.onItemClear(this);
+			this.owner.itemCleared(this);
 		}
 		setTimeout(function() {
 			if (self.owner != null) {
-				self.owner.onItemClearAnimationEnd(self);
+				self.owner.itemClearedAnimationEnd(self);
 			}
 			onEnd();
 		}, ItemAdapter.ClearedTimeCost);
@@ -107,12 +107,12 @@ export default abstract class ItemAdapter implements Item {
 		);
 
 		if (this.owner != null) {
-			this.owner.onItemCreate(this);
+			this.owner.itemCreated(this);
 		}
 
 		setTimeout(function() {
 			if (self.owner != null) {
-				self.owner.onItemCreateAnimationEnd(self);
+				self.owner.itemCreatedAnimationEnd(self);
 			}
 			onEnd();
 		}, ItemAdapter.CreatedTimeCost);

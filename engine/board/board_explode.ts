@@ -22,9 +22,9 @@ export default class BoardExplode {
 		let end: Once = new OnceLast().setCallback(onEnd);
 
 		for (let i = 0; i < guests.length; ++i) {
-			this.cells.getCellByLocation(guests[i]).exploded(end.getCallback());
+			this.cells.getCellByLocation(guests[i]).beExploded(end.getCallback());
 		}
 
-		this.cells.getCellByLocation(area.getOwner()).exploded(end.getCallback());
+		this.cells.getCellByLocation(area.getOwner()).beExploded(end.getCallback());
 	}
 }

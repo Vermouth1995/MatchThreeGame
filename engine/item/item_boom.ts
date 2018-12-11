@@ -12,21 +12,21 @@ export default abstract class ItemBoom extends ItemAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number, onEnd: () => void) {
+	bePolymerizedAsOwner(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	polymerizedAsGuest(onEnd: () => void) {
+	bePolymerizedAsGuest(onEnd: () => void) {
 		onEnd();
 	}
 	abstract getExplodeSize(): number;
-	exploded(onEnd: () => void) {
+	beExploded(onEnd: () => void) {
 		this.boom(onEnd);
 	}
-	scraped(onEnd: () => void) {
+	beScraped(onEnd: () => void) {
 		onEnd();
 	}
 
-	clicked(onEnd: () => void): boolean {
+	beClicked(onEnd: () => void): boolean {
 		this.boom(onEnd);
 		return true;
 	}
@@ -35,11 +35,11 @@ export default abstract class ItemBoom extends ItemAdapter {
 		let self: ItemBoom = this;
 		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
-			owner.onExplode(self.getExplodeSize(), onEnd);
+			owner.exploded(self.getExplodeSize(), onEnd);
 		});
 	}
 
-	exchanged(onEnd: () => void): boolean {
+	beExchanged(onEnd: () => void): boolean {
 		this.boom(onEnd);
 		return true;
 	}

@@ -30,7 +30,7 @@ export default class BoardClick {
 	click(area: Click) {
 		let self: BoardClick = this;
 		let location: Cell = this.cells.getCellByLocation(area.getLocation());
-		let success: boolean = location.clicked(
+		let success: boolean = location.beClicked(
 			new OnceFirst()
 				.setCallback(function() {
 					self.callClickListener(success);

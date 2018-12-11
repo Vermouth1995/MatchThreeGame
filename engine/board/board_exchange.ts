@@ -57,8 +57,8 @@ export default class BoardExchange {
 			if (polymerize != null) {
 				self.polymerize.polymerize(polymerize, exchangeEnd.getCallback());
 			}
-			let fromBlock: boolean = fromCell.exchanged(exchangeEnd.getCallback());
-			let toBlock: boolean = toCell.exchanged(exchangeEnd.getCallback());
+			let fromBlock: boolean = fromCell.beExchanged(exchangeEnd.getCallback());
+			let toBlock: boolean = toCell.beExchanged(exchangeEnd.getCallback());
 			if (polymerize == null && !fromBlock && !toBlock) {
 				self.callExchangeListener(false);
 				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), exchangeEnd.getCallback());

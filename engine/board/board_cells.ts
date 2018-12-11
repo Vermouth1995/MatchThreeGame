@@ -1,6 +1,7 @@
 import Coordinate from "../../concept/coordinate";
 import CellEmpty from "../cell/cell_empty";
 import Cell from "../cell";
+import Item from "../item";
 
 export default class BoardCells {
 	static readonly CHECK_NUMBER_SELF: number = 1;
@@ -9,6 +10,20 @@ export default class BoardCells {
 	private cells: Cell[][];
 
 	private cellsSize: Coordinate = Coordinate.ORIGIN;
+
+	private itemClearedListener: ((item: Item) => void)[] = [];
+
+	private callItemClearedListener(item: Item) {
+		for (let i = 0; i < this.itemClearedListener.length; i++) {
+			this.itemClearedListener[i](item);
+		}
+	}
+
+	onItemCleard(onCleared: (item: Item) => void) {
+		if (onCleared != null) {
+			this.itemClearedListener.push(onCleared);
+		}
+	}
 
 	getCells(): Cell[][] {
 		return this.cells;
@@ -36,14 +51,6 @@ export default class BoardCells {
 		return this.cellsSize;
 	}
 
-	getCellByCellOffset(cell: Cell, offset: Coordinate): Cell {
-		return this.getCellByLocation(this.getLocationOfCell(cell).offset(offset));
-	}
-
-	getCellByLocationOffset(location: Coordinate, offset: Coordinate): Cell {
-		return this.getCellByLocation(location.offset(offset));
-	}
-
 	getCellByLocation(location: Coordinate): Cell {
 		if (
 			location.row >= this.cellsSize.row ||
@@ -54,14 +61,6 @@ export default class BoardCells {
 			return CellEmpty.getEmpty();
 		}
 		return this.cells[location.row][location.col];
-	}
-
-	getCellsByLocations(locations: Coordinate[]): Cell[] {
-		let victims: Cell[] = [];
-		for (let i = 0; i < locations.length; i++) {
-			victims.push(this.getCellByLocation(locations[i]));
-		}
-		return victims;
 	}
 
 	getLocationOfCell(cell: Cell): Coordinate {

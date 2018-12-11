@@ -87,7 +87,7 @@ export default class Board implements CellOwner, PuzzleKeeper {
 		return this.on;
 	}
 
-	onExplode(cell: Cell, size: number, onEnd: () => void): void {
+	exploded(cell: Cell, size: number, onEnd: () => void): void {
 		this.explode.explode(cell, size, onEnd);
 	}
 

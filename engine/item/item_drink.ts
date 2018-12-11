@@ -22,23 +22,23 @@ export default class ItemDrink extends ItemAdapter {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number, onEnd: () => void) {
+	bePolymerizedAsOwner(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	polymerizedAsGuest(onEnd: () => void) {
+	bePolymerizedAsGuest(onEnd: () => void) {
 		onEnd();
 	}
-	exploded(onEnd: () => void) {
+	beExploded(onEnd: () => void) {
 		onEnd();
 	}
-	scraped(onEnd: () => void) {
+	beScraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void): boolean {
+	beClicked(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
-	exchanged(onEnd: () => void): boolean {
+	beExchanged(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}

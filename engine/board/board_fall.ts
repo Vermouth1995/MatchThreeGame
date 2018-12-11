@@ -12,23 +12,12 @@ import Cell from "../cell";
 
 export default class BoardFall {
 	constructor(
-		cells: BoardCells,
-		births: BoardBirths,
-		polymerize: BoardPolymerize,
-		check: BoardCheck,
-		arrivable: BoardArrivable
-	) {
-		this.cells = cells;
-		this.polymerize = polymerize;
-		this.check = check;
-		this.births = births;
-		this.arrivable = arrivable;
-	}
-	private check: BoardCheck;
-	private births: BoardBirths;
-	private cells: BoardCells;
-	private polymerize: BoardPolymerize;
-	private arrivable: BoardArrivable;
+		private cells: BoardCells,
+		private births: BoardBirths,
+		private polymerize: BoardPolymerize,
+		private check: BoardCheck,
+		private arrivable: BoardArrivable
+	) {}
 
 	start(onNextFallEnd?: () => void) {
 		let self: BoardFall = this;

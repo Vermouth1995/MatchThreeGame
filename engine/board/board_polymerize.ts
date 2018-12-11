@@ -24,9 +24,9 @@ export default class BoardPolymerize {
 		let guests: Coordinate[] = area.getGuests();
 
 		for (let i = 0; i < guests.length; ++i) {
-			this.cells.getCellByLocation(guests[i]).polymerizedAsGuest(end.getCallback());
+			this.cells.getCellByLocation(guests[i]).bePolymerizedAsGuest(end.getCallback());
 		}
-		this.cells.getCellByLocation(area.getOwner()).polymerizedAsOwner(guests.length + 1, end.getCallback());
+		this.cells.getCellByLocation(area.getOwner()).bePolymerizedAsOwner(guests.length + 1, end.getCallback());
 		this.scrape.scrape(area.getScrape(), end.getCallback());
 	}
 }

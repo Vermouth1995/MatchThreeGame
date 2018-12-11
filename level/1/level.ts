@@ -7,7 +7,7 @@ import BoardPrecheck from "../../engine/board/board_precheck";
 import Goal from "../../engine/goal";
 import Cell from "../../engine/cell";
 import ItemCreator from "../../engine/item_creator";
-import GoalItem from "../../engine/goal/goal_item";
+import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 import CellLand from "../../engine/cell/cell_land";
 import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
@@ -48,8 +48,8 @@ export default class Level extends LevelAdapter {
 
 	getGoals(on: BoardOn): Goal[] {
 		return [
-			new GoalItem(on, ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
-			new GoalItem(on, ItemCreator.createItem(ItemCreator.LEAF), 50)
+			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.BLUEBERRY), 50),
+			new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), 50)
 		];
 	}
 

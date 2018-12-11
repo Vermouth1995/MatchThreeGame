@@ -16,7 +16,7 @@ export default class BoardScrape {
 
 		let goals: Coordinate[] = area.getGoals();
 		for (let i = 0; i < goals.length; ++i) {
-			this.cells.getCellByLocation(goals[i]).scraped(end.getCallback());
+			this.cells.getCellByLocation(goals[i]).beScraped(end.getCallback());
 		}
 	}
 }

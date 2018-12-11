@@ -4,10 +4,10 @@ import Item from "../item";
 
 import EventLocationSetter from "../../concept/event/event_location_setter";
 
-export default class GoalItem extends GoalBoardOn {
+export default class GoalItemCleared extends GoalBoardOn {
 	constructor(on: BoardOn, item: Item, steps: number) {
 		super(on);
-		let self: GoalItem = this;
+		let self: GoalItemCleared = this;
 		this.item = item;
 		this.steps = steps;
 		this.initImage(this.item);

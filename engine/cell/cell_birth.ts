@@ -38,23 +38,23 @@ export default class CellBirth implements Cell {
 		return false;
 	}
 
-	polymerizedAsOwner(size: number, onEnd: () => void) {
+	bePolymerizedAsOwner(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	polymerizedAsGuest(onEnd: () => void) {
+	bePolymerizedAsGuest(onEnd: () => void) {
 		onEnd();
 	}
-	exploded(onEnd: () => void) {
+	beExploded(onEnd: () => void) {
 		onEnd();
 	}
-	scraped(onEnd: () => void) {
+	beScraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void): boolean {
+	beClicked(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
-	exchanged(onEnd: () => void): boolean {
+	beExchanged(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
@@ -68,16 +68,16 @@ export default class CellBirth implements Cell {
 		return false;
 	}
 
-	onExplode(size: number, onEnd: () => void) {
+	exploded(size: number, onEnd: () => void) {
 		onEnd();
 	}
-	onItemClear(item: Item) {}
+	itemCleared(item: Item) {}
 
-	onItemClearAnimationEnd(item: Item) {}
+	itemClearedAnimationEnd(item: Item) {}
 
-	onItemCreate(item: Item) {}
+	itemCreated(item: Item) {}
 
-	onItemCreateAnimationEnd(item: Item) {}
+	itemCreatedAnimationEnd(item: Item) {}
 
 	getPuzzle(): Puzzle {
 		return null;

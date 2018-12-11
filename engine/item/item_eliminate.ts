@@ -14,7 +14,7 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	}
 
 	public static readonly BOOM_GENERATE_RADIX: number = 3;
-	polymerizedAsOwner(size: number, onEnd: () => void) {
+	bePolymerizedAsOwner(size: number, onEnd: () => void) {
 		let owner: ItemOwner = this.owner;
 		this.cleared(function() {
 			let boom: Item = ItemCreator.createBoom(size);
@@ -26,20 +26,20 @@ export default abstract class ItemEliminate extends ItemAdapter {
 			onEnd();
 		});
 	}
-	polymerizedAsGuest(onEnd: () => void) {
+	bePolymerizedAsGuest(onEnd: () => void) {
 		this.cleared(onEnd);
 	}
-	exploded(onEnd: () => void) {
+	beExploded(onEnd: () => void) {
 		this.cleared(onEnd);
 	}
-	scraped(onEnd: () => void) {
+	beScraped(onEnd: () => void) {
 		onEnd();
 	}
-	clicked(onEnd: () => void): boolean {
+	beClicked(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}
-	exchanged(onEnd: () => void): boolean {
+	beExchanged(onEnd: () => void): boolean {
 		onEnd();
 		return false;
 	}

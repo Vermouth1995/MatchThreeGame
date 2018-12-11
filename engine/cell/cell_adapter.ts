@@ -86,7 +86,7 @@ export default abstract class CellAdapter implements Cell {
 		}
 	}
 
-	onItemClear(item: Item) {
+	itemCleared(item: Item) {
 		if (item == this.item) {
 			this.timeUpdate();
 			this.item = null;
@@ -94,34 +94,34 @@ export default abstract class CellAdapter implements Cell {
 		}
 	}
 
-	onItemClearAnimationEnd(item: Item) {
+	itemClearedAnimationEnd(item: Item) {
 		this.puzzle.removeChild(item.getPuzzle());
 	}
 
-	onItemCreate(item: Item) {}
+	itemCreated(item: Item) {}
 
-	onItemCreateAnimationEnd(item: Item) {}
+	itemCreatedAnimationEnd(item: Item) {}
 
 	abstract canRobbed(): boolean;
 	abstract canExchange(): boolean;
 
-	polymerizedAsOwner(size: number, onEnd: () => void) {
-		this.getItem().polymerizedAsOwner(size, onEnd);
+	bePolymerizedAsOwner(size: number, onEnd: () => void) {
+		this.getItem().bePolymerizedAsOwner(size, onEnd);
 	}
-	polymerizedAsGuest(onEnd: () => void) {
-		this.getItem().polymerizedAsGuest(onEnd);
+	bePolymerizedAsGuest(onEnd: () => void) {
+		this.getItem().bePolymerizedAsGuest(onEnd);
 	}
-	exploded(onEnd: () => void) {
-		this.getItem().exploded(onEnd);
+	beExploded(onEnd: () => void) {
+		this.getItem().beExploded(onEnd);
 	}
-	scraped(onEnd: () => void) {
-		this.getItem().scraped(onEnd);
+	beScraped(onEnd: () => void) {
+		this.getItem().beScraped(onEnd);
 	}
-	clicked(onEnd: () => void): boolean {
-		return this.getItem().clicked(onEnd);
+	beClicked(onEnd: () => void): boolean {
+		return this.getItem().beClicked(onEnd);
 	}
-	exchanged(onEnd: () => void): boolean {
-		return this.getItem().exchanged(onEnd);
+	beExchanged(onEnd: () => void): boolean {
+		return this.getItem().beExchanged(onEnd);
 	}
 
 	static readonly ROB_SAVE_BACK_TIME_COST = 120;
@@ -180,8 +180,8 @@ export default abstract class CellAdapter implements Cell {
 
 		return true;
 	}
-	onExplode(size: number, onEnd: () => void) {
-		this.owner.onExplode(this, size, onEnd);
+	exploded(size: number, onEnd: () => void) {
+		this.owner.exploded(this, size, onEnd);
 	}
 
 	private updateTime: number = 0;
