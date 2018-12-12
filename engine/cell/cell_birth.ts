@@ -27,7 +27,7 @@ export default class CellBirth implements Cell {
 	}
 
 	popItem(): Item {
-		return this.getItem();
+		return this.birth.popItem(this.getLocation());
 	}
 	setItem(item: Item) {}
 

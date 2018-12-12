@@ -1,4 +1,5 @@
 import BoardCells from "./board_cells";
+import BoardExits from "./board_exits";
 import BoardClick from "./board_click";
 import BoardExchange from "./board_exchange";
 import BoardFall from "./board_fall";
@@ -7,6 +8,7 @@ import Item from "../item";
 export default class BoardOn {
 	constructor(
 		private cells: BoardCells,
+		private exits: BoardExits,
 		private click: BoardClick,
 		private exchange: BoardExchange,
 		private fall: BoardFall
@@ -31,5 +33,6 @@ export default class BoardOn {
 
 	onItemClear(onCleared: (item: Item) => void) {
 		this.cells.onItemClear(onCleared);
+		this.exits.onItemClear(onCleared);
 	}
 }

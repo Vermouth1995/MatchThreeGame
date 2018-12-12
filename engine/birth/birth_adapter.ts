@@ -5,4 +5,5 @@ import Birth from "../birth";
 export default abstract class BirthAdapter implements Birth {
 	constructor() {}
 	abstract getItem(location: Coordinate): Item;
+	abstract popItem(location: Coordinate): Item;
 }

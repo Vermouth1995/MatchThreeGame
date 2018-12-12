@@ -10,6 +10,7 @@ import Game from "../game/game";
 import BoardOn from "../engine/board/board_on";
 import BoardCells from "../engine/board/board_cells";
 import BoardBirths from "../engine/board/board_births";
+import BoardExits from "../engine/board/board_exits";
 
 export default abstract class LevelAdapter implements Level {
 	static readonly PUZZLE_BOARD_Z_INDEX = 1;
@@ -25,31 +26,17 @@ export default abstract class LevelAdapter implements Level {
 	private puzzle: Puzzle;
 
 	constructor() {
-		this.puzzle = new Puzzle();
-		this.board = new Board();
-		this.score = new Score();
-		this.init();
-		this.getPuzzle().setSize(Game.RENDER_SIZE);
-		this.getPuzzle().addChild(
-			this.board.getPuzzle(),
-			new Locus(Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF)),
-			LevelAdapter.PUZZLE_BOARD_Z_INDEX
-		);
-
-		this.getPuzzle().addChild(
-			this.score.getPuzzle(),
-			new Locus(new Coordinate((Game.RENDER_SIZE.row - this.score.getPuzzle().size().row) / 2, 0)),
-			LevelAdapter.PUZZLE_SCORE_Z_INDEX
-		);
-	}
-
-	init() {
 		let self = this;
-		this.board.setCells(this.getCells(), this.getBirths());
+
+		this.board = new Board();
+
+		this.board.setCells(this.getCells(), this.getBirths(), this.getExits());
+
+		this.score = new Score();
 		this.score.setOn(this.board.getOn());
 		this.score.setStep(this.getStep());
 		this.score.addGoal(this.getGoals(this.board.getOn()));
-		this.board.start();
+
 		this.score.onStepEnd(function() {
 			self.board.close();
 		});
@@ -57,9 +44,25 @@ export default abstract class LevelAdapter implements Level {
 			self.board.close();
 			self.end(success);
 		});
+
+		this.puzzle = new Puzzle();
+		this.puzzle.setSize(Game.RENDER_SIZE);
+		this.puzzle.addChild(
+			this.board.getPuzzle(),
+			new Locus(Game.RENDER_SIZE.offset(this.board.size().negative()).split(LevelAdapter.SPLIT_HALF)),
+			LevelAdapter.PUZZLE_BOARD_Z_INDEX
+		);
+
+		this.puzzle.addChild(
+			this.score.getPuzzle(),
+			new Locus(new Coordinate((Game.RENDER_SIZE.row - this.score.getPuzzle().size().row) / 2, 0)),
+			LevelAdapter.PUZZLE_SCORE_Z_INDEX
+		);
+		this.board.start();
 	}
 
 	abstract getBirths(): BoardBirths;
+	abstract getExits(): BoardExits;
 	abstract getCells(): BoardCells;
 	abstract getGoals(on: BoardOn): Goal[];
 	abstract getStep(): number;

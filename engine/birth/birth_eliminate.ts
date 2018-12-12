@@ -22,4 +22,7 @@ export default class BirthEliminate extends BirthWithoutLocation {
 	getItemWithoutLocation(): Item {
 		return BirthEliminate.birth.getItemWithoutLocation();
 	}
+	popItemWithoutLocation(): Item {
+		return this.getItemWithoutLocation();
+	}
 }

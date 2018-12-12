@@ -10,4 +10,7 @@ export default class BirthDrink extends BirthWithoutLocation {
 	getItemWithoutLocation(): Item {
 		return ItemCreator.createItem(ItemCreator.DRINK);
 	}
+	popItemWithoutLocation(): Item {
+		return this.getItemWithoutLocation();
+	}
 }

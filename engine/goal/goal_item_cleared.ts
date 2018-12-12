@@ -22,6 +22,10 @@ export default class GoalItemCleared extends GoalBoardOn {
 	private item: Item;
 	private steps: number;
 
+	getSteps(): number {
+		return this.steps;
+	}
+
 	private stepsMinus(): void {
 		if (this.steps == 0) {
 			return;

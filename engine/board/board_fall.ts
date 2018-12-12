@@ -6,14 +6,17 @@ import RandomWeight from "../../concept/random_weight";
 import BoardPolymerize from "../board/board_polymerize";
 import BoardCheck from "../board/board_check";
 import BoardBirths from "../board/board_births";
+import BoardExits from "../board/board_exits";
 import BoardArrivable from "../board/board_arrivable";
 import CellBirth from "../cell/cell_birth";
+import CellExit from "../cell/cell_exit";
 import Cell from "../cell";
 
 export default class BoardFall {
 	constructor(
 		private cells: BoardCells,
 		private births: BoardBirths,
+		private exits: BoardExits,
 		private polymerize: BoardPolymerize,
 		private check: BoardCheck,
 		private arrivable: BoardArrivable
@@ -76,7 +79,17 @@ export default class BoardFall {
 				onEnd(isActive);
 			}
 		});
+
 		this.arrivable.update();
+
+		this.exits.iterate(function(exit: CellExit) {
+			let location: Coordinate = exit.getLocation();
+			let victims: Cell[] = [];
+			let victimLocations: Coordinate[] = [];
+			self.getVictimsByExit(location, victims, victimLocations);
+
+			isActive = exit.rob(victims, victimLocations, robEnd.getCallback()) || isActive;
+		});
 		for (let i = this.cells.size().row - 1; i >= 0; i--) {
 			for (let j = 0; j < this.cells.size().col; j++) {
 				let location: Coordinate = new Coordinate(i, j);
@@ -88,6 +101,14 @@ export default class BoardFall {
 					this.cells.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) ||
 					isActive;
 			}
+		}
+	}
+
+	private getVictimsByExit(exitLocation: Coordinate, victims: Cell[], victimLocations: Coordinate[]) {
+		let cell: Cell = this.cells.getCellByLocation(exitLocation);
+		if (this.arrivable.isArrivable(exitLocation) || (cell.canRobbed() && !cell.getItem().isEmpty())) {
+			victims.push(cell);
+			victimLocations.push(Coordinate.ORIGIN);
 		}
 	}
 
@@ -114,8 +135,9 @@ export default class BoardFall {
 		let branchs: Coordinate[] = location.offsets(seeds);
 		for (let i = 0; i < seeds.length; i++) {
 			let branch: Coordinate = branchs[i];
-			if (this.arrivable.isArrivable(branch)) {
-				victims.push(this.cells.getCellByLocation(branch));
+			let cell: Cell = this.cells.getCellByLocation(branch);
+			if (this.arrivable.isArrivable(branch) || (cell.canRobbed() && !cell.getItem().isEmpty())) {
+				victims.push(cell);
 				victimLocations.push(seeds[i]);
 				break;
 			}

@@ -1,8 +1,8 @@
 import BirthAdapter from "./birth_adapter";
+import BirthEmpty from "./birth_empty";
 import Birth from "../birth";
 import Coordinate from "../../concept/coordinate";
 import Item from "../item";
-import ItemEmpty from "../item/item_empty";
 
 export default class BirthLocation extends BirthAdapter {
 	constructor(defaultBirth: Birth) {
@@ -21,7 +21,7 @@ export default class BirthLocation extends BirthAdapter {
 		this.births.push(birth);
 	}
 
-	getItem(location: Coordinate): Item {
+	private getBirth(location: Coordinate): Birth {
 		let birth: Birth = this.defaultBirth;
 		for (let i = 0; i < this.locations.length; i++) {
 			if (location.equal(this.locations[i])) {
@@ -30,8 +30,16 @@ export default class BirthLocation extends BirthAdapter {
 			}
 		}
 		if (birth == null) {
-			return ItemEmpty.getEmpty();
+			birth = BirthEmpty.getEmpty();
 		}
-		return birth.getItem(location);
+		return birth;
+	}
+
+	getItem(location: Coordinate): Item {
+		return this.getBirth(location).getItem(location);
+	}
+
+	popItem(location: Coordinate): Item {
+		return this.getBirth(location).popItem(location);
 	}
 }

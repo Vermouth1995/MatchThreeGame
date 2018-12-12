@@ -93,7 +93,7 @@ export default class Score implements PuzzleKeeper {
 		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
 	}
 
-	stepMinus() {
+	private stepMinus() {
 		if (this.step == 0) {
 			return;
 		}

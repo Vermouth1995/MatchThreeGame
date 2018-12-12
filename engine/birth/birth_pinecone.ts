@@ -9,4 +9,7 @@ export default class BirthPinecone extends BirthWithoutLocation {
 	getItemWithoutLocation(): Item {
 		return ItemCreator.createItem(ItemCreator.PINECONE);
 	}
+	popItemWithoutLocation(): Item {
+		return this.getItemWithoutLocation();
+	}
 }

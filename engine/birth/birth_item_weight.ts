@@ -10,11 +10,16 @@ export default class BirthItemWeight extends BirthWithoutLocation {
 
 	private random: RandomWeight<number> = new RandomWeight<number>();
 
-	addItemWeight(itemCreatorId: number, weight?: number) {
+	addItemWeight(itemCreatorId: number, weight?: number): BirthItemWeight {
 		this.random.addFactor(itemCreatorId, weight);
+		return this;
 	}
 
 	getItemWithoutLocation(): Item {
 		return ItemCreator.createItem(this.random.getFactor());
+	}
+
+	popItemWithoutLocation(): Item {
+		return this.getItemWithoutLocation();
 	}
 }

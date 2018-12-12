@@ -3,6 +3,9 @@ import Coordinate from "../../concept/coordinate";
 
 export default class BoardBirths {
 	constructor(birth: CellBirth[]) {
+		if (birth == null) {
+			birth = [];
+		}
 		this.birth = birth;
 	}
 
