@@ -16,14 +16,15 @@ import Puzzle from "../render/puzzle";
 import Render from "../render/render";
 
 export default class Score implements PuzzleKeeper {
+	private static readonly SIZE = new Coordinate(5, 1.5);
 	private static readonly STEP_ADD_TIME_COST_PER_STEP: number = 200;
 	private static readonly LEVEL_Z_INDEX: number = 1;
 	private static readonly GOAL_Z_INDEX: number = 2;
 	private static readonly STEP_Z_INDEX: number = 1;
-	private static readonly LEVEL_LOCATION: Coordinate = new Coordinate(0.5, 1);
-	private static readonly GOAL_LOCATION: Coordinate = new Coordinate(1, 0.5);
-	private static readonly GOAL_LOCATION_END: Coordinate = new Coordinate(5, 0.5);
-	private static readonly STEP_LOCATION: Coordinate = new Coordinate(5.5, 1);
+	private static readonly LEVEL_LOCATION: Coordinate = new Coordinate(0.75, 0.75);
+	private static readonly GOAL_LOCATION: Coordinate = new Coordinate(1, 0.25);
+	private static readonly GOAL_LOCATION_END: Coordinate = new Coordinate(4, 0.25);
+	private static readonly STEP_LOCATION: Coordinate = new Coordinate(4.25, 0.75);
 
 	private color: Color = new Color(0, 0, 0);
 	private font: Font = new Font().setSize(0.5).setAlign(Font.ALIGN_CENTER);
@@ -37,7 +38,7 @@ export default class Score implements PuzzleKeeper {
 	private puzzle: Puzzle = new Puzzle();
 
 	constructor() {
-		this.puzzle.setSize(new Coordinate(6, 2));
+		this.puzzle.setSize(Score.SIZE);
 		this.puzzle.addAtom(
 			new AtomString(this.stepRender, new Locus<Color>(this.color), new Locus<Font>(this.font)),
 			new Locus<Coordinate>(Score.STEP_LOCATION),
@@ -58,12 +59,23 @@ export default class Score implements PuzzleKeeper {
 		let successEnd: Once = new OnceLast().setCallback(function() {
 			self.end(true);
 		});
-		goals.map(function(goal: Goal, index: number) {
+		this.goals.map(function(goal: Goal, index: number) {
+			let puzzle = goal.getPuzzle();
+
 			self.puzzle.addChild(
-				goal.getPuzzle(),
-				new Locus<Coordinate>(Score.GOAL_LOCATION.offsetTo(Score.GOAL_LOCATION_END, index / self.goals.length)),
+				puzzle,
+				new Locus<Coordinate>(
+					new Coordinate(
+						((Score.GOAL_LOCATION_END.row - Score.GOAL_LOCATION.row) / (self.goals.length + 1)) *
+							(index + 1) +
+							Score.GOAL_LOCATION.row -
+							puzzle.size().row / 2,
+						Score.GOAL_LOCATION.col
+					)
+				),
 				Score.GOAL_Z_INDEX
 			);
+
 			goal.onSuccess(successEnd.getCallback());
 		});
 	}
