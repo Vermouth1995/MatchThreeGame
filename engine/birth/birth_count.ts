@@ -5,18 +5,9 @@ import Coordinate from "../../concept/coordinate";
 import Item from "../item";
 
 export default class BirthCount extends BirthAdapter {
-	constructor(size: number, birth: Birth, defaultBirth: Birth) {
+	constructor(private size: number, private birth: Birth, private defaultBirth: Birth) {
 		super();
-		this.size = size;
-		this.birth = birth;
-		this.defaultBirth = defaultBirth;
 	}
-
-	private size: number;
-
-	private defaultBirth: Birth;
-
-	private birth: Birth;
 
 	getSize(): number {
 		return this.size;

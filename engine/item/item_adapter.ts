@@ -49,7 +49,7 @@ export default abstract class ItemAdapter implements Item {
 	cleared(onEnd: () => void) {
 		let self: ItemAdapter = this;
 		this.atomImageSize.setEvent(
-			new EventMove<Coordinate>(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost, function(
+			new EventMove<Coordinate>(Coordinate.ORIGIN, ItemAdapter.ClearedTimeCost, false, function(
 				from: Coordinate,
 				to: Coordinate,
 				timeCost: number,
@@ -59,7 +59,7 @@ export default abstract class ItemAdapter implements Item {
 			})
 		);
 		this.atomImageLocation.setEvent(
-			new EventMove<Coordinate>(Coordinate.HALF, ItemAdapter.ClearedTimeCost, function(
+			new EventMove<Coordinate>(Coordinate.HALF, ItemAdapter.ClearedTimeCost, false, function(
 				from: Coordinate,
 				to: Coordinate,
 				timeCost: number,
@@ -86,7 +86,7 @@ export default abstract class ItemAdapter implements Item {
 		this.atomImageLocation.setEvent(new EventLocationSetter<Coordinate>(Coordinate.HALF));
 
 		this.atomImageSize.setEvent(
-			new EventMove<Coordinate>(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost, function(
+			new EventMove<Coordinate>(ItemAdapter.DrawImageSize, ItemAdapter.CreatedTimeCost, false, function(
 				from: Coordinate,
 				to: Coordinate,
 				timeCost: number,
@@ -96,7 +96,7 @@ export default abstract class ItemAdapter implements Item {
 			})
 		);
 		this.atomImageLocation.setEvent(
-			new EventMove<Coordinate>(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost, function(
+			new EventMove<Coordinate>(ItemAdapter.DrawStart, ItemAdapter.CreatedTimeCost, false, function(
 				from: Coordinate,
 				to: Coordinate,
 				timeCost: number,

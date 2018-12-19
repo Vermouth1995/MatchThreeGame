@@ -6,11 +6,8 @@ import OnceLast from "../../concept/once/once_last";
 import Once from "../../concept/once";
 
 export default class BoardExplode {
-	private cells: BoardCells;
-
-	constructor(cells: BoardCells) {
+	constructor(private cells: BoardCells) {
 		let self = this;
-		this.cells = cells;
 		this.cells.onExplode(function(cell: Cell, size: number, onEnd: () => void) {
 			self.explode(cell, size, onEnd);
 		});

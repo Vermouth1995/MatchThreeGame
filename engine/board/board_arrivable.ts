@@ -5,14 +5,7 @@ import Coordinate from "../../concept/coordinate";
 import BoardCells from "./board_cells";
 
 export default class BoardArrivable {
-	constructor(cells: BoardCells, births: BoardBirths) {
-		this.cells = cells;
-		this.births = births;
-	}
-
-	private cells: BoardCells;
-
-	private births: BoardBirths;
+	constructor(private cells: BoardCells, private births: BoardBirths) {}
 
 	private arrivable: boolean[][] = [];
 

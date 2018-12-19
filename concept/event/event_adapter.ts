@@ -16,5 +16,5 @@ export default abstract class EventAdapter<T> implements Event<T> {
 	static readonly DEFAULT_START_STAMP = Number.MAX_VALUE;
 
 	abstract getLocation(timeStamp: number): T;
-	abstract getEndLocation(): T;
+	abstract getEndLocation(timeStamp: number): T;
 }

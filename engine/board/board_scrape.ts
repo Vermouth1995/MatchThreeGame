@@ -4,11 +4,7 @@ import Coordinate from "../../concept/coordinate";
 import Scrape from "../sacrifice/scrape";
 
 export default class BoardScrape {
-	constructor(cells: BoardCells) {
-		this.cells = cells;
-	}
-
-	private cells: BoardCells;
+	constructor(private cells: BoardCells) {}
 
 	scrape(area: Scrape, onEnd: () => void) {
 		let end: OnceLast = new OnceLast();

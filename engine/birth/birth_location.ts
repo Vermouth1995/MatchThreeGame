@@ -5,12 +5,9 @@ import Coordinate from "../../concept/coordinate";
 import Item from "../item";
 
 export default class BirthLocation extends BirthAdapter {
-	constructor(defaultBirth: Birth) {
+	constructor(private defaultBirth: Birth) {
 		super();
-		this.defaultBirth = defaultBirth;
 	}
-
-	private defaultBirth: Birth;
 
 	private births: Birth[] = [];
 

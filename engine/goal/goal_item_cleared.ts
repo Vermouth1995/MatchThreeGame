@@ -2,14 +2,13 @@ import GoalBoardOn from "./goal_board_on";
 import BoardOn from "../board/board_on";
 import Item from "../item";
 
-import EventLocationSetter from "../../concept/event/event_location_setter";
+import EventMove from "../../concept/event/event_move";
 
 export default class GoalItemCleared extends GoalBoardOn {
-	constructor(on: BoardOn, item: Item, steps: number) {
+	constructor(on: BoardOn, private item: Item, private steps: number) {
 		super(on);
 		let self: GoalItemCleared = this;
-		this.item = item;
-		this.steps = steps;
+
 		this.initImage(this.item);
 		this.initStep(steps);
 
@@ -19,8 +18,6 @@ export default class GoalItemCleared extends GoalBoardOn {
 			}
 		});
 	}
-	private item: Item;
-	private steps: number;
 
 	getSteps(): number {
 		return this.steps;
@@ -31,13 +28,24 @@ export default class GoalItemCleared extends GoalBoardOn {
 			return;
 		}
 		this.steps--;
-		this.stepLocus.setEvent(new EventLocationSetter<string>(this.steps.toString()));
+		this.stepLocus.setEvent(
+			new EventMove<number>(this.steps, GoalItemCleared.STEP_MINUS_TIME_COST, false, function(
+				from: number,
+				to: number,
+				timeCost: number,
+				relativeTime: number
+			): number {
+				return Math.floor(((to - from) * relativeTime) / timeCost + from);
+			})
+		);
 		if (this.isSuccess()) {
 			for (let i = 0; i < this.successListener.length; i++) {
 				this.successListener[i]();
 			}
 		}
 	}
+
+	private static readonly STEP_MINUS_TIME_COST: number = 300;
 
 	private successListener: (() => void)[] = [];
 	onSuccess(listener: () => void): void {

@@ -45,7 +45,7 @@ export default abstract class CellAdapter implements Cell {
 	renderSaveBack(where: Coordinate, when: number) {
 		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.ORIGIN, when, function(
+		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.ORIGIN, when, false, function(
 			from: Coordinate,
 			to: Coordinate,
 			timeCost: number,

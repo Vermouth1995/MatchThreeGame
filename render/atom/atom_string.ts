@@ -5,21 +5,18 @@ import Locus from "../../concept/locus";
 import AtomAdapter from "./atom_adapter";
 import Render from "../render";
 
-export default class AtomString extends AtomAdapter {
-	private text: Locus<string>;
-	private color: Locus<Color>;
-	private font: Locus<Font>;
+export interface ToString {
+	toString(): string;
+}
 
-	constructor(text: Locus<string>, color: Locus<Color>, font: Locus<Font>) {
+export default class AtomString extends AtomAdapter {
+	constructor(private text: Locus<ToString>, private color: Locus<Color>, private font: Locus<Font>) {
 		super();
-		this.text = text;
-		this.color = color;
-		this.font = font;
 	}
 
 	draw(render: Render, location: Coordinate, timeStamp: number) {
 		render.drawString(
-			this.text.getLocation(timeStamp),
+			this.text.getLocation(timeStamp).toString(),
 			location,
 			this.font.getLocation(timeStamp),
 			this.color.getLocation(timeStamp)

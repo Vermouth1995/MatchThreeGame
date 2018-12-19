@@ -1,13 +1,11 @@
 import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
 export default class Explode extends SacrificeAdapter {
-	constructor(source: Coordinate, size: number) {
+	constructor(private owner: Coordinate, size: number) {
 		super();
-		this.guests = source.radiation(size);
-		this.owner = source;
+		this.guests = this.owner.radiation(size);
 	}
 
-	private owner: Coordinate;
 	private guests: Coordinate[] = [];
 
 	getOwner(): Coordinate {

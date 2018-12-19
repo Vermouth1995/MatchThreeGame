@@ -118,7 +118,7 @@ export default class CellExit implements Cell {
 		let self = this;
 		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.DOWN, when, function(
+		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.DOWN, when, false, function(
 			from: Coordinate,
 			to: Coordinate,
 			timeCost: number,

@@ -5,17 +5,13 @@ import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 
 export default class Game {
-	private render: Render;
-
 	static readonly RENDER_SIZE = new Coordinate(10, 20);
 
 	static readonly PUZZLE_LEVEL_Z_INDEX = 1;
 
 	private levelIndex: number = 1;
 
-	constructor(render: Render) {
-		this.render = render;
-	}
+	constructor(private render: Render) {}
 
 	private level: Level;
 

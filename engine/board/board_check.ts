@@ -5,11 +5,7 @@ import Polymerize from "../sacrifice/polymerize";
 import Coordinate from "../../concept/coordinate";
 
 export default class BoardCheck {
-	constructor(cells: BoardCells) {
-		this.cells = cells;
-	}
-
-	private cells: BoardCells;
+	constructor(private cells: BoardCells) {}
 
 	check(): Polymerize {
 		let max: Polymerize = null;

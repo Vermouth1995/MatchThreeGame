@@ -5,7 +5,7 @@ export default class EventKeep<T> extends EventAdapter<T> {
 		return this.from;
 	}
 
-	getEndLocation(): T {
+	getEndLocation(timeStamp: number): T {
 		return this.from;
 	}
 }

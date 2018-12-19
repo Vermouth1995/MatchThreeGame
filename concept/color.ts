@@ -1,16 +1,7 @@
 export default class Color {
-	r: number;
-	g: number;
-	b: number;
-	a: number;
 	static readonly HEX_RADIX: number = 16;
 	static readonly DEFAULT_ALPHA: number = 1;
-	constructor(r: number, g: number, b: number, a: number = Color.DEFAULT_ALPHA) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
-	}
+	constructor(public r: number, public g: number, public b: number, public a: number = Color.DEFAULT_ALPHA) {}
 
 	toRGB(): string {
 		return "rgb(" + this.r + "," + this.g + "," + this.b + ")";

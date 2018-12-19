@@ -5,18 +5,9 @@ import Coordinate from "../../concept/coordinate";
 import Item from "../item";
 
 export default class BirthCondition extends BirthAdapter {
-	constructor(condition: () => boolean, birth: Birth, defaultBirth: Birth) {
+	constructor(private condition: () => boolean, private birth: Birth, private defaultBirth: Birth) {
 		super();
-		this.condition = condition;
-		this.birth = birth;
-		this.defaultBirth = defaultBirth;
 	}
-
-	private condition: () => boolean;
-
-	private defaultBirth: Birth;
-
-	private birth: Birth;
 
 	private getBirth(): Birth {
 		let birth: Birth = this.birth;

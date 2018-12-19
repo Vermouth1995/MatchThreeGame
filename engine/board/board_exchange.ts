@@ -9,17 +9,12 @@ import BoardPolymerize from "../board/board_polymerize";
 import BoardCheck from "../board/board_check";
 
 export default class BoardExchange {
-	constructor(cells: BoardCells, fall: BoardFall, polymerize: BoardPolymerize, check: BoardCheck) {
-		this.cells = cells;
-		this.fall = fall;
-		this.polymerize = polymerize;
-		this.check = check;
-	}
-
-	private cells: BoardCells;
-	private fall: BoardFall;
-	private polymerize: BoardPolymerize;
-	private check: BoardCheck;
+	constructor(
+		private cells: BoardCells,
+		private fall: BoardFall,
+		private polymerize: BoardPolymerize,
+		private check: BoardCheck
+	) {}
 
 	private exchangelisteners: ((isSuccess: boolean) => void)[] = [];
 

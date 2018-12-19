@@ -2,9 +2,7 @@ import Event from "./event";
 import EventKeep from "./event/event_keep";
 
 export default class Locus<T> {
-	private location: T;
-	constructor(location: T) {
-		this.location = location;
+	constructor(private location: T) {
 		this.initEvent();
 	}
 
@@ -21,7 +19,7 @@ export default class Locus<T> {
 
 	setEvent(event: Event<T>) {
 		if (this.event != null) {
-			this.location = this.event.getEndLocation();
+			this.location = this.event.getEndLocation(Date.now());
 		}
 		event.setFrom(this.location);
 		this.event = event;

@@ -5,10 +5,8 @@ import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
 
 export default class RenderCanvas extends RenderAdapter {
-	constructor(size: Coordinate, pixel: Coordinate, imagePrefix: string) {
+	constructor(size: Coordinate, private pixel: Coordinate, private imagePrefix: string) {
 		super(size);
-		this.pixel = pixel;
-		this.imagePrefix = imagePrefix;
 		this.unitPixel = pixel.split(size);
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = pixel.col;
@@ -51,10 +49,6 @@ export default class RenderCanvas extends RenderAdapter {
 	}
 
 	private listenerOn: boolean = false;
-
-	private imagePrefix: string;
-
-	private pixel: Coordinate;
 
 	private unitPixel: Coordinate;
 

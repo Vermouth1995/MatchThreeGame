@@ -2,14 +2,7 @@ import CellBirth from "../cell/cell_birth";
 import Coordinate from "../../concept/coordinate";
 
 export default class BoardBirths {
-	constructor(birth: CellBirth[]) {
-		if (birth == null) {
-			birth = [];
-		}
-		this.birth = birth;
-	}
-
-	private birth: CellBirth[];
+	constructor(private birth: CellBirth[] = []) {}
 
 	getBirth(location: Coordinate): CellBirth {
 		for (let i = 0; i < this.birth.length; i++) {

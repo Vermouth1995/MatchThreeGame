@@ -5,12 +5,8 @@ import CellOwner from "../cell_owner";
 import Coordinate from "../../concept/coordinate";
 
 export default class BoardExits implements CellOwner {
-	constructor(exit: CellExit[]) {
+	constructor(private exit: CellExit[] = []) {
 		let self = this;
-		if (exit == null) {
-			exit = [];
-		}
-		this.exit = exit;
 		this.iterate(function(cell: Cell): boolean {
 			cell.setOwner(self);
 			return true;
@@ -30,8 +26,6 @@ export default class BoardExits implements CellOwner {
 			this.itemClearedListener.push(listener);
 		}
 	}
-
-	private exit: CellExit[];
 
 	getExit(location: Coordinate): CellExit {
 		for (let i = 0; i < this.exit.length; i++) {

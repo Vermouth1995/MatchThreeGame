@@ -31,7 +31,7 @@ export default abstract class GoalAdapter implements Goal {
 	}
 
 	initStep(steps: number) {
-		this.stepLocus = new Locus<string>(steps.toString());
+		this.stepLocus = new Locus<number>(steps);
 		this.puzzle.addAtom(
 			new AtomString(this.stepLocus, new Locus<Color>(this.color), new Locus<Font>(this.font)),
 			new Locus<Coordinate>(GoalAdapter.PUZZLE_STEPS_LOCATION),
@@ -39,7 +39,7 @@ export default abstract class GoalAdapter implements Goal {
 		);
 	}
 
-	protected stepLocus: Locus<string>;
+	protected stepLocus: Locus<number>;
 
 	abstract onSuccess(success: () => void): void;
 	abstract isSuccess(): boolean;

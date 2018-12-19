@@ -5,13 +5,7 @@ import BoardFall from "../board/board_fall";
 import OnceFirst from "../../concept/once/once_first";
 
 export default class BoardClick {
-	constructor(cells: BoardCells, fall: BoardFall) {
-		this.cells = cells;
-		this.fall = fall;
-	}
-
-	private cells: BoardCells;
-	private fall: BoardFall;
+	constructor(private cells: BoardCells, private fall: BoardFall) {}
 
 	private clicklisteners: ((isSuccess: boolean) => void)[] = [];
 

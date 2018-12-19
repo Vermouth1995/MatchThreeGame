@@ -30,7 +30,7 @@ export default class Score implements PuzzleKeeper {
 	private font: Font = new Font().setSize(0.5).setAlign(Font.ALIGN_CENTER);
 
 	private step: number = 1;
-	private stepRender: Locus<string> = new Locus<string>(this.step.toString());
+	private stepRender: Locus<number> = new Locus<number>(this.step);
 
 	private level: string = "unknown";
 	private levelRender: Locus<string> = new Locus<string>(this.level.toString());
@@ -102,7 +102,7 @@ export default class Score implements PuzzleKeeper {
 
 	setStep(step: number) {
 		this.step = step;
-		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
+		this.stepRender.setEvent(new EventLocationSetter<number>(this.step));
 	}
 
 	private stepMinus() {
@@ -110,7 +110,7 @@ export default class Score implements PuzzleKeeper {
 			return;
 		}
 		this.step--;
-		this.stepRender.setEvent(new EventLocationSetter<string>(this.step.toString()));
+		this.stepRender.setEvent(new EventLocationSetter<number>(this.step));
 		if (this.step == 0) {
 			this.stepEnd();
 		}
@@ -119,13 +119,13 @@ export default class Score implements PuzzleKeeper {
 	stepAdd(newStep: number) {
 		let finalStep: number = this.step + newStep;
 		this.stepRender.setEvent(
-			new EventMove<string>(finalStep.toString(), newStep * Score.STEP_ADD_TIME_COST_PER_STEP, function(
-				from: string,
-				to: string,
+			new EventMove<number>(finalStep, newStep * Score.STEP_ADD_TIME_COST_PER_STEP, true, function(
+				from: number,
+				to: number,
 				timecost: number,
 				relativeTime: number
-			): string {
-				return Math.floor(this.step + (newStep * relativeTime) / timecost).toString();
+			): number {
+				return Math.floor(this.step + (newStep * relativeTime) / timecost);
 			})
 		);
 		this.step = finalStep;
