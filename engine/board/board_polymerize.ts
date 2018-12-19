@@ -1,17 +1,29 @@
 import BoardCells from "./board_cells";
 import BoardScrape from "./board_scrape";
+import BoardFall from "./board_fall";
+import BoardCheck from "./board_check";
 import Polymerize from "../sacrifice/polymerize";
 import OnceLast from "../../concept/once/once_last";
 import Coordinate from "../../concept/coordinate";
 
 export default class BoardPolymerize {
-	constructor(cells: BoardCells, scrape: BoardScrape) {
-		this.cells = cells;
-		this.scrape = scrape;
+	constructor(
+		private cells: BoardCells,
+		private scrape: BoardScrape,
+		private fall: BoardFall,
+		private check: BoardCheck
+	) {
+		let self = this;
+		this.fall.beforeFallEnd(function(onEnd): boolean {
+			let area: Polymerize = self.check.check();
+			if (area == null) {
+				onEnd();
+				return false;
+			}
+			self.polymerize(area, onEnd);
+			return true;
+		});
 	}
-
-	private cells: BoardCells;
-	private scrape: BoardScrape;
 
 	polymerize(area: Polymerize, onEnd: () => void) {
 		if (area.getGuests().length == 0) {

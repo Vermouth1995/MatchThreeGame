@@ -5,11 +5,7 @@ import Exchange from "../sacrifice/exchange";
 import Coordinate from "../../concept/coordinate";
 
 export default class BoardPrecheck {
-	constructor(cells: BoardCells) {
-		this.cells = cells;
-	}
-
-	private cells: BoardCells;
+	constructor(private cells: BoardCells) {}
 
 	precheck(): Exchange {
 		let exchange: Exchange;

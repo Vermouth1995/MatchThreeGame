@@ -81,12 +81,12 @@ export default class Board implements PuzzleKeeper {
 		this.births = births;
 		this.exits = exits;
 		this.cells = cells;
-		this.check = new BoardCheck(this.cells);
 		this.explode = new BoardExplode(this.cells);
 		this.scrape = new BoardScrape(this.cells);
-		this.polymerize = new BoardPolymerize(this.cells, this.scrape);
 		this.arrivable = new BoardArrivable(this.cells, births);
-		this.fall = new BoardFall(this.cells, this.births, this.exits, this.polymerize, this.check, this.arrivable);
+		this.fall = new BoardFall(this.cells, this.births, this.exits, this.arrivable);
+		this.check = new BoardCheck(this.cells);
+		this.polymerize = new BoardPolymerize(this.cells, this.scrape, this.fall, this.check);
 		this.exchange = new BoardExchange(this.cells, this.fall, this.polymerize, this.check);
 		this.click = new BoardClick(this.cells, this.fall);
 		this.on = new BoardOn(this.cells, this.exits, this.click, this.exchange, this.fall);

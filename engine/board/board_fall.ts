@@ -1,10 +1,8 @@
 import BoardCells from "./board_cells";
+import Once from "../../concept/once";
 import OnceLast from "../../concept/once/once_last";
 import Coordinate from "../../concept/coordinate";
-import Polymerize from "../sacrifice/polymerize";
 import RandomWeight from "../../concept/random_weight";
-import BoardPolymerize from "../board/board_polymerize";
-import BoardCheck from "../board/board_check";
 import BoardBirths from "../board/board_births";
 import BoardExits from "../board/board_exits";
 import BoardArrivable from "../board/board_arrivable";
@@ -17,8 +15,6 @@ export default class BoardFall {
 		private cells: BoardCells,
 		private births: BoardBirths,
 		private exits: BoardExits,
-		private polymerize: BoardPolymerize,
-		private check: BoardCheck,
 		private arrivable: BoardArrivable
 	) {}
 
@@ -50,9 +46,31 @@ export default class BoardFall {
 		}
 	}
 
+	beforeFallEnd(plugin: (onEnd: () => void) => boolean) {
+		if (plugin != null) {
+			this.plugins.push(plugin);
+		}
+	}
+
 	private fallEnd: (() => void)[] = [];
 
 	private nextFallEnd: (() => void)[] = [];
+
+	private plugins: ((onEnd: () => void) => boolean)[] = [];
+
+	private plugin(onEnd: () => void): boolean {
+		let end: Once = new OnceLast().setCallback(onEnd);
+		if (this.plugins.length == 0) {
+			end.getCallback()();
+			return false;
+		}
+		for (let i = 0; i < this.plugins.length; i++) {
+			if (this.plugins[i](end.getCallback())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private isFalling: boolean = false;
 
@@ -68,16 +86,16 @@ export default class BoardFall {
 				});
 				return;
 			}
-			let area: Polymerize = self.check.check();
-			if (area != null) {
-				self.polymerize.polymerize(area, function() {
+
+			let pluginActive: boolean = self.plugin(function() {
+				if (pluginActive) {
 					self.fall(onEnd);
-				});
-				return;
-			}
-			if (onEnd != null) {
-				onEnd(isActive);
-			}
+					return;
+				}
+				if (onEnd != null) {
+					onEnd(isActive);
+				}
+			});
 		});
 
 		this.arrivable.update();
