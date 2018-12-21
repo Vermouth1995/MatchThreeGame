@@ -8,7 +8,7 @@ import CellCreator from "../engine/cell_creator";
 import Render from "../render/render";
 
 import Level from "./level";
-import Level1 from "./1/level";
+import Level1 from "../level/1/level";
 
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {

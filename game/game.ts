@@ -1,6 +1,6 @@
 import Render from "../render/render";
-import Level from "../level/level";
-import LevelCreator from "../level/level_creator";
+import Level from "./level";
+import LevelCreator from "./level_creator";
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 

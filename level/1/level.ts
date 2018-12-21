@@ -1,6 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 
-import LevelAdapter from "../level_adapter";
+import LevelAdapter from "../../game/level_adapter";
 
 import BoardOn from "../../engine/board/board_on";
 import BoardCells from "../../engine/board/board_cells";
@@ -29,7 +29,7 @@ import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
 
 export default class Level extends LevelAdapter {
-	private static readonly Size: Coordinate = new Coordinate(8, 12);
+	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
 	private birth: Birth;
 	private birthBase: BirthWeightWithoutLocation;
