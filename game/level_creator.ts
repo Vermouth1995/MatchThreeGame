@@ -7,7 +7,7 @@ import CellCreator from "../engine/cell_creator";
 
 import Render from "../render/render";
 
-import Level from "./level";
+import LevelDate from "./level_date";
 import Level1 from "../level/1/level";
 
 export default class LevelCreator {
@@ -28,20 +28,17 @@ export default class LevelCreator {
 
 	static readonly TypeCommon: string = "common";
 
-	static getLevel(type: string, name: string): Level {
-		let level: Level;
+	static getLevel(type: string, name: string): LevelDate {
+		let level: LevelDate;
 		switch (type) {
 			case LevelCreator.TypeCommon:
 				level = LevelCreator.getCommonLevel(name);
 				break;
 		}
-		if (level != null) {
-			level.setName(name);
-		}
 		return level;
 	}
 
-	private static getCommonLevel(index: string): Level {
+	private static getCommonLevel(index: string): LevelDate {
 		switch (index) {
 			case "1":
 				return new Level1();

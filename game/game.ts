@@ -17,7 +17,7 @@ export default class Game {
 
 	startLevel(type: string, index: string) {
 		this.render.clear();
-		this.level = LevelCreator.getLevel(type, index);
+		this.level = new Level(index, LevelCreator.getLevel(type, index));
 		this.render
 			.getRootPuzzle()
 			.addChild(this.level.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);

@@ -1,6 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 
-import LevelAdapter from "../../game/level_adapter";
+import LevelDate from "../../game/level_date";
 
 import BoardOn from "../../engine/board/board_on";
 import BoardCells from "../../engine/board/board_cells";
@@ -28,7 +28,7 @@ import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
 
-export default class Level extends LevelAdapter {
+export default class Level implements LevelDate {
 	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
 	private birth: Birth;
@@ -44,13 +44,7 @@ export default class Level extends LevelAdapter {
 	private goalDrink: GoalItemCleared;
 	private goalPinecone: GoalItemCleared;
 
-	constructor() {
-		super();
-	}
-
-	boardSize(): Coordinate {
-		return Level.Size;
-	}
+	constructor() {}
 
 	getExits(): BoardExits {
 		this.initExits();
