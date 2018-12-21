@@ -1,3 +1,4 @@
+import Once from "../concept/once";
 import OnceLast from "../concept/once/once_last";
 
 import Score from "../engine/score";
@@ -10,14 +11,16 @@ import Render from "../render/render";
 import LevelDate from "./level_date";
 import Level1 from "../level/1/level";
 
+import Level from "./level";
+
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		let success: OnceLast = new OnceLast();
-		success.setCallback(onSuccess);
+		let success: Once = new OnceLast().setCallback(onSuccess);
 		ItemCreator.LoadStaticResource(render, success.getCallback(), onError);
 		CellCreator.LoadStaticResource(render, success.getCallback(), onError);
 		Board.LoadStaticResource(render, success.getCallback(), onError);
 		Score.LoadStaticResource(render, success.getCallback(), onError);
+		Level.LoadStaticResource(render, success.getCallback(), onError);
 	}
 
 	static readonly LevelSize: number = 1;
