@@ -39,21 +39,12 @@ export default class GoalItemCleared extends GoalBoardOn {
 			})
 		);
 		if (this.isSuccess()) {
-			for (let i = 0; i < this.successListener.length; i++) {
-				this.successListener[i]();
-			}
+			this.onSuccess.trigger();
 		}
 	}
 
 	private static readonly STEP_MINUS_TIME_COST: number = 300;
 
-	private successListener: (() => void)[] = [];
-	onSuccess(listener: () => void): void {
-		if (listener == null) {
-			return;
-		}
-		this.successListener.push(listener);
-	}
 	isSuccess(): boolean {
 		return this.steps == 0;
 	}

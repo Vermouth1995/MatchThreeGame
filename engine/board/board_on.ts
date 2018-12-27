@@ -15,12 +15,12 @@ export default class BoardOn {
 	) {}
 
 	onStep(step: () => void) {
-		this.click.onClick(function(isSuccess: boolean) {
+		this.click.onClick.on(function(isSuccess: boolean) {
 			if (isSuccess) {
 				step();
 			}
 		});
-		this.exchange.onExchange(function(isSuccess: boolean) {
+		this.exchange.onExchange.on(function(isSuccess: boolean) {
 			if (isSuccess) {
 				step();
 			}
@@ -28,11 +28,11 @@ export default class BoardOn {
 	}
 
 	onFallEnd(onEnd: () => void) {
-		this.fall.onFallEnd(onEnd);
+		this.fall.onFallEnd.on(onEnd);
 	}
 
 	onItemClear(onCleared: (item: Item) => void) {
-		this.cells.onItemClear(onCleared);
-		this.exits.onItemClear(onCleared);
+		this.cells.onItemClear.on(onCleared);
+		this.exits.onItemClear.on(onCleared);
 	}
 }

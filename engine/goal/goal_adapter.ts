@@ -5,6 +5,8 @@ import Locus from "../../concept/locus";
 import Coordinate from "../../concept/coordinate";
 import Color from "../../concept/color";
 import Font from "../../concept/font";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener";
 
 import AtomString from "../../render/atom/atom_string";
 import Puzzle from "../../render/puzzle";
@@ -41,7 +43,8 @@ export default abstract class GoalAdapter implements Goal {
 
 	protected stepLocus: Locus<number>;
 
-	abstract onSuccess(success: () => void): void;
+	readonly onSuccess: Listener<void, () => void> = new ListenerDiffusion();
+
 	abstract isSuccess(): boolean;
 
 	protected puzzle: Puzzle = new Puzzle();

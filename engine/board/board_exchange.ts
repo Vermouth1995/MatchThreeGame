@@ -2,6 +2,8 @@ import Cell from "../cell";
 import BoardCells from "./board_cells";
 import OnceLast from "../../concept/once/once_last";
 import Once from "../../concept/once";
+import Listener from "../../concept/listener";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
 import Exchange from "../sacrifice/exchange";
 import Polymerize from "../sacrifice/polymerize";
 import BoardFall from "../board/board_fall";
@@ -16,19 +18,7 @@ export default class BoardExchange {
 		private check: BoardCheck
 	) {}
 
-	private exchangelisteners: ((isSuccess: boolean) => void)[] = [];
-
-	onExchange(listener: (isSuccess: boolean) => void) {
-		if (listener != null) {
-			this.exchangelisteners.push(listener);
-		}
-	}
-
-	private callExchangeListener(isSuccess: boolean) {
-		for (let i = 0; i < this.exchangelisteners.length; i++) {
-			this.exchangelisteners[i](isSuccess);
-		}
-	}
+	readonly onExchange: Listener<void, (isSuccess: boolean) => void> = new ListenerDiffusion();
 
 	exchange(area: Exchange) {
 		let self: BoardExchange = this;
@@ -43,7 +33,7 @@ export default class BoardExchange {
 		let toCell: Cell = this.cells.getCellByLocation(area.getTo());
 		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
 			if (!success) {
-				self.callExchangeListener(false);
+				self.onExchange.trigger(false);
 				exchangeEnd.getCallback()();
 				return;
 			}
@@ -55,10 +45,10 @@ export default class BoardExchange {
 			let fromBlock: boolean = fromCell.beExchanged(exchangeEnd.getCallback());
 			let toBlock: boolean = toCell.beExchanged(exchangeEnd.getCallback());
 			if (polymerize == null && !fromBlock && !toBlock) {
-				self.callExchangeListener(false);
+				self.onExchange.trigger(false);
 				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), exchangeEnd.getCallback());
 			} else {
-				self.callExchangeListener(true);
+				self.onExchange.trigger(true);
 			}
 		});
 	}

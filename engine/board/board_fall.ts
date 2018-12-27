@@ -2,6 +2,8 @@ import BoardCells from "./board_cells";
 import Once from "../../concept/once";
 import OnceLast from "../../concept/once/once_last";
 import Coordinate from "../../concept/coordinate";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener";
 import RandomWeight from "../../concept/random_weight";
 import BoardBirths from "../board/board_births";
 import BoardExits from "../board/board_exits";
@@ -20,41 +22,27 @@ export default class BoardFall {
 
 	start(onNextFallEnd?: () => void) {
 		let self: BoardFall = this;
-		if (onNextFallEnd != null) {
-			this.nextFallEnd.push(onNextFallEnd);
-		}
+		this.onNextFallEnd.on(onNextFallEnd);
 		if (this.isFalling) {
 			return;
 		}
 		this.isFalling = true;
 		this.fall(function(isChanged: boolean) {
-			let onEnd: (() => void)[] = self.nextFallEnd;
-			self.nextFallEnd = [];
-			for (let i = 0; i < onEnd.length; i++) {
-				onEnd[i]();
-			}
-			for (let i = 0; i < self.fallEnd.length; i++) {
-				self.fallEnd[i]();
-			}
+			self.onNextFallEnd.trigger();
+			self.onNextFallEnd.clear();
+			self.onFallEnd.trigger();
 			self.isFalling = false;
 		});
 	}
 
-	onFallEnd(onEnd: () => void) {
-		if (onEnd != null) {
-			this.fallEnd.push(onEnd);
-		}
-	}
+	readonly onFallEnd: Listener<void, () => void> = new ListenerDiffusion();
+	readonly onNextFallEnd: Listener<void, () => void> = new ListenerDiffusion();
 
 	beforeFallEnd(plugin: (onEnd: () => void) => boolean) {
 		if (plugin != null) {
 			this.plugins.push(plugin);
 		}
 	}
-
-	private fallEnd: (() => void)[] = [];
-
-	private nextFallEnd: (() => void)[] = [];
 
 	private plugins: ((onEnd: () => void) => boolean)[] = [];
 

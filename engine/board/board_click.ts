@@ -3,23 +3,13 @@ import BoardCells from "./board_cells";
 import Click from "../sacrifice/click";
 import BoardFall from "../board/board_fall";
 import OnceFirst from "../../concept/once/once_first";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener";
 
 export default class BoardClick {
 	constructor(private cells: BoardCells, private fall: BoardFall) {}
 
-	private clicklisteners: ((isSuccess: boolean) => void)[] = [];
-
-	onClick(listener: (isSuccess: boolean) => void) {
-		if (listener != null) {
-			this.clicklisteners.push(listener);
-		}
-	}
-
-	private callClickListener(isSuccess: boolean) {
-		for (let i = 0; i < this.clicklisteners.length; i++) {
-			this.clicklisteners[i](isSuccess);
-		}
-	}
+	readonly onClick: Listener<void, (isSuccess: boolean) => void> = new ListenerDiffusion();
 
 	click(area: Click) {
 		let self: BoardClick = this;
@@ -27,7 +17,7 @@ export default class BoardClick {
 		let success: boolean = location.beClicked(
 			new OnceFirst()
 				.setCallback(function() {
-					self.callClickListener(success);
+					self.onClick.trigger(success);
 					self.fall.start();
 				})
 				.getCallback()

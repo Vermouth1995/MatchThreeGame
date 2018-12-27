@@ -10,6 +10,8 @@ import Once from "../concept/once";
 import OnceLast from "../concept/once/once_last";
 import EventLocationSetter from "../concept/event/event_location_setter";
 import EventMove from "../concept/event/event_move";
+import ListenerDiffusion from "../concept/listener/listener_diffusion";
+import Listener from "../concept/listener";
 
 import AtomString from "../render/atom/atom_string";
 import Puzzle from "../render/puzzle";
@@ -76,7 +78,7 @@ export default class Score implements PuzzleKeeper {
 				Score.GOAL_Z_INDEX
 			);
 
-			goal.onSuccess(successEnd.getCallback());
+			goal.onSuccess.on(successEnd.getCallback());
 		});
 	}
 
@@ -112,7 +114,7 @@ export default class Score implements PuzzleKeeper {
 		this.step--;
 		this.stepRender.setEvent(new EventLocationSetter<number>(this.step));
 		if (this.step == 0) {
-			this.stepEnd();
+			this.onStepEnd.trigger();
 		}
 	}
 
@@ -131,8 +133,6 @@ export default class Score implements PuzzleKeeper {
 		this.step = finalStep;
 	}
 
-	private endListener: ((success: boolean) => void)[] = [];
-
 	private isEnd: boolean = false;
 
 	private end(success: boolean) {
@@ -140,32 +140,12 @@ export default class Score implements PuzzleKeeper {
 			return;
 		}
 		this.isEnd = true;
-		for (let i = 0; i < this.endListener.length; i++) {
-			this.endListener[i](success);
-		}
-	}
 
-	onEnd(listener: (success: boolean) => void) {
-		if (listener == null) {
-			return;
-		}
-		this.endListener.push(listener);
+		this.onEnd.trigger(success);
 	}
+	readonly onEnd: Listener<void, (success: boolean) => void> = new ListenerDiffusion();
 
-	private stepEndListener: (() => void)[] = [];
-
-	private stepEnd() {
-		for (let i = 0; i < this.stepEndListener.length; i++) {
-			this.stepEndListener[i]();
-		}
-	}
-
-	onStepEnd(listener: () => void) {
-		if (listener == null) {
-			return;
-		}
-		this.stepEndListener.push(listener);
-	}
+	readonly onStepEnd: Listener<void, () => void> = new ListenerDiffusion();
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;

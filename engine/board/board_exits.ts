@@ -3,6 +3,8 @@ import Cell from "../cell";
 import CellExit from "../cell/cell_exit";
 import CellOwner from "../cell_owner";
 import Coordinate from "../../concept/coordinate";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener";
 
 export default class BoardExits implements CellOwner {
 	constructor(private exit: CellExit[] = []) {
@@ -13,19 +15,11 @@ export default class BoardExits implements CellOwner {
 		});
 	}
 
-	private itemClearedListener: ((item: Item) => void)[] = [];
-
 	itemCleared(item: Item): void {
-		for (let i = 0; i < this.itemClearedListener.length; i++) {
-			this.itemClearedListener[i](item);
-		}
+		this.onItemClear.trigger(item);
 	}
 
-	onItemClear(listener: (item: Item) => void) {
-		if (listener != null) {
-			this.itemClearedListener.push(listener);
-		}
-	}
+	readonly onItemClear: Listener<void, (item: Item) => void> = new ListenerDiffusion();
 
 	getExit(location: Coordinate): CellExit {
 		for (let i = 0; i < this.exit.length; i++) {

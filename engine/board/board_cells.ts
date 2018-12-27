@@ -6,6 +6,9 @@ import CellOwner from "../cell_owner";
 import Cell from "../cell";
 import Item from "../item";
 
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener";
+
 export default class BoardCells implements CellOwner {
 	static readonly CHECK_NUMBER_SELF: number = 1;
 	static readonly CHECK_NUMBER_OK_MINIZE: number = 3;
@@ -14,19 +17,11 @@ export default class BoardCells implements CellOwner {
 
 	private cellsSize: Coordinate = Coordinate.ORIGIN;
 
-	private itemClearedListener: ((item: Item) => void)[] = [];
-
 	itemCleared(item: Item): void {
-		for (let i = 0; i < this.itemClearedListener.length; i++) {
-			this.itemClearedListener[i](item);
-		}
+		this.onItemClear.trigger(item);
 	}
 
-	onItemClear(listener: (item: Item) => void) {
-		if (listener != null) {
-			this.itemClearedListener.push(listener);
-		}
-	}
+	readonly onItemClear: Listener<void, (item: Item) => void> = new ListenerDiffusion();
 
 	private explodedListener: ((cell: Cell, size: number, onEnd: () => void) => void)[] = [];
 

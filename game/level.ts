@@ -5,6 +5,8 @@ import Score from "../engine/Score";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
+import ListenerDiffusion from "../concept/listener/listener_diffusion";
+import Listener from "../concept/listener";
 
 import Puzzle from "../render/puzzle";
 import Render from "../render/render";
@@ -36,12 +38,12 @@ export default class Level {
 		this.score.addGoal(this.date.getGoals(this.board.getOn()));
 		this.score.setLevel(this.name);
 
-		this.score.onStepEnd(function() {
+		this.score.onStepEnd.on(function() {
 			self.board.close();
 		});
-		this.score.onEnd(function(success: boolean) {
+		this.score.onEnd.on(function(success: boolean) {
 			self.board.close();
-			self.end(success);
+			self.onEnd.trigger(success);
 		});
 
 		this.puzzle = new Puzzle();
@@ -65,20 +67,7 @@ export default class Level {
 		this.board.start();
 	}
 
-	private endListener: ((success: boolean) => void)[] = [];
-
-	private end(success: boolean) {
-		for (let i = 0; i < this.endListener.length; i++) {
-			this.endListener[i](success);
-		}
-	}
-
-	onEnd(listener: (success: boolean) => void) {
-		if (listener == null) {
-			return;
-		}
-		this.endListener.push(listener);
-	}
+	readonly onEnd: Listener<void, (success: boolean) => void> = new ListenerDiffusion();
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;
