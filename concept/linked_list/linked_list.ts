@@ -129,7 +129,7 @@ export default class LinkedList<T> {
 				now.data = element;
 				now.next = current.next;
 				current.next = now;
-                this.length++;
+				this.length++;
 				return index + LinkedList.IndexStep;
 			}
 			current = current.next;
@@ -156,17 +156,18 @@ export default class LinkedList<T> {
 		return data;
 	}
 
-	removeBy(equal: (right: T) => boolean) {
+	removeBy(equal: (right: T) => boolean): T {
 		if (this.length == 0) {
-			return;
+			return null;
 		}
 		if (equal(this.head.data)) {
+			let headData: T = this.head.data;
 			this.head = this.head.next;
 			this.length--;
 			if ((this.length = 0)) {
 				this.tail = null;
 			}
-			return;
+			return headData;
 		}
 
 		let previous: Node<T> = null;
@@ -180,13 +181,14 @@ export default class LinkedList<T> {
 		}
 
 		if (current == null) {
-			return;
+			return null;
 		}
 		previous.next = current.next;
 		this.length--;
 		if (current == this.tail) {
 			this.tail = previous;
 		}
+		return current.data;
 	}
 
 	indexBy(equal: (now: T) => boolean): number {
@@ -201,6 +203,12 @@ export default class LinkedList<T> {
 			current = current.next;
 		}
 		return -1;
+	}
+
+	clear() {
+		this.length = 0;
+		this.head = null;
+		this.tail = null;
 	}
 
 	private getNodePrevious(position: number): Node<T> {
