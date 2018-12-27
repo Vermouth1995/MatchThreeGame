@@ -30,6 +30,16 @@ export default class LinkedList<T> {
 		}
 	}
 
+	iterateInterruptible(onElement: (index: number, element: T) => boolean) {
+		let now: Node<T> = this.head;
+		let indexNow: number = 0;
+		let keep: boolean = true;
+		while (keep && now != null) {
+			keep = onElement(indexNow, now.data);
+			now = now.next;
+		}
+	}
+
 	isEmpty(): boolean {
 		return this.length == 0;
 	}
