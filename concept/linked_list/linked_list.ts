@@ -129,6 +129,7 @@ export default class LinkedList<T> {
 				now.data = element;
 				now.next = current.next;
 				current.next = now;
+                this.length++;
 				return index + LinkedList.IndexStep;
 			}
 			current = current.next;
