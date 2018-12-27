@@ -40,6 +40,7 @@ export default class Game {
 	closeLevel() {
 		if (this.level != null) {
 			this.render.getRootPuzzle().removeChild(this.level.getPuzzle());
+			this.level = null;
 		}
 	}
 
@@ -48,7 +49,7 @@ export default class Game {
 		Game.LoadStaticResource(
 			this.render,
 			function() {
-                self.message.init();
+				self.message.init();
 				self.render.start();
 				let levelEnd = function(success: boolean) {
 					self.message.setText(success ? "Congratulations!" : "Sorry!");

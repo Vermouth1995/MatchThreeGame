@@ -42,8 +42,8 @@ export default class Message {
 		this.puzzle.addChild(this.boxPuzzle, this.boxLocationLocus, Message.BOX_Z_INDEX);
 	}
 
-    init(){
-        this.boxPuzzle.addAtom(
+	init() {
+		this.boxPuzzle.addAtom(
 			new AtomImage(new Locus<number>(Message.backgroundImageId), new Locus<Coordinate>(this.boxSize)),
 			new Locus<Coordinate>(Coordinate.ORIGIN),
 			Message.BACKGROUND_IMAGE_Z_INDEX
@@ -53,7 +53,7 @@ export default class Message {
 			new Locus<Coordinate>(this.boxSize.swell(Coordinate.HALF)),
 			Message.TEXT_Z_INDEX
 		);
-    }
+	}
 
 	private static readonly ACTIVE_SIZE_COEFFICIENT: Coordinate = new Coordinate(0.6, 1);
 
