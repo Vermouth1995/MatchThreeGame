@@ -1,7 +1,8 @@
 module.exports = {
-	tabWidth : 4,
-	useTabs : true,
+	tabWidth: 4,
+	useTabs: true,
 	printWidth: 120,
-	semi : true,
-    parser : "typescript"
-}
+	semi: true,
+	parser: "typescript",
+	endOfLine: "lf"
+};
