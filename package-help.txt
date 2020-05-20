@@ -1,0 +1,14 @@
+Usage: npm run <command>
+
+where <command> is one of:
+- help
+- build
+- start
+- clean
+- format
+
+npm run help        show help information
+npm run build       build ts file
+npm run start       start this application
+npm run clean       clean cache files
+npm run format      code format
