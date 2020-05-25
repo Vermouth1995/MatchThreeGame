@@ -2,7 +2,10 @@
 	"name": "matchthreegame",
 	"version": "1.0.0",
 	"description": "Tile-matching video game",
-	"contributors": [ "vermouth1995", "TingerSure"],
+	"contributors": [
+		"vermouth1995",
+		"TingerSure"
+	],
 	"license": "ISC",
 	"repository": {
 		"type": "git",
@@ -15,21 +18,22 @@
 		"format": "gulp format",
 		"help": "more package-help.txt"
 	},
-  "devDependencies": {
-		"gulp": "^4.0.0",
+	"devDependencies": {
+		"gulp": "^4.0.2",
 		"gulp-browserify": "^0.5.1",
 		"gulp-clean-old": "^0.2.5",
-		"gulp-pretty": "^1.0.1",
-		"gulp-rename": "^1.2.2",
-		"gulp-typescript": "^3.2.3",
-		"gulp-uglify": "^3.0.0",
+		"gulp-prettier": "^3.0.0",
+		"gulp-rename": "^2.0.0",
+		"gulp-typescript": "^6.0.0-alpha.1",
+		"gulp-uglify": "^3.0.2",
 		"husky": "^4.2.5",
-		"prettier": "^1.15.1",
-		"typescript": "^2.6.2"
+		"prettier": "^2.0.5",
+		"typescript": "^3.9.3"
 	},
 	"husky": {
 		"hooks": {
 			"pre-commit": "npm run format"
 		}
-	}
+	},
+	"dependencies": {}
 }
