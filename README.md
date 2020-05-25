@@ -1,8 +1,29 @@
-# Match-Three-Game
-Tile-matching video game
+### 🎲Match-Three-Game
+A tile-matching video game.
 
-#### code format
-	gulp format
+### 🔨Debug
 
-#### code build
-    gulp build
+- run `npm i`
+- run `npm run build`
+
+### ✨Code Foramt
+
+- run `npm run format`
+
+### 🔖Directory Structure
+
+> concept
+
+> engine
+
+> game
+
+> level
+
+> main
+
+> platform
+
+> render
+
+> resource
