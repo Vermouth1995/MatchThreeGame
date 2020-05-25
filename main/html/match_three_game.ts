@@ -15,7 +15,7 @@ export default class MatchThreeGame {
 
 		container.appendChild(render.getCanvasElement());
 
-		main.start(function(error: Error) {
+		main.start((error: Error) => {
 			console.log(error);
 		});
 	}

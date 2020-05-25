@@ -83,15 +83,12 @@ export default class Level implements LevelDate {
 		if (this.birth != null) {
 			return;
 		}
-		let self = this;
 		this.birthBase = new BirthWeightWithoutLocation()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
 		this.birthDrinkCount = new BirthCount(Level.DRINK_SIZE, new BirthDrink(), this.birthBase);
 		this.birth = new BirthCondition(
-			function(): boolean {
-				return self.goalDrink.getSteps() - self.birthDrinkCount.getSize() < Level.DRINK_ACTIVE_MAX_SIZE;
-			},
+			() => this.goalDrink.getSteps() - this.birthDrinkCount.getSize() < Level.DRINK_ACTIVE_MAX_SIZE,
 			this.birthDrinkCount,
 			this.birthBase
 		);

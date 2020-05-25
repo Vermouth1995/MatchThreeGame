@@ -71,24 +71,23 @@ export default class Puzzle {
 		if (atom == null) {
 			return;
 		}
-		this.atoms.insertBy(new RenderLocus<Atom>(atom, locus, zIndex), function(now: RenderLocus<Atom>): boolean {
-			return zIndex < now.zIndex;
-		});
+		this.atoms.insertBy(
+			new RenderLocus<Atom>(atom, locus, zIndex),
+			(now: RenderLocus<Atom>) => zIndex < now.zIndex
+		);
 	}
 	removeAtom(atom: Atom) {
 		if (atom == null) {
 			return;
 		}
-		this.atoms.removeBy(function(now: RenderLocus<Atom>): boolean {
-			return atom == now.data;
-		});
+		this.atoms.removeBy((now: RenderLocus<Atom>) => atom == now.data);
 	}
 
 	private puzzles: LinkedList<RenderLocus<Puzzle>> = new LinkedList<RenderLocus<Puzzle>>();
 
 	private triggerChild(location: Coordinate, timestamp: number): RenderPosition<Puzzle> {
 		let active: RenderPosition<Puzzle> = null;
-		this.puzzles.iterate(function(index: number, now: RenderLocus<Puzzle>) {
+		this.puzzles.iterate((_: number, now: RenderLocus<Puzzle>) => {
 			let postion: RenderPosition<Puzzle> = now.getPostion(timestamp);
 			if (location.isIn(postion.location, postion.location.offset(now.data.size()))) {
 				active = postion;
@@ -101,20 +100,17 @@ export default class Puzzle {
 		if (puzzle == null) {
 			return;
 		}
-		this.puzzles.insertBy(new RenderLocus<Puzzle>(puzzle, locus, zIndex), function(
-			now: RenderLocus<Puzzle>
-		): boolean {
-			return zIndex < now.zIndex;
-		});
+		this.puzzles.insertBy(
+			new RenderLocus<Puzzle>(puzzle, locus, zIndex),
+			(now: RenderLocus<Puzzle>) => zIndex < now.zIndex
+		);
 	}
 
 	removeChild(puzzle: Puzzle) {
 		if (puzzle == null) {
 			return;
 		}
-		this.puzzles.removeBy(function(now: RenderLocus<Puzzle>): boolean {
-			return puzzle == now.data;
-		});
+		this.puzzles.removeBy((now: RenderLocus<Puzzle>) => puzzle == now.data);
 	}
 
 	private renderSize: Coordinate = Coordinate.ORIGIN;
@@ -128,14 +124,14 @@ export default class Puzzle {
 	}
 
 	payAtoms(timeStamp: number, baseIndex: number, baseLocation: Coordinate, atoms: RenderPosition<Atom>[]) {
-		this.atoms.iterate(function(index: number, now: RenderLocus<Atom>) {
+		this.atoms.iterate((_: number, now: RenderLocus<Atom>) => {
 			let postion: RenderPosition<Atom> = now
 				.getPostion(timeStamp)
 				.offsetLocation(baseLocation)
 				.offsetZIndex(baseIndex);
 			atoms.push(postion);
 		});
-		this.puzzles.iterate(function(index: number, now: RenderLocus<Puzzle>) {
+		this.puzzles.iterate((_: number, now: RenderLocus<Puzzle>) => {
 			let postion: RenderPosition<Puzzle> = now
 				.getPostion(timeStamp)
 				.offsetLocation(baseLocation)

@@ -24,7 +24,7 @@ export default abstract class RenderAdapter implements Render {
 
 	protected images: string[] = [];
 
-	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
+	registeredImage(image: string, onEnd: () => void, _: (error: Error) => void): number {
 		let imageId: number = this.images.length;
 		this.images.push(image);
 		OnceAdapter.delay(onEnd)();
@@ -49,9 +49,7 @@ export default abstract class RenderAdapter implements Render {
 	draw(timeStamp: number) {
 		let atoms: RenderPosition<Atom>[] = [];
 		this.getRootPuzzle().payAtoms(timeStamp, 0, Coordinate.ORIGIN, atoms);
-		atoms.sort(function(left: RenderPosition<Atom>, right: RenderPosition<Atom>): number {
-			return left.zIndex - right.zIndex;
-		});
+		atoms.sort((left, right) => left.zIndex - right.zIndex);
 		for (let i = 0; i < atoms.length; i++) {
 			let atom: RenderPosition<Atom> = atoms[i];
 			atom.data.draw(this, atom.location, timeStamp);

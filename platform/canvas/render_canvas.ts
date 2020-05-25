@@ -16,28 +16,27 @@ export default class RenderCanvas extends RenderAdapter {
 	}
 
 	private initListener() {
-		let self: RenderCanvas = this;
 		let root: Puzzle = this.getRootPuzzle();
-		self.canvas.onmouseup = function(event: MouseEvent) {
-			if (self.listenerOn) {
+		this.canvas.onmouseup = (event: MouseEvent) => {
+			if (this.listenerOn) {
 				root.triggerMouseUp(
-					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
 		};
-		self.canvas.onmousedown = function(event: MouseEvent) {
-			if (self.listenerOn) {
+		this.canvas.onmousedown = (event: MouseEvent) => {
+			if (this.listenerOn) {
 				root.triggerMouseDown(
-					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
 		};
-		self.canvas.onmousemove = function(event: MouseEvent) {
-			if (self.listenerOn) {
+		this.canvas.onmousemove = (event: MouseEvent) => {
+			if (this.listenerOn) {
 				root.triggerMouseMove(
-					self.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
@@ -67,20 +66,14 @@ export default class RenderCanvas extends RenderAdapter {
 	}
 
 	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
-		let self: RenderCanvas = this;
 		let imageId: number = super.registeredImage(
 			image,
-			function() {
+			() => {
 				let imageElement: HTMLImageElement = document.createElement("img");
-				self.HTMLImages[imageId] = imageElement;
-				imageElement.onload = function() {
-					onEnd();
-				};
-				imageElement.onerror = function(event: ErrorEvent) {
-					onError(event.error);
-				};
-
-				imageElement.src = self.imagePrefix + image;
+				this.HTMLImages[imageId] = imageElement;
+				imageElement.onload = () => onEnd();
+				imageElement.onerror = (event: ErrorEvent) => onError(event.error);
+				imageElement.src = this.imagePrefix + image;
 			},
 			onError
 		);
@@ -91,12 +84,11 @@ export default class RenderCanvas extends RenderAdapter {
 
 	start() {
 		super.start();
-		let self: RenderCanvas = this;
-		let renderCallback: (timeStamp: number) => void = function(timeStamp: number) {
+		let renderCallback: (timeStamp: number) => void = (_: number) => {
 			//This timestamp starts when the page loads, but we want it to start on January 1, 1970.
-			self.clear();
-			self.draw(Date.now());
-			self.renderRequestId = requestAnimationFrame(renderCallback);
+			this.clear();
+			this.draw(Date.now());
+			this.renderRequestId = requestAnimationFrame(renderCallback);
 		};
 		this.renderRequestId = requestAnimationFrame(renderCallback);
 		this.listenerOn = true;
