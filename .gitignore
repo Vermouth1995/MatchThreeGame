@@ -2,3 +2,4 @@ node_modules
 cache/
 dist/
 resource_prepare/
+package-lock.json
