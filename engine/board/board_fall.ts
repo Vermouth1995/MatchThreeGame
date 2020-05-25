@@ -21,17 +21,16 @@ export default class BoardFall {
 	) {}
 
 	start(onNextFallEnd?: () => void) {
-		let self: BoardFall = this;
 		this.onNextFallEnd.on(onNextFallEnd);
 		if (this.isFalling) {
 			return;
 		}
 		this.isFalling = true;
-		this.fall(function(isChanged: boolean) {
-			self.onNextFallEnd.trigger();
-			self.onNextFallEnd.clear();
-			self.onFallEnd.trigger();
-			self.isFalling = false;
+		this.fall((_: boolean) => {
+			this.onNextFallEnd.trigger();
+			this.onNextFallEnd.clear();
+			this.onFallEnd.trigger();
+			this.isFalling = false;
 		});
 	}
 
@@ -63,21 +62,19 @@ export default class BoardFall {
 	private isFalling: boolean = false;
 
 	private fall(onEnd?: (isChanged: boolean) => void) {
-		let self: BoardFall = this;
 		let isActive: boolean = false;
 		let robEnd: OnceLast = new OnceLast();
-		robEnd.setCallback(function() {
+		robEnd.setCallback(() => {
 			if (isActive) {
-				self.fall(function(isChanged: boolean) {
+				this.fall((isChanged: boolean) => {
 					isChanged = isActive || isChanged;
 					onEnd(isChanged);
 				});
 				return;
 			}
-
-			let pluginActive: boolean = self.plugin(function() {
+			let pluginActive: boolean = this.plugin(() => {
 				if (pluginActive) {
-					self.fall(onEnd);
+					this.fall(onEnd);
 					return;
 				}
 				if (onEnd != null) {
@@ -85,15 +82,12 @@ export default class BoardFall {
 				}
 			});
 		});
-
 		this.arrivable.update();
-
-		this.exits.iterate(function(exit: CellExit) {
+		this.exits.iterate((exit: CellExit) => {
 			let location: Coordinate = exit.getLocation();
 			let victims: Cell[] = [];
 			let victimLocations: Coordinate[] = [];
-			self.getVictimsByExit(location, victims, victimLocations);
-
+			this.getVictimsByExit(location, victims, victimLocations);
 			isActive = exit.rob(victims, victimLocations, robEnd.getCallback()) || isActive;
 		});
 		for (let i = this.cells.size().row - 1; i >= 0; i--) {
@@ -102,7 +96,6 @@ export default class BoardFall {
 				let victims: Cell[] = [];
 				let victimLocations: Coordinate[] = [];
 				this.getVictimsByLocation(location, victims, victimLocations);
-
 				isActive =
 					this.cells.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) ||
 					isActive;

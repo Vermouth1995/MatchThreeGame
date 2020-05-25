@@ -10,9 +10,8 @@ export default class BoardCheck {
 	check(): Polymerize {
 		let max: Polymerize = null;
 		let lastCellUpdateTime: number = 0;
-		let self: BoardCheck = this;
-		this.cells.iterate(function(location: Coordinate, cell: Cell): boolean {
-			let now: Polymerize = self.checkPosition(location);
+		this.cells.iterate((location: Coordinate, cell: Cell) => {
+			let now: Polymerize = this.checkPosition(location);
 			if (now == null) {
 				return true;
 			}
@@ -32,12 +31,7 @@ export default class BoardCheck {
 
 	private checkPosition(location: Coordinate): Polymerize {
 		let direction: number = 0;
-		if (
-			!this.cells
-				.getCellByLocation(location)
-				.getItem()
-				.canPolymerize()
-		) {
+		if (!this.cells.getCellByLocation(location).getItem().canPolymerize()) {
 			return null;
 		}
 

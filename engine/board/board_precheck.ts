@@ -9,9 +9,8 @@ export default class BoardPrecheck {
 
 	precheck(): Exchange {
 		let exchange: Exchange;
-		let self: BoardPrecheck = this;
-		this.cells.iterate(function(location: Coordinate, cell: Cell): boolean {
-			exchange = self.precheckPositon(location);
+		this.cells.iterate((location: Coordinate, _: Cell) => {
+			exchange = this.precheckPositon(location);
 			if (exchange != null) {
 				return false;
 			}

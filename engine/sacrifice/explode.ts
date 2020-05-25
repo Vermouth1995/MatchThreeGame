@@ -1,5 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
+
 export default class Explode extends SacrificeAdapter {
 	constructor(private owner: Coordinate, size: number) {
 		super();

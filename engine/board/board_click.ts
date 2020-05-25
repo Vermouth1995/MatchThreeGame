@@ -12,13 +12,12 @@ export default class BoardClick {
 	readonly onClick: Listener<void, (isSuccess: boolean) => void> = new ListenerDiffusion();
 
 	click(area: Click) {
-		let self: BoardClick = this;
 		let location: Cell = this.cells.getCellByLocation(area.getLocation());
 		let success: boolean = location.beClicked(
 			new OnceFirst()
-				.setCallback(function() {
-					self.onClick.trigger(success);
-					self.fall.start();
+				.setCallback(() => {
+					this.onClick.trigger(success);
+					this.fall.start();
 				})
 				.getCallback()
 		);

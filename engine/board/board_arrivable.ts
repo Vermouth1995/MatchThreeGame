@@ -14,7 +14,6 @@ export default class BoardArrivable {
 	}
 
 	update() {
-		let self: BoardArrivable = this;
 		this.arrivable = [];
 		for (let i = 0; i < this.cells.size().row; i++) {
 			this.arrivable.push([]);
@@ -23,8 +22,8 @@ export default class BoardArrivable {
 			}
 		}
 
-		this.births.iterate(function(birth: CellBirth) {
-			self.updateLocation(birth.getLocation());
+		this.births.iterate((birth: CellBirth) => {
+			this.updateLocation(birth.getLocation());
 		});
 	}
 

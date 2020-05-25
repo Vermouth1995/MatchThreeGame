@@ -8,9 +8,8 @@ import Listener from "../../concept/listener";
 
 export default class BoardExits implements CellOwner {
 	constructor(private exit: CellExit[] = []) {
-		let self = this;
-		this.iterate(function(cell: Cell): boolean {
-			cell.setOwner(self);
+		this.iterate((cell: Cell) => {
+			cell.setOwner(this);
 			return true;
 		});
 	}

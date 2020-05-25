@@ -3,12 +3,11 @@ export default class OnceLast extends OnceAdapter {
 	private counter: number = 0;
 
 	getCallback(): () => void {
-		let self: OnceLast = this;
 		this.counter++;
-		return OnceAdapter.delay(function() {
-			self.counter--;
-			if (self.counter == 0) {
-				self.call();
+		return OnceAdapter.delay(() => {
+			this.counter--;
+			if (this.counter == 0) {
+				this.call();
 			}
 		});
 	}

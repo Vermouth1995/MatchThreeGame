@@ -13,41 +13,40 @@ export default class BoardPuzzle extends Puzzle {
 
 	constructor() {
 		super();
-		let self: BoardPuzzle = this;
-		this.onMouseDown(function(location: Coordinate): boolean {
+		this.onMouseDown((location: Coordinate) => {
 			location = location.floor();
-			self.startLocation = location;
-			self.isHold = true;
-			self.isHoldActive = true;
+			this.startLocation = location;
+			this.isHold = true;
+			this.isHoldActive = true;
 			return false;
 		});
-		this.onMouseUp(function(location: Coordinate): boolean {
+		this.onMouseUp((location: Coordinate) => {
 			location = location.floor();
 			let now: number = Date.now();
-			if (self.isHold && self.isHoldActive && self.startLocation.equal(location)) {
+			if (this.isHold && this.isHoldActive && this.startLocation.equal(location)) {
 				if (
-					self.lastClickLocation != null &&
-					self.lastClickLocation.equal(location) &&
-					self.lastClickTimeStamp + BoardPuzzle.MaxClickTimeout > now
+					this.lastClickLocation != null &&
+					this.lastClickLocation.equal(location) &&
+					this.lastClickTimeStamp + BoardPuzzle.MaxClickTimeout > now
 				) {
-					self.triggerBoardClick(location);
-					self.lastClickLocation = null;
-					self.lastClickTimeStamp = 0;
+					this.triggerBoardClick(location);
+					this.lastClickLocation = null;
+					this.lastClickTimeStamp = 0;
 				} else {
-					self.lastClickLocation = location;
-					self.lastClickTimeStamp = now;
+					this.lastClickLocation = location;
+					this.lastClickTimeStamp = now;
 				}
 			}
-			self.isHoldActive = false;
-			self.isHold = false;
-			self.startLocation = null;
+			this.isHoldActive = false;
+			this.isHold = false;
+			this.startLocation = null;
 			return false;
 		});
-		this.onMouseMove(function(location: Coordinate): boolean {
+		this.onMouseMove((location: Coordinate) => {
 			location = location.floor();
-			if (self.isHold && self.isHoldActive && !self.startLocation.equal(location)) {
-				self.triggerBoardExchange(self.startLocation, BoardPuzzle.getNeighbor(self.startLocation, location));
-				self.isHoldActive = false;
+			if (this.isHold && this.isHoldActive && !this.startLocation.equal(location)) {
+				this.triggerBoardExchange(this.startLocation, BoardPuzzle.getNeighbor(this.startLocation, location));
+				this.isHoldActive = false;
 			}
 			return false;
 		});
@@ -61,7 +60,7 @@ export default class BoardPuzzle extends Puzzle {
 			origin.offset(Coordinate.LEFT),
 			origin.offset(Coordinate.RIGHT),
 			origin.offset(Coordinate.UP),
-			origin.offset(Coordinate.DOWN)
+			origin.offset(Coordinate.DOWN),
 		];
 		let minDistance: number = Number.MAX_VALUE;
 		let minNeighbor: Coordinate;

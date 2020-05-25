@@ -56,19 +56,18 @@ export default class Score implements PuzzleKeeper {
 	private goals: Goal[] = [];
 
 	addGoal(goals: Goal[]) {
-		let self: Score = this;
 		this.goals = goals;
-		let successEnd: Once = new OnceLast().setCallback(function() {
-			self.end(true);
+		let successEnd: Once = new OnceLast().setCallback(() => {
+			this.end(true);
 		});
-		this.goals.map(function(goal: Goal, index: number) {
+		this.goals.map((goal: Goal, index: number) => {
 			let puzzle = goal.getPuzzle();
 
-			self.puzzle.addChild(
+			this.puzzle.addChild(
 				puzzle,
 				new Locus<Coordinate>(
 					new Coordinate(
-						((Score.GOAL_LOCATION_END.row - Score.GOAL_LOCATION.row) / (self.goals.length + 1)) *
+						((Score.GOAL_LOCATION_END.row - Score.GOAL_LOCATION.row) / (this.goals.length + 1)) *
 							(index + 1) +
 							Score.GOAL_LOCATION.row -
 							puzzle.size().row / 2,
@@ -86,13 +85,12 @@ export default class Score implements PuzzleKeeper {
 
 	setOn(on: BoardOn) {
 		this.on = on;
-		let self = this;
-		this.on.onStep(function() {
-			self.stepMinus();
+		this.on.onStep(() => {
+			this.stepMinus();
 		});
-		this.on.onFallEnd(function() {
-			if (self.step == 0) {
-				self.end(false);
+		this.on.onFallEnd(() => {
+			if (this.step == 0) {
+				this.end(false);
 			}
 		});
 	}
@@ -121,14 +119,12 @@ export default class Score implements PuzzleKeeper {
 	stepAdd(newStep: number) {
 		let finalStep: number = this.step + newStep;
 		this.stepRender.setEvent(
-			new EventMove<number>(finalStep, newStep * Score.STEP_ADD_TIME_COST_PER_STEP, true, function(
-				from: number,
-				to: number,
-				timecost: number,
-				relativeTime: number
-			): number {
-				return Math.floor(this.step + (newStep * relativeTime) / timecost);
-			})
+			new EventMove<number>(
+				finalStep,
+				newStep * Score.STEP_ADD_TIME_COST_PER_STEP,
+				true,
+				(from, to, timecost, relativeTime) => Math.floor(this.step + (newStep * relativeTime) / timecost)
+			)
 		);
 		this.step = finalStep;
 	}

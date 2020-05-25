@@ -45,14 +45,12 @@ export default abstract class CellAdapter implements Cell {
 	renderSaveBack(where: Coordinate, when: number) {
 		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.ORIGIN, when, false, function(
-			from: Coordinate,
-			to: Coordinate,
-			timeCost: number,
-			relativeTime: number
-		): Coordinate {
-			return from.offsetTo(to, relativeTime / timeCost);
-		});
+		let move: EventMove<Coordinate> = new EventMove<Coordinate>(
+			Coordinate.ORIGIN,
+			when,
+			false,
+			(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
+		);
 		this.itemLocus.setEvent(move);
 	}
 
@@ -131,7 +129,6 @@ export default abstract class CellAdapter implements Cell {
 	static readonly EXCHANGE_SAVE_BACK_TIME_COST = 200;
 
 	rob(victims: Cell[], victimLocations: Coordinate[], onEnd: () => void): boolean {
-		let self: CellAdapter = this;
 		if (!this.getItem().isEmpty()) {
 			onEnd();
 			return false;
@@ -155,9 +152,9 @@ export default abstract class CellAdapter implements Cell {
 			onEnd();
 			return false;
 		}
-		self.setItem(victimItem);
-		self.renderSaveBack(validVictimLocation, CellAdapter.ROB_SAVE_BACK_TIME_COST);
-		setTimeout(function() {
+		this.setItem(victimItem);
+		this.renderSaveBack(validVictimLocation, CellAdapter.ROB_SAVE_BACK_TIME_COST);
+		setTimeout(() => {
 			onEnd();
 		}, CellAdapter.ROB_SAVE_BACK_TIME_COST);
 

@@ -21,9 +21,8 @@ export default class BoardExchange {
 	readonly onExchange: Listener<void, (isSuccess: boolean) => void> = new ListenerDiffusion();
 
 	exchange(area: Exchange) {
-		let self: BoardExchange = this;
-		let exchangeEnd: Once = new OnceLast().setCallback(function() {
-			self.fall.start();
+		let exchangeEnd: Once = new OnceLast().setCallback(() => {
+			this.fall.start();
 		});
 		if (area == null || !area.isNeighbor()) {
 			exchangeEnd.getCallback()();
@@ -31,24 +30,23 @@ export default class BoardExchange {
 		}
 		let fromCell: Cell = this.cells.getCellByLocation(area.getFrom());
 		let toCell: Cell = this.cells.getCellByLocation(area.getTo());
-		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), function() {
+		let success: boolean = fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), () => {
 			if (!success) {
-				self.onExchange.trigger(false);
+				this.onExchange.trigger(false);
 				exchangeEnd.getCallback()();
 				return;
 			}
-
-			let polymerize: Polymerize = self.check.check();
+			let polymerize: Polymerize = this.check.check();
 			if (polymerize != null) {
-				self.polymerize.polymerize(polymerize, exchangeEnd.getCallback());
+				this.polymerize.polymerize(polymerize, exchangeEnd.getCallback());
 			}
 			let fromBlock: boolean = fromCell.beExchanged(exchangeEnd.getCallback());
 			let toBlock: boolean = toCell.beExchanged(exchangeEnd.getCallback());
 			if (polymerize == null && !fromBlock && !toBlock) {
-				self.onExchange.trigger(false);
+				this.onExchange.trigger(false);
 				fromCell.exchange(toCell, area.getTo().offset(area.getFrom().negative()), exchangeEnd.getCallback());
 			} else {
-				self.onExchange.trigger(true);
+				this.onExchange.trigger(true);
 			}
 		});
 	}

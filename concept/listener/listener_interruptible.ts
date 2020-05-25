@@ -6,12 +6,8 @@ export default class ListenerInterruptible<B, T extends (...args: any[]) => B> e
 	}
 
 	trigger(...args: any[]): B {
-		let self = this;
 		let value: B;
-		this.listeners.iterateInterruptible(function(index: number, now: T): boolean {
-			value = now(...args);
-			return !self.needInterrupted(value);
-		});
+		this.listeners.iterateInterruptible((_: number, now: T) => !this.needInterrupted(now(...args)));
 		return value;
 	}
 }

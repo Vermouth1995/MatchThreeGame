@@ -7,17 +7,18 @@ import EventMove from "../../concept/event/event_move";
 export default class GoalItemCleared extends GoalBoardOn {
 	constructor(on: BoardOn, private item: Item, private steps: number) {
 		super(on);
-		let self: GoalItemCleared = this;
 
 		this.initImage(this.item);
 		this.initStep(steps);
 
-		this.on.onItemClear(function(cleared: Item) {
-			if (self.item.equals(cleared)) {
-				self.stepsMinus();
+		this.on.onItemClear((cleared: Item) => {
+			if (this.item.equals(cleared)) {
+				this.stepsMinus();
 			}
 		});
 	}
+
+	private static readonly STEP_MINUS_TIME_COST: number = 300;
 
 	getSteps(): number {
 		return this.steps;
@@ -29,21 +30,17 @@ export default class GoalItemCleared extends GoalBoardOn {
 		}
 		this.steps--;
 		this.stepLocus.setEvent(
-			new EventMove<number>(this.steps, GoalItemCleared.STEP_MINUS_TIME_COST, false, function(
-				from: number,
-				to: number,
-				timeCost: number,
-				relativeTime: number
-			): number {
-				return Math.floor(((to - from) * relativeTime) / timeCost + from);
-			})
+			new EventMove<number>(
+				this.steps,
+				GoalItemCleared.STEP_MINUS_TIME_COST,
+				false,
+				(from, to, timeCost, relativeTime) => Math.floor(((to - from) * relativeTime) / timeCost + from)
+			)
 		);
 		if (this.isSuccess()) {
 			this.onSuccess.trigger();
 		}
 	}
-
-	private static readonly STEP_MINUS_TIME_COST: number = 300;
 
 	isSuccess(): boolean {
 		return this.steps == 0;

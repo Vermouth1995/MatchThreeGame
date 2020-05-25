@@ -41,14 +41,13 @@ export default class BoardCells implements CellOwner {
 	}
 
 	setCells(cells: Cell[][]) {
-		let self = this;
 		if (cells == null) {
 			cells = [];
 		}
 		this.cellsSize = BoardCells.formatCells(cells);
 		this.cells = cells;
-		this.iterate(function(location: Coordinate, cell: Cell): boolean {
-			cell.setOwner(self);
+		this.iterate((_: Coordinate, cell: Cell) => {
+			cell.setOwner(this);
 			return true;
 		});
 	}

@@ -3,11 +3,10 @@ export default class OnceFirst extends OnceAdapter {
 	private hasCalled: boolean = false;
 
 	getCallback(): () => void {
-		let self: OnceFirst = this;
-		return OnceAdapter.delay(function() {
-			if (!self.hasCalled) {
-				self.hasCalled = true;
-				self.call();
+		return OnceAdapter.delay(() => {
+			if (!this.hasCalled) {
+				this.hasCalled = true;
+				this.call();
 			}
 		});
 	}

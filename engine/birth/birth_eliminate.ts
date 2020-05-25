@@ -8,7 +8,7 @@ export default class BirthEliminate extends BirthWithoutLocation {
 		super();
 	}
 
-	private static birth: BirthItemWeight = (function(): BirthItemWeight {
+	private static birth: BirthItemWeight = (() => {
 		let birth: BirthItemWeight = new BirthItemWeight();
 		birth.addItemWeight(ItemCreator.APPLE);
 		birth.addItemWeight(ItemCreator.BLUEBERRY);

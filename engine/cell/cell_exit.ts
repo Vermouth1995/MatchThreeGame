@@ -12,11 +12,8 @@ import Puzzle from "../../render/puzzle";
 
 export default class CellExit implements Cell {
 	static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
-
 	static readonly PUZZLE_ITEM_Z_INDEX: number = 10;
-
 	static readonly ROB_SAVE_BACK_TIME_COST: number = 120;
-
 	static readonly ITEM_TEMPLATE: Item = ItemCreator.createItem(ItemCreator.DRINK);
 
 	constructor() {
@@ -115,21 +112,16 @@ export default class CellExit implements Cell {
 	}
 
 	renderSaveBack(where: Coordinate, when: number): void {
-		let self = this;
 		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(Coordinate.DOWN, when, false, function(
-			from: Coordinate,
-			to: Coordinate,
-			timeCost: number,
-			relativeTime: number
-		): Coordinate {
-			return from.offsetTo(to, relativeTime / timeCost);
-		});
+		let move: EventMove<Coordinate> = new EventMove<Coordinate>(
+			Coordinate.DOWN,
+			when,
+			false,
+			(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
+		);
 		this.itemLocus.setEvent(move);
-		let oldItem: Item = this.item;
-		this.item.cleared(function() {});
-
+		this.item.cleared(() => {});
 		this.item = null;
 		this.itemLocus = null;
 	}
@@ -163,7 +155,7 @@ export default class CellExit implements Cell {
 		}
 		self.setItem(victimItem);
 		self.renderSaveBack(validVictimLocation, CellExit.ROB_SAVE_BACK_TIME_COST);
-		setTimeout(function() {
+		setTimeout(() => {
 			onEnd();
 		}, CellExit.ROB_SAVE_BACK_TIME_COST);
 

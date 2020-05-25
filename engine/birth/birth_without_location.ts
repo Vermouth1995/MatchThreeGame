@@ -7,10 +7,10 @@ export default abstract class BirthWithoutLocation extends BirthAdapter {
 		super();
 	}
 
-	getItem(location: Coordinate): Item {
+	getItem(_: Coordinate): Item {
 		return this.getItemWithoutLocation();
 	}
-	popItem(location: Coordinate): Item {
+	popItem(_: Coordinate): Item {
 		return this.popItemWithoutLocation();
 	}
 	abstract getItemWithoutLocation(): Item;

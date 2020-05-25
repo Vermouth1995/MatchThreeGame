@@ -24,16 +24,15 @@
 		"gulp-clean-old": "^0.2.5",
 		"gulp-prettier": "^3.0.0",
 		"gulp-rename": "^2.0.0",
-		"gulp-typescript": "^6.0.0-alpha.1",
+		"gulp-typescript": "^3.2.3",
 		"gulp-uglify": "^3.0.2",
 		"husky": "^4.2.5",
 		"prettier": "^2.0.5",
-		"typescript": "^3.9.3"
+		"typescript": "^2.6.2"
 	},
 	"husky": {
 		"hooks": {
 			"pre-commit": "npm run format"
 		}
-	},
-	"dependencies": {}
+	}
 }

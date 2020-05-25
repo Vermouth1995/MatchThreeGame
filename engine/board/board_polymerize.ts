@@ -13,14 +13,13 @@ export default class BoardPolymerize {
 		private fall: BoardFall,
 		private check: BoardCheck
 	) {
-		let self = this;
-		this.fall.beforeFallEnd(function(onEnd): boolean {
-			let area: Polymerize = self.check.check();
+		this.fall.beforeFallEnd((onEnd) => {
+			let area: Polymerize = this.check.check();
 			if (area == null) {
 				onEnd();
 				return false;
 			}
-			self.polymerize(area, onEnd);
+			this.polymerize(area, onEnd);
 			return true;
 		});
 	}

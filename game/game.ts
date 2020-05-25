@@ -45,26 +45,25 @@ export default class Game {
 	}
 
 	start(onError: (error: Error) => void) {
-		let self: Game = this;
 		Game.LoadStaticResource(
 			this.render,
-			function() {
-				self.message.init();
-				self.render.start();
-				let levelEnd = function(success: boolean) {
-					self.message.setText(success ? "Congratulations!" : "Sorry!");
-					self.message.show(function() {
-						setTimeout(function() {
-							self.message.hide(function() {
-								self.closeLevel();
-								self.startLevel(LevelCreator.TypeCommon, self.levelIndex.toString(), levelEnd);
+			() => {
+				this.message.init();
+				this.render.start();
+				let levelEnd = (success: boolean) => {
+					this.message.setText(success ? "Congratulations!" : "Sorry!");
+					this.message.show(() => {
+						setTimeout(() => {
+							this.message.hide(() => {
+								this.closeLevel();
+								this.startLevel(LevelCreator.TypeCommon, this.levelIndex.toString(), levelEnd);
 							});
 						}, 5000);
 					});
 				};
-				self.startLevel(LevelCreator.TypeCommon, self.levelIndex.toString(), levelEnd);
+				this.startLevel(LevelCreator.TypeCommon, this.levelIndex.toString(), levelEnd);
 			},
-			function(error: Error) {
+			(error: Error) => {
 				onError(error);
 			}
 		);

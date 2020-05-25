@@ -72,32 +72,28 @@ export default class Message {
 
 	show(onEnd: () => void) {
 		this.boxLocationLocus.setEvent(
-			new EventMove<Coordinate>(this.boxActiveLocation, Message.SHOW_TIME_COST, false, function(
-				from: Coordinate,
-				to: Coordinate,
-				timeCost: number,
-				relativeTime: number
-			): Coordinate {
-				return from.offsetTo(to, relativeTime / timeCost);
-			})
+			new EventMove<Coordinate>(
+				this.boxActiveLocation,
+				Message.SHOW_TIME_COST,
+				false,
+				(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
+			)
 		);
-		setTimeout(function() {
+		setTimeout(() => {
 			onEnd();
 		}, Message.SHOW_TIME_COST);
 	}
 
 	hide(onEnd: () => void) {
 		this.boxLocationLocus.setEvent(
-			new EventMove<Coordinate>(this.boxLocation, Message.SHOW_TIME_COST, false, function(
-				from: Coordinate,
-				to: Coordinate,
-				timeCost: number,
-				relativeTime: number
-			): Coordinate {
-				return from.offsetTo(to, relativeTime / timeCost);
-			})
+			new EventMove<Coordinate>(
+				this.boxLocation,
+				Message.SHOW_TIME_COST,
+				false,
+				(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
+			)
 		);
-		setTimeout(function() {
+		setTimeout(() => {
 			onEnd();
 		}, Message.SHOW_TIME_COST);
 	}

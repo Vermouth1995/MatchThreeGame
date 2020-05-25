@@ -12,17 +12,17 @@ import AtomString from "../../render/atom/atom_string";
 import Puzzle from "../../render/puzzle";
 
 export default abstract class GoalAdapter implements Goal {
-	protected stepsAtom: AtomString;
+	constructor() {
+		this.puzzle.setSize(Coordinate.UNIT);
+	}
 
+	protected stepsAtom: AtomString;
 	private color: Color = new Color(0, 0, 0);
 	private font: Font = new Font().setSize(0.3).setAlign(Font.ALIGN_CENTER);
 	private static readonly PUZZLE_IMAGE_ID_Z_INDEX = 1;
 	private static readonly PUZZLE_STEPS_Z_INDEX = 2;
 	private static readonly PUZZLE_IMAGE_ID_LOCATION = Coordinate.ORIGIN;
 	private static readonly PUZZLE_STEPS_LOCATION = new Coordinate(0.8, 0.8);
-	constructor() {
-		this.puzzle.setSize(Coordinate.UNIT);
-	}
 
 	initImage(image: PuzzleKeeper) {
 		this.puzzle.addChild(

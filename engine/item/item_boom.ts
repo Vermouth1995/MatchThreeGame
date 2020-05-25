@@ -8,41 +8,38 @@ export default abstract class ItemBoom extends ItemAdapter {
 	}
 
 	abstract equals(item: Item): boolean;
+	abstract getExplodeSize(): number;
+	abstract getImageId(): number;
+
 	canPolymerize(): boolean {
 		return false;
 	}
 
-	bePolymerizedAsOwner(size: number, onEnd: () => void) {
+	bePolymerizedAsOwner(_: number, onEnd: () => void) {
 		onEnd();
 	}
 	bePolymerizedAsGuest(onEnd: () => void) {
 		onEnd();
 	}
-	abstract getExplodeSize(): number;
 	beExploded(onEnd: () => void) {
 		this.boom(onEnd);
 	}
 	beScraped(onEnd: () => void) {
 		onEnd();
 	}
-
 	beClicked(onEnd: () => void): boolean {
 		this.boom(onEnd);
 		return true;
 	}
-
-	private boom(onEnd: () => void) {
-		let self: ItemBoom = this;
-		let owner: ItemOwner = this.owner;
-		this.cleared(function() {
-			owner.exploded(self.getExplodeSize(), onEnd);
-		});
-	}
-
 	beExchanged(onEnd: () => void): boolean {
 		this.boom(onEnd);
 		return true;
 	}
 
-	abstract getImageId(): number;
+	private boom(onEnd: () => void) {
+		let owner: ItemOwner = this.owner;
+		this.cleared(() => {
+			owner.exploded(this.getExplodeSize(), onEnd);
+		});
+	}
 }

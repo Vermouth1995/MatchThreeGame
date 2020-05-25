@@ -26,10 +26,7 @@ export default class Level {
 
 	private puzzle: Puzzle;
 	constructor(private name: string, private size: Coordinate, private date: LevelDate) {
-		let self = this;
-
 		this.board = new Board();
-
 		this.board.setCells(this.date.getCells(), this.date.getBirths(), this.date.getExits());
 
 		this.score = new Score();
@@ -37,17 +34,16 @@ export default class Level {
 		this.score.setStep(this.date.getStep());
 		this.score.addGoal(this.date.getGoals(this.board.getOn()));
 		this.score.setLevel(this.name);
-
-		this.score.onStepEnd.on(function() {
-			self.board.close();
+		this.score.onStepEnd.on(() => {
+			this.board.close();
 		});
-		this.score.onEnd.on(function(success: boolean) {
-			self.board.close();
-			self.onEnd.trigger(success);
+		this.score.onEnd.on((success: boolean) => {
+			this.board.close();
+			this.onEnd.trigger(success);
 		});
 
 		this.puzzle = new Puzzle();
-		this.puzzle.setSize(self.size);
+		this.puzzle.setSize(this.size);
 		this.puzzle.addAtom(
 			new AtomImage(new Locus<number>(Level.backgroundImageId), new Locus<Coordinate>(this.size)),
 			new Locus<Coordinate>(Coordinate.ORIGIN),
@@ -55,13 +51,12 @@ export default class Level {
 		);
 		this.puzzle.addChild(
 			this.board.getPuzzle(),
-			new Locus(self.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF)),
+			new Locus(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF)),
 			Level.PUZZLE_BOARD_Z_INDEX
 		);
-
 		this.puzzle.addChild(
 			this.score.getPuzzle(),
-			new Locus(new Coordinate((self.size.row - this.score.getPuzzle().size().row) / 2, 0)),
+			new Locus(new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0)),
 			Level.PUZZLE_SCORE_Z_INDEX
 		);
 		this.board.start();

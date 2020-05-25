@@ -12,9 +12,7 @@ export default abstract class ListenerAdapter<B, T extends (...args: any[]) => B
 	}
 
 	cut(listener: T) {
-		this.listeners.removeBy(function(now: T): boolean {
-			return now == listener;
-		});
+		this.listeners.removeBy((now: T) => now == listener);
 	}
 
 	clear() {

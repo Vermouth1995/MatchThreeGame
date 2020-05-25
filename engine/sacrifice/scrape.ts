@@ -1,5 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
+
 export default class Scrape extends SacrificeAdapter {
 	constructor(private source: Coordinate[]) {
 		super();

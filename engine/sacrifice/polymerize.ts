@@ -1,6 +1,7 @@
 import Scrape from "./scrape";
 import Coordinate from "../../concept/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
+
 export default class Polymerize extends SacrificeAdapter {
 	constructor(private owner: Coordinate, private guests: Coordinate[]) {
 		super();

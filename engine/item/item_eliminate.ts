@@ -9,18 +9,18 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	}
 
 	abstract equals(item: Item): boolean;
+	abstract getImageId(): number;
+
 	canPolymerize(): boolean {
 		return true;
 	}
-
 	public static readonly BOOM_GENERATE_RADIX: number = 3;
 	bePolymerizedAsOwner(size: number, onEnd: () => void) {
 		let owner: ItemOwner = this.owner;
-		this.cleared(function() {
+		this.cleared(() => {
 			let boom: Item = ItemCreator.createBoom(size);
-
 			if (boom != null) {
-				boom.created(function() {});
+				boom.created(() => {});
 				owner.setItem(boom);
 			}
 			onEnd();
@@ -43,5 +43,4 @@ export default abstract class ItemEliminate extends ItemAdapter {
 		onEnd();
 		return false;
 	}
-	abstract getImageId(): number;
 }

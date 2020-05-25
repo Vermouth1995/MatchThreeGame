@@ -32,52 +32,37 @@ export default class Board implements PuzzleKeeper {
 	static readonly PUZZLE_EXIT_Z_INDEX: number = 11;
 
 	constructor() {
-		let self: Board = this;
 		this.puzzle = new BoardPuzzle();
-		this.puzzle.onBoardClick(function(location: Coordinate) {
-			if (!self.active) {
+		this.puzzle.onBoardClick((location: Coordinate) => {
+			if (!this.active) {
 				return;
 			}
-			self.click.click(new Click(location));
+			this.click.click(new Click(location));
 		});
-		this.puzzle.onBoardExchange(function(from: Coordinate, to: Coordinate) {
-			if (!self.active) {
+		this.puzzle.onBoardExchange((from: Coordinate, to: Coordinate) => {
+			if (!this.active) {
 				return;
 			}
-			self.exchange.exchange(new Exchange(from, to));
+			this.exchange.exchange(new Exchange(from, to));
 		});
 	}
 
 	private active: boolean = false;
-
 	private births: BoardBirths;
-
 	private exits: BoardExits;
-
 	private cells: BoardCells;
-
 	private check: BoardCheck;
-
 	private explode: BoardExplode;
-
 	private scrape: BoardScrape;
-
 	private polymerize: BoardPolymerize;
-
 	private arrivable: BoardArrivable;
-
 	private fall: BoardFall;
-
 	private exchange: BoardExchange;
-
 	private click: BoardClick;
-
 	private puzzle: BoardPuzzle;
-
 	private on: BoardOn;
 
 	setCells(cells: BoardCells, births: BoardBirths, exits: BoardExits) {
-		let self: Board = this;
 		this.births = births;
 		this.exits = exits;
 		this.cells = cells;
@@ -90,12 +75,12 @@ export default class Board implements PuzzleKeeper {
 		this.exchange = new BoardExchange(this.cells, this.fall, this.polymerize, this.check);
 		this.click = new BoardClick(this.cells, this.fall);
 		this.on = new BoardOn(this.cells, this.exits, this.click, this.exchange, this.fall);
-		this.cells.iterate(function(location: Coordinate, cell: Cell): boolean {
-			self.getPuzzle().addChild(cell.getPuzzle(), new Locus(location), Board.PUZZLE_CELL_Z_INDEX);
+		this.cells.iterate((location: Coordinate, cell: Cell) => {
+			this.getPuzzle().addChild(cell.getPuzzle(), new Locus(location), Board.PUZZLE_CELL_Z_INDEX);
 			return true;
 		});
-		this.exits.iterate(function(exit: CellExit) {
-			self.getPuzzle().addChild(exit.getPuzzle(), new Locus(exit.getLocation()), Board.PUZZLE_EXIT_Z_INDEX);
+		this.exits.iterate((exit: CellExit) => {
+			this.getPuzzle().addChild(exit.getPuzzle(), new Locus(exit.getLocation()), Board.PUZZLE_EXIT_Z_INDEX);
 		});
 		this.puzzle.setSize(this.cells.size().swell(CellAdapter.RENDER_SIZE));
 	}
