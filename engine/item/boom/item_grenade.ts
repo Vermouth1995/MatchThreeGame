@@ -1,5 +1,5 @@
-import Item from "../../item";
-import ItemBoom from "../item_boom";
+import Item from "../item";
+import ItemBoom from "./item_boom";
 import Render from "../../../render/render";
 
 export default class ItemGrenade extends ItemBoom {

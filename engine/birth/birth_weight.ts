@@ -1,7 +1,7 @@
 import BirthAdapter from "./birth_adapter";
 import BirthEmpty from "./birth_empty";
-import Birth from "../birth";
-import Item from "../item";
+import Birth from "../birth/birth";
+import Item from "../item/item";
 import RandomWeight from "../../concept/random_weight";
 import Coordinate from "../../concept/coordinate";
 

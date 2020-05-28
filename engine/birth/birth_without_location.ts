@@ -1,4 +1,4 @@
-import Item from "../item";
+import Item from "../item/item";
 import Coordinate from "../../concept/coordinate";
 import BirthAdapter from "./birth_adapter";
 

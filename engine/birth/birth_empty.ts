@@ -1,5 +1,5 @@
-import Item from "../item";
-import ItemEmpty from "../item/item_empty";
+import Item from "../item/item";
+import ItemEmpty from "../item/prop/item_empty";
 import BirthWithoutLocation from "./birth_without_location";
 
 export default class BirthEmpty extends BirthWithoutLocation {

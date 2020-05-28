@@ -1,8 +1,8 @@
 import BirthAdapter from "./birth_adapter";
 import BirthEmpty from "./birth_empty";
-import Birth from "../birth";
+import Birth from "../birth/birth";
 import Coordinate from "../../concept/coordinate";
-import Item from "../item";
+import Item from "../item/item";
 
 export default class BirthCount extends BirthAdapter {
 	constructor(private size: number, private birth: Birth, private defaultBirth: Birth) {

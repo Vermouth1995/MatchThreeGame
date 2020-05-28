@@ -1,4 +1,4 @@
-import Event from "../event";
+import Event from "./event";
 
 export default abstract class EventAdapter<T> implements Event<T> {
 	protected from: T;

@@ -1,4 +1,5 @@
 import Coordinate from "../concept/coordinate";
+
 export default class RenderPosition<T> {
 	constructor(public data: T, public location: Coordinate, public zIndex: number) {}
 

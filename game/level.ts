@@ -1,12 +1,12 @@
 import LevelDate from "./level_date";
 
-import Board from "../engine/board";
+import Board from "../engine/board/board";
 import Score from "../engine/Score";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import ListenerDiffusion from "../concept/listener/listener_diffusion";
-import Listener from "../concept/listener";
+import Listener from "../concept/listener/listener";
 
 import Puzzle from "../render/puzzle";
 import Render from "../render/render";

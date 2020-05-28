@@ -1,4 +1,4 @@
-import Goal from "../goal";
+import Goal from "./goal";
 import PuzzleKeeper from "../puzzle_keeper";
 
 import Locus from "../../concept/locus";
@@ -6,7 +6,7 @@ import Coordinate from "../../concept/coordinate";
 import Color from "../../concept/color";
 import Font from "../../concept/font";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
-import Listener from "../../concept/listener";
+import Listener from "../../concept/listener/listener";
 
 import AtomString from "../../render/atom/atom_string";
 import Puzzle from "../../render/puzzle";

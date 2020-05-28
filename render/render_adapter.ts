@@ -4,7 +4,7 @@ import Coordinate from "../concept/coordinate";
 import RenderPosition from "./render_position";
 import Render from "./render";
 import Puzzle from "./puzzle";
-import Atom from "./atom";
+import Atom from "./atom/atom";
 import OnceAdapter from "../concept/once/once_adapter";
 
 export default abstract class RenderAdapter implements Render {

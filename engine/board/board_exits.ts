@@ -1,10 +1,10 @@
-import Item from "../item";
-import Cell from "../cell";
+import Item from "../item/item";
+import Cell from "../cell/cell";
 import CellExit from "../cell/cell_exit";
-import CellOwner from "../cell_owner";
+import CellOwner from "../cell/cell_owner";
 import Coordinate from "../../concept/coordinate";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
-import Listener from "../../concept/listener";
+import Listener from "../../concept/listener/listener";
 
 export default class BoardExits implements CellOwner {
 	constructor(private exit: CellExit[] = []) {

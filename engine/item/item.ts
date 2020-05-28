@@ -1,5 +1,5 @@
 import ItemOwner from "./item_owner";
-import PuzzleKeeper from "./puzzle_keeper";
+import PuzzleKeeper from "../puzzle_keeper";
 
 export default interface Item extends PuzzleKeeper {
 	isEmpty(): boolean;

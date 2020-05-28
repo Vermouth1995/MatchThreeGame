@@ -1,5 +1,5 @@
 import Item from "../item";
-import ItemAdapter from "./item_adapter";
+import ItemAdapter from "../item_adapter";
 import ItemOwner from "../item_owner";
 import ItemCreator from "../item_creator";
 

@@ -1,15 +1,15 @@
-import Cell from "../cell";
+import Cell from "./cell";
 import CellEmpty from "./cell_empty";
-import CellOwner from "../cell_owner";
+import CellOwner from "./cell_owner";
 import Puzzle from "../../render/puzzle";
-import Atom from "../../render/atom";
+import Atom from "../../render/atom/atom";
 import AtomImage from "../../render/atom/atom_image";
 import Coordinate from "../../concept/coordinate";
 import Locus from "../../concept/locus";
 import EventMove from "../../concept/event/event_move";
 import EventLocationSetter from "../../concept/event/event_location_setter";
-import ItemEmpty from "../item/item_empty";
-import Item from "../item";
+import ItemEmpty from "../item/prop/item_empty";
+import Item from "../item/item";
 
 export default abstract class CellAdapter implements Cell {
 	constructor() {

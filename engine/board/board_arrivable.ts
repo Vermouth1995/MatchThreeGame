@@ -1,4 +1,4 @@
-import Cell from "../cell";
+import Cell from "../cell/cell";
 import CellBirth from "../cell/cell_birth";
 import BoardBirths from "../board/board_births";
 import Coordinate from "../../concept/coordinate";

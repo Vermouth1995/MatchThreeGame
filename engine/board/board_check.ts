@@ -1,5 +1,5 @@
-import Item from "../item";
-import Cell from "../cell";
+import Item from "../item/item";
+import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import Polymerize from "../sacrifice/polymerize";
 import Coordinate from "../../concept/coordinate";

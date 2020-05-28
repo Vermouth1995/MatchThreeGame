@@ -1,7 +1,7 @@
-import Cell from "../cell";
-import Item from "../item";
-import Birth from "../birth";
-import CellOwner from "../cell_owner";
+import Cell from "./cell";
+import Item from "../item/item";
+import Birth from "../birth/birth";
+import CellOwner from "./cell_owner";
 import Coordinate from "../../concept/coordinate";
 import Puzzle from "../../render/puzzle";
 

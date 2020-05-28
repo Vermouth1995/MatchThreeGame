@@ -1,4 +1,5 @@
-import Once from "../once";
+import Once from "./once";
+
 export default abstract class OnceAdapter implements Once {
 	abstract getCallback(): () => void;
 	setCallback(callback: () => void): Once {

@@ -3,7 +3,7 @@ import BoardExits from "./board_exits";
 import BoardClick from "./board_click";
 import BoardExchange from "./board_exchange";
 import BoardFall from "./board_fall";
-import Item from "../item";
+import Item from "../item/item";
 
 export default class BoardOn {
 	constructor(

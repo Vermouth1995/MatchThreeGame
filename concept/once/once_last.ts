@@ -1,4 +1,5 @@
 import OnceAdapter from "./once_adapter";
+
 export default class OnceLast extends OnceAdapter {
 	private counter: number = 0;
 

@@ -1,6 +1,6 @@
 import BirthWithoutLocation from "./birth_without_location";
 import BirthEmpty from "./birth_empty";
-import Item from "../item";
+import Item from "../item/item";
 import RandomWeight from "../../concept/random_weight";
 
 export default class BirthWeightWithoutLocation extends BirthWithoutLocation {

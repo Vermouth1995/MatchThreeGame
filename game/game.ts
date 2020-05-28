@@ -6,7 +6,7 @@ import LevelCreator from "./level_creator";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
-import Once from "../concept/once";
+import Once from "../concept/once/once";
 import OnceLast from "../concept/once/once_last";
 
 export default class Game {

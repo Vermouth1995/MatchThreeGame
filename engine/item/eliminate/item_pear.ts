@@ -1,5 +1,5 @@
-import Item from "../../item";
-import ItemEliminate from "../item_eliminate";
+import Item from "../item";
+import ItemEliminate from "./item_eliminate";
 import Render from "../../../render/render";
 
 export default class ItemPear extends ItemEliminate {

@@ -1,4 +1,4 @@
-import Event from "./event";
+import Event from "./event/event";
 import EventKeep from "./event/event_keep";
 
 export default class Locus<T> {

@@ -1,5 +1,5 @@
 import LinkedList from "../linked_list/linked_list";
-import Listener from "../listener";
+import Listener from "./listener";
 
 export default abstract class ListenerAdapter<B, T extends (...args: any[]) => B> implements Listener<B, T> {
 	protected listeners: LinkedList<T> = new LinkedList<T>();

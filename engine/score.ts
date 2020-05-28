@@ -1,17 +1,17 @@
 import PuzzleKeeper from "./puzzle_keeper";
-import Goal from "./goal";
+import Goal from "./goal/goal";
 import BoardOn from "./board/board_on";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import Font from "../concept/font";
 import Color from "../concept/color";
-import Once from "../concept/once";
+import Once from "../concept/once/once";
 import OnceLast from "../concept/once/once_last";
 import EventLocationSetter from "../concept/event/event_location_setter";
 import EventMove from "../concept/event/event_move";
 import ListenerDiffusion from "../concept/listener/listener_diffusion";
-import Listener from "../concept/listener";
+import Listener from "../concept/listener/listener";
 
 import AtomString from "../render/atom/atom_string";
 import Puzzle from "../render/puzzle";

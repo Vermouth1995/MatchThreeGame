@@ -1,13 +1,12 @@
 import Coordinate from "../../concept/coordinate";
 import CellEmpty from "../cell/cell_empty";
 import OnceLast from "../../concept/once/once_last";
-import Once from "../../concept/once";
-import CellOwner from "../cell_owner";
-import Cell from "../cell";
-import Item from "../item";
-
+import Once from "../../concept/once/once";
+import CellOwner from "../cell/cell_owner";
+import Cell from "../cell/cell";
+import Item from "../item/item";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
-import Listener from "../../concept/listener";
+import Listener from "../../concept/listener/listener";
 
 export default class BoardCells implements CellOwner {
 	static readonly CHECK_NUMBER_SELF: number = 1;

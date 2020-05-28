@@ -1,22 +1,21 @@
 import Item from "../item";
-import ItemAdapter from "./item_adapter";
-import Render from "../../render/render";
+import ItemAdapter from "../item_adapter";
+import Render from "../../../render/render";
 
-export default class ItemDrink extends ItemAdapter {
+export default class ItemPinecone extends ItemAdapter {
 	constructor() {
 		super();
 	}
-
-	private static readonly imagePath: string = "/drink.png";
+	private static readonly imagePath: string = "/pinecone.png";
 	private static imageId: number;
 	getImageId(): number {
-		return ItemDrink.imageId;
+		return ItemPinecone.imageId;
 	}
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		ItemDrink.imageId = render.registeredImage(ItemDrink.imagePath, onSuccess, onError);
+		ItemPinecone.imageId = render.registeredImage(ItemPinecone.imagePath, onSuccess, onError);
 	}
 	equals(item: Item): boolean {
-		return item instanceof ItemDrink;
+		return item instanceof ItemPinecone;
 	}
 	canPolymerize(): boolean {
 		return false;
@@ -29,10 +28,10 @@ export default class ItemDrink extends ItemAdapter {
 		onEnd();
 	}
 	beExploded(onEnd: () => void) {
-		onEnd();
+		this.cleared(onEnd);
 	}
 	beScraped(onEnd: () => void) {
-		onEnd();
+		this.cleared(onEnd);
 	}
 	beClicked(onEnd: () => void): boolean {
 		onEnd();

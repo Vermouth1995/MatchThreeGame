@@ -1,27 +1,25 @@
-import Render from "../render/render";
-import OnceLast from "../concept/once/once_last";
+import Render from "../../render/render";
+import OnceLast from "../../concept/once/once_last";
 import Item from "./item";
 
-import ItemEmpty from "./item/item_empty";
+import ItemEmpty from "./prop/item_empty";
+import ItemDrink from "./prop/item_drink";
+import ItemPinecone from "./prop/item_pinecone";
 
-import ItemDrink from "./item/item_drink";
-import ItemPinecone from "./item/item_pinecone";
+import ItemApple from "./eliminate/item_apple";
+import ItemBlueBerry from "./eliminate/item_blueberry";
+import ItemFlower from "./eliminate/item_flower";
+import ItemLeaf from "./eliminate/item_leaf";
+import ItemPear from "./eliminate/item_pear";
+import ItemWater from "./eliminate/item_water";
 
-import ItemApple from "./item/eliminate/item_apple";
-import ItemBlueBerry from "./item/eliminate/item_blueberry";
-import ItemFlower from "./item/eliminate/item_flower";
-import ItemLeaf from "./item/eliminate/item_leaf";
-import ItemPear from "./item/eliminate/item_pear";
-import ItemWater from "./item/eliminate/item_water";
-
-import ItemDynamite from "./item/boom/item_dynamite";
-import ItemFireCracker from "./item/boom/item_firecracker";
-import ItemGrenade from "./item/boom/item_grenade";
-import ItemTrotyl from "./item/boom/item_trotyl";
+import ItemDynamite from "./boom/item_dynamite";
+import ItemFireCracker from "./boom/item_firecracker";
+import ItemGrenade from "./boom/item_grenade";
+import ItemTrotyl from "./boom/item_trotyl";
 
 export default class ItemCreator {
 	static readonly EMPTY: number = 0;
-
 	static readonly DRINK: number = 1;
 	static readonly PINECONE: number = 2;
 

@@ -1,8 +1,8 @@
-import Item from "../item";
-import Cell from "../cell";
-import ItemEmpty from "../item/item_empty";
+import Item from "../item/item";
+import Cell from "../cell/cell";
+import ItemEmpty from "../item/prop/item_empty";
 import Puzzle from "../../render/puzzle";
-import CellOwner from "../cell_owner";
+import CellOwner from "../cell/cell_owner";
 import Coordinate from "../../concept/coordinate";
 
 export default class CellEmpty implements Cell {

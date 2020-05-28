@@ -1,6 +1,6 @@
-import Item from "../item";
+import Item from "../item/item";
 import Coordinate from "../../concept/coordinate";
-import Birth from "../birth";
+import Birth from "../birth/birth";
 
 export default abstract class BirthAdapter implements Birth {
 	constructor() {}

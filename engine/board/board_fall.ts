@@ -1,16 +1,16 @@
 import BoardCells from "./board_cells";
-import Once from "../../concept/once";
+import Once from "../../concept/once/once";
 import OnceLast from "../../concept/once/once_last";
 import Coordinate from "../../concept/coordinate";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
-import Listener from "../../concept/listener";
+import Listener from "../../concept/listener/listener";
 import RandomWeight from "../../concept/random_weight";
 import BoardBirths from "../board/board_births";
 import BoardExits from "../board/board_exits";
 import BoardArrivable from "../board/board_arrivable";
 import CellBirth from "../cell/cell_birth";
 import CellExit from "../cell/cell_exit";
-import Cell from "../cell";
+import Cell from "../cell/cell";
 
 export default class BoardFall {
 	constructor(

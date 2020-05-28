@@ -1,5 +1,5 @@
 import Coordinate from "../../concept/coordinate";
-import Atom from "../atom";
+import Atom from "./atom";
 import Render from "../render";
 
 export default abstract class AtomAdapter implements Atom {

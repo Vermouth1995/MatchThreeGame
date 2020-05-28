@@ -9,10 +9,10 @@ import BoardExits from "../../engine/board/board_exits";
 import BoardCheck from "../../engine/board/board_check";
 import BoardPrecheck from "../../engine/board/board_precheck";
 
-import Goal from "../../engine/goal";
+import Goal from "../../engine/goal/goal";
 import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 
-import Birth from "../../engine/birth";
+import Birth from "../../engine/birth/birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 import BirthPinecone from "../../engine/birth/birth_pinecone";
 import BirthCondition from "../../engine/birth/birth_condition";
@@ -20,9 +20,9 @@ import BirthCount from "../../engine/birth/birth_count";
 import BirthDrink from "../../engine/birth/birth_drink";
 import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
 
-import ItemCreator from "../../engine/item_creator";
+import ItemCreator from "../../engine/item/item_creator";
 
-import Cell from "../../engine/cell";
+import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";

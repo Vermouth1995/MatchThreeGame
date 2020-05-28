@@ -1,9 +1,9 @@
 import Coordinate from "../../concept/coordinate";
 import Explode from "../sacrifice/explode";
-import Cell from "../cell";
+import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import OnceLast from "../../concept/once/once_last";
-import Once from "../../concept/once";
+import Once from "../../concept/once/once";
 
 export default class BoardExplode {
 	constructor(private cells: BoardCells) {

@@ -1,34 +1,33 @@
-import Cell from "./cell";
-import CellAdapter from "./cell/cell_adapter";
-import CellExit from "./cell/cell_exit";
-import PuzzleKeeper from "./puzzle_keeper";
+import Cell from "../cell/cell";
+import CellAdapter from "../cell/cell_adapter";
+import CellExit from "../cell/cell_exit";
+import PuzzleKeeper from "../puzzle_keeper";
 
-import Click from "./sacrifice/click";
-import Exchange from "./sacrifice/exchange";
+import Click from "../sacrifice/click";
+import Exchange from "../sacrifice/exchange";
 
-import Coordinate from "../concept/coordinate";
-import Locus from "../concept/locus";
+import Coordinate from "../../concept/coordinate";
+import Locus from "../../concept/locus";
 
-import BoardBirths from "./board/board_births";
-import BoardExits from "./board/board_exits";
-import BoardCells from "./board/board_cells";
-import BoardPuzzle from "./board/board_puzzle";
-import BoardCheck from "./board/board_check";
-import BoardExplode from "./board/board_explode";
-import BoardScrape from "./board/board_scrape";
-import BoardPolymerize from "./board/board_polymerize";
-import BoardArrivable from "./board/board_arrivable";
-import BoardFall from "./board/board_fall";
-import BoardExchange from "./board/board_exchange";
-import BoardClick from "./board/board_click";
-import BoardOn from "./board/board_on";
+import BoardBirths from "./board_births";
+import BoardExits from "./board_exits";
+import BoardCells from "./board_cells";
+import BoardPuzzle from "./board_puzzle";
+import BoardCheck from "./board_check";
+import BoardExplode from "./board_explode";
+import BoardScrape from "./board_scrape";
+import BoardPolymerize from "./board_polymerize";
+import BoardArrivable from "./board_arrivable";
+import BoardFall from "./board_fall";
+import BoardExchange from "./board_exchange";
+import BoardClick from "./board_click";
+import BoardOn from "./board_on";
 
-import Render from "../render/render";
-import Puzzle from "../render/puzzle";
+import Render from "../../render/render";
+import Puzzle from "../../render/puzzle";
 
 export default class Board implements PuzzleKeeper {
 	static readonly PUZZLE_CELL_Z_INDEX: number = 10;
-
 	static readonly PUZZLE_EXIT_Z_INDEX: number = 11;
 
 	constructor() {
