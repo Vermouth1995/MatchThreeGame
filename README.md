@@ -5,6 +5,7 @@ A tile-matching video game.
 
 - run `npm i`
 - run `npm run build`
+- open html file(`/dist/main/html`) in browser
 
 ### ✨Code Foramt
 
@@ -12,18 +13,66 @@ A tile-matching video game.
 
 ### 🔖Directory Structure
 
-> concept
+> concept -- 基本工具类
 
-> engine
+	concept
+	├─ event
+	├─ linked_list
+	├─ listener
+	├─ once
+	├─ color
+	├─ coordinate
+	├─ font
+	├─ locus
+	└─ random_weight
 
-> game
+> engine -- 游戏引擎
 
-> level
+	engine
+	├─ birth
+	├─ board
+	├─ cell
+	├─ goal
+	├─ item
+	├─ sacrifice
+	├─ puzzle_keeper
+	└─ score
 
-> main
+> game -- 游戏逻辑
 
-> platform
+	game
+	├─ game
+	├─ level_creator
+	├─ level_date
+	├─ level
+	└─ message
 
-> render
+> level -- 关卡
 
-> resource
+	level
+	├─ 1
+	├─ 2
+	├─ 3
+	└─ ...
+
+> main -- 项目入口
+
+	main
+	└─ html
+
+> platform -- 渲染方式
+
+	platform
+	└─ canvas
+
+> render -- 图像渲染
+
+	render
+	├─ atom
+	├─ puzzle
+	├─ render_adapter
+	├─ render_locus
+	├─ render_position
+	└─ render
+
+> resource -- 游戏资源
