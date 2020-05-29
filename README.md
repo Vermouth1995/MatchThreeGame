@@ -1,5 +1,8 @@
 ### 🎲Match-Three-Game
-A match three game.[game online](https://vermouth1995.github.io/MatchThreeGame/)
+A match three game.
+
+### 🌈Game online
+[https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
 
 ### 🔨Debug
 
