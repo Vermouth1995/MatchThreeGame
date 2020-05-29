@@ -1,7 +1,7 @@
 import LevelDate from "./level_date";
 
 import Board from "../engine/board/board";
-import Score from "../engine/Score";
+import Score from "../engine/score";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
