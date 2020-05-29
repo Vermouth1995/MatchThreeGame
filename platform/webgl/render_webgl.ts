@@ -4,21 +4,21 @@ import Coordinate from "../../concept/coordinate";
 import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
 
-export default class RenderCanvas extends RenderAdapter {
+export default class RenderWebGL extends RenderAdapter {
 	constructor(size: Coordinate, private pixel: Coordinate, private imagePrefix: string) {
 		super(size);
 		this.unitPixel = pixel.split(size);
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = pixel.col;
 		this.canvas.height = pixel.row;
-		this.pen = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+		this.pen = <WebGLRenderingContext>this.canvas.getContext("webgl");
 		this.initListener();
 	}
 
 	private listenerOn: boolean = false;
 	private unitPixel: Coordinate;
 	private canvas: HTMLCanvasElement;
-	private pen: CanvasRenderingContext2D;
+	private pen: WebGLRenderingContext;
 	protected HTMLImages: HTMLImageElement[] = [];
 	private renderRequestId: number;
 
@@ -97,7 +97,7 @@ export default class RenderCanvas extends RenderAdapter {
 
 	clear() {
 		super.clear();
-		this.pen.clearRect(Coordinate.ORIGIN.col, Coordinate.ORIGIN.row, this.pixel.col, this.pixel.row);
+		this.pen.clear(this.pen.COLOR_BUFFER_BIT);
 	}
 
 	drawImage(imageId: number, location: Coordinate, size: Coordinate) {
@@ -107,15 +107,15 @@ export default class RenderCanvas extends RenderAdapter {
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
 		let sizePixel: Coordinate = size.swell(this.unitPixel);
 
-		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
+		// this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
 	}
 
 	drawString(text: string, location: Coordinate, font: Font, color: Color): void {
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
-		this.pen.fillStyle = color.toRGBA();
-		this.pen.font = font.size * this.unitPixel.row + "px " + font.family;
-		this.pen.textAlign = font.align;
-		this.pen.textBaseline = font.baseline;
-		this.pen.fillText(text, locationPixel.col, locationPixel.row);
+		// this.pen.fillStyle = color.toRGBA();
+		// this.pen.font = font.size * this.unitPixel.row + "px " + font.family;
+		// this.pen.textAlign = font.align;
+		// this.pen.textBaseline = font.baseline;
+		// this.pen.fillText(text, locationPixel.col, locationPixel.row);
 	}
 }

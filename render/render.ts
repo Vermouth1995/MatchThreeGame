@@ -1,5 +1,5 @@
-import Color from "../concept/color";
-import Font from "../concept/font";
+import Color from "../concept/style/color";
+import Font from "../concept/style/font";
 import Coordinate from "../concept/coordinate";
 import Puzzle from "./puzzle";
 

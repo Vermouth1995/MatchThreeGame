@@ -3,8 +3,8 @@ import PuzzleKeeper from "../puzzle_keeper";
 
 import Locus from "../../concept/locus";
 import Coordinate from "../../concept/coordinate";
-import Color from "../../concept/color";
-import Font from "../../concept/font";
+import Color from "../../concept/style/color";
+import Font from "../../concept/style/font";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
 import Listener from "../../concept/listener/listener";
 

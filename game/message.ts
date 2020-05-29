@@ -3,8 +3,8 @@ import Render from "../render/render";
 import AtomImage from "../render/atom/atom_image";
 import AtomString from "../render/atom/atom_string";
 
-import Font from "../concept/font";
-import Color from "../concept/color";
+import Font from "../concept/style/font";
+import Color from "../concept/style/color";
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import EventMove from "../concept/event/event_move";

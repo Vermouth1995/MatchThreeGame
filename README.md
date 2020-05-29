@@ -5,7 +5,7 @@ A tile-matching video game.
 
 - run `npm i`
 - run `npm run build`
-- open html file(`/dist/main/html`) in browser
+- open html file(`/dist/main/html/MatchThreeGame.html`) in browser
 
 ### ✨Code Foramt
 
@@ -13,20 +13,19 @@ A tile-matching video game.
 
 ### 🔖Directory Structure
 
-> concept -- 基本工具类
+> concept -- 基本工具（工具概念类内容）
 
 	concept
-	├─ event
-	├─ linked_list
-	├─ listener
+	├─ event                              -- 记录运动事件
+	├─ linked_list                        -- 单链表
+	├─ listener                           -- 监听
 	├─ once
-	├─ color
-	├─ coordinate
-	├─ font
+	├─ style                              -- 样式类，比如颜色，字体等
+	├─ coordinate                         -- 坐标及对坐标的操作
 	├─ locus
 	└─ random_weight
 
-> engine -- 游戏引擎
+> engine -- 游戏引擎（游戏核心元素及概念）
 
 	engine
 	├─ birth
@@ -38,7 +37,7 @@ A tile-matching video game.
 	├─ puzzle_keeper
 	└─ score
 
-> game -- 游戏逻辑
+> game -- 游戏逻辑（包括分值计算，关卡递进关系等）
 
 	game
 	├─ game
@@ -47,7 +46,7 @@ A tile-matching video game.
 	├─ level
 	└─ message
 
-> level -- 关卡
+> level -- 关卡（关卡内容设置）
 
 	level
 	├─ 1
