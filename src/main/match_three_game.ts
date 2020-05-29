@@ -1,6 +1,6 @@
-import RenderCanvas from "../../platform/canvas/render_canvas";
-import Game from "../../game/game";
-import Coordinate from "../../concept/coordinate";
+import RenderCanvas from "../platform/canvas/render_canvas";
+import Game from "../game/game";
+import Coordinate from "../concept/coordinate";
 
 export default class MatchThreeGame {
 	constructor() {
@@ -24,7 +24,7 @@ export default class MatchThreeGame {
 	static readonly PixelSize: Coordinate = new Coordinate(680, 1360);
 
 	static readonly ContainerId: string = "match_three_game";
-	static readonly StaticResourcePrefix: string = "../../resource";
+	static readonly StaticResourcePrefix: string = "./resource";
 }
 
 new MatchThreeGame();
