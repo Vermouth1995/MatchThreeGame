@@ -15,13 +15,13 @@ const resource_path = path.join(__dirname, "src/main/resource");
 const typescript_src = path.join(__dirname, "src/**/*.ts");
 const format_script_dist = path.join(__dirname, "src");
 
-const build_src_html = path.join(__dirname, "cache/main/match_three_game.js");
-const build_dist_html = path.join(__dirname, "dist/main");
+const build_src_html = path.join(__dirname, "cache/main/index.js");
+const build_dist_html = path.join(__dirname, "dist");
 
-const copy_src_html = path.join(__dirname, "src/main/MatchThreeGame.html");
+const copy_src_html = path.join(__dirname, "src/main/index.html");
 const copy_dist_html = build_dist_html;
 const copy_src_resource = path.join(resource_path, "**/*");
-const copy_dist_resource = path.join(output_path, "main/resource");
+const copy_dist_resource = path.join(output_path, "resource");
 
 gulp.task("format", function () {
 	return gulp.src(typescript_src).pipe(pretty(prettier_config)).pipe(gulp.dest(format_script_dist));
