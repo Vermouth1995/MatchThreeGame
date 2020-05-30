@@ -1,20 +1,20 @@
-### 🎲Match-Three-Game
+### 🍻 Match-Three-Game
 A match three game.
 
-### 🌈Game online
+### 🎲 Game online
 [https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
 
-### 🔨Debug
+### 🔨 Debug
 
 - run `npm i`
 - run `npm run build`
 - open html file(`/dist/main/html/MatchThreeGame.html`) in browser
 
-### ✨Code Foramt
+### ✨ Code Foramt
 
 - run `npm run format`
 
-### 🔖Directory Structure
+### 🔖 Directory Structure
 
 > concept -- 基本工具（工具概念类内容）
 
