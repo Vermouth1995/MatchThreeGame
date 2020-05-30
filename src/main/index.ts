@@ -4,17 +4,21 @@ import Coordinate from "../concept/coordinate";
 
 export default class MatchThreeGame {
 	constructor() {
-		let container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
-
-		let render: RenderCanvas = new RenderCanvas(
+		const container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
+		const pixel: Coordinate = new Coordinate(window.innerHeight, window.innerWidth);
+		const render: RenderCanvas = new RenderCanvas(
 			Game.RENDER_SIZE,
-			MatchThreeGame.PixelSize,
+			pixel,
+			// MatchThreeGame.PixelSize,
 			MatchThreeGame.StaticResourcePrefix
 		);
 
-		let main: Game = new Game(render);
-
-		container.appendChild(render.getCanvasElement());
+		const main: Game = new Game(render);
+		const canvasElement = render.getCanvasElement();
+		canvasElement.style.position = "fixed";
+		canvasElement.style.top = "0px";
+		canvasElement.style.left = "0px";
+		container.appendChild(canvasElement);
 
 		main.start((error: Error) => {
 			console.log(error);
