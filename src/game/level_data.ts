@@ -4,7 +4,7 @@ import BoardBirths from "../engine/board/board_births";
 import BoardExits from "../engine/board/board_exits";
 import Goal from "../engine/goal/goal";
 
-export default interface LevelDate {
+export default interface LevelData {
 	getBirths(): BoardBirths;
 	getExits(): BoardExits;
 	getCells(): BoardCells;

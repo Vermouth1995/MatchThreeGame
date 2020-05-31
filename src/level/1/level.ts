@@ -1,6 +1,6 @@
 import Coordinate from "../../concept/coordinate";
 
-import LevelDate from "../../game/level_date";
+import LevelData from "../../game/level_data";
 
 import BoardOn from "../../engine/board/board_on";
 import BoardCells from "../../engine/board/board_cells";
@@ -28,7 +28,7 @@ import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
 
-export default class Level implements LevelDate {
+export default class Level implements LevelData {
 	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
 	private birth: Birth;

@@ -1,4 +1,4 @@
-import LevelDate from "./level_date";
+import LevelData from "./level_data";
 
 import Board from "../engine/board/board";
 import Score from "../engine/score";
@@ -25,14 +25,14 @@ export default class Level {
 	protected score: Score;
 
 	private puzzle: Puzzle;
-	constructor(private name: string, private size: Coordinate, private date: LevelDate) {
+	constructor(private name: string, private size: Coordinate, private data: LevelData) {
 		this.board = new Board();
-		this.board.setCells(this.date.getCells(), this.date.getBirths(), this.date.getExits());
+		this.board.setCells(this.data.getCells(), this.data.getBirths(), this.data.getExits());
 
 		this.score = new Score();
 		this.score.setOn(this.board.getOn());
-		this.score.setStep(this.date.getStep());
-		this.score.addGoal(this.date.getGoals(this.board.getOn()));
+		this.score.setStep(this.data.getStep());
+		this.score.addGoal(this.data.getGoals(this.board.getOn()));
 		this.score.setLevel(this.name);
 		this.score.onStepEnd.on(() => {
 			this.board.close();
