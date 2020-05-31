@@ -7,7 +7,8 @@ export default class MatchThreeGame {
 		const container: HTMLElement = document.getElementById(MatchThreeGame.ContainerId);
 		const pixel: Coordinate = new Coordinate(window.innerHeight, window.innerWidth);
 		const render: RenderCanvas = new RenderCanvas(
-			Game.RENDER_SIZE,
+			MatchThreeGame.getRenderSize(Game.MIN_RENDER_SIZE, pixel),
+			// Game.RENDER_SIZE,
 			pixel,
 			// MatchThreeGame.PixelSize,
 			MatchThreeGame.StaticResourcePrefix
@@ -25,8 +26,16 @@ export default class MatchThreeGame {
 		});
 	}
 
-	static readonly PixelSize: Coordinate = new Coordinate(680, 1360);
+	static getRenderSize(minSize: Coordinate, physicalSize: Coordinate): Coordinate {
+		const ratio = physicalSize.col / physicalSize.row / (minSize.col / minSize.row);
+		if (ratio > 1) {
+			return new Coordinate(minSize.row, (physicalSize.col / physicalSize.row) * minSize.row);
+		} else {
+			return new Coordinate((physicalSize.row / physicalSize.col) * minSize.col, minSize.col);
+		}
+	}
 
+	static readonly PixelSize: Coordinate = new Coordinate(680, 1360);
 	static readonly ContainerId: string = "match_three_game";
 	static readonly StaticResourcePrefix: string = "./resource";
 }
