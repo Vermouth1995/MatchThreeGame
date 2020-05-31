@@ -1,8 +1,6 @@
 ### 🍻 Match-Three-Game
 A match three game.
 
-![Travis (.org)](https://img.shields.io/travis/vermouth1995/MatchThreeGame)
-
 ### 🎲 Game online
 [https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
 
