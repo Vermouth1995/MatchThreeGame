@@ -21,15 +21,15 @@ export default class BoardPrecheck {
 	}
 
 	private precheckPositon(location: Coordinate): Exchange {
-		let cell: Cell = this.cells.getCellByLocation(location);
+		const cell: Cell = this.cells.getCellByLocation(location);
 		if (!cell.canExchange()) {
 			return null;
 		}
-		let item: Item = cell.getItem();
+		const item: Item = cell.getItem();
 		if (!item.canPolymerize()) {
 			return null;
 		}
-		let cross: Coordinate[] = location.cross();
+		const cross: Coordinate[] = location.cross();
 		for (let i = 0; i < cross.length; i++) {
 			if (this.precheckPositonCross(item, cross[i], location)) {
 				return new Exchange(location, cross[i]);
@@ -39,10 +39,10 @@ export default class BoardPrecheck {
 	}
 
 	private precheckPositonCross(item: Item, location: Coordinate, ignore: Coordinate): boolean {
-		let vertical: Coordinate[] = []
+		const vertical: Coordinate[] = []
 			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.UP))
 			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.DOWN));
-		let horizontal: Coordinate[] = []
+		const horizontal: Coordinate[] = []
 			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.LEFT))
 			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.RIGHT));
 		return (
@@ -57,9 +57,9 @@ export default class BoardPrecheck {
 		ignore: Coordinate,
 		direction: Coordinate
 	): Coordinate[] {
-		let total: Coordinate[] = [];
+		const total: Coordinate[] = [];
 		while (true) {
-			let directLocation: Coordinate = location.offset(direction);
+			const directLocation: Coordinate = location.offset(direction);
 			if (directLocation.equal(ignore)) {
 				break;
 			}

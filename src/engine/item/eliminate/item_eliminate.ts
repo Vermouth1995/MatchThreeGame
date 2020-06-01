@@ -16,9 +16,9 @@ export default abstract class ItemEliminate extends ItemAdapter {
 	}
 	public static readonly BOOM_GENERATE_RADIX: number = 3;
 	bePolymerizedAsOwner(size: number, onEnd: () => void) {
-		let owner: ItemOwner = this.owner;
+		const owner: ItemOwner = this.owner;
 		this.cleared(() => {
-			let boom: Item = ItemCreator.createBoom(size);
+			const boom: Item = ItemCreator.createBoom(size);
 			if (boom != null) {
 				boom.created(() => {});
 				owner.setItem(boom);

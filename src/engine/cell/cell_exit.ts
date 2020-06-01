@@ -61,7 +61,7 @@ export default class CellExit implements Cell {
 		if (this.item == null) {
 			return ItemEmpty.getEmpty();
 		}
-		let item = this.item;
+		const item = this.item;
 		this.getPuzzle().removeChild(item.getPuzzle());
 		this.item.setOwner(null);
 		this.item = null;
@@ -112,9 +112,9 @@ export default class CellExit implements Cell {
 	}
 
 	renderSaveBack(where: Coordinate, when: number): void {
-		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
+		const fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(
+		const move: EventMove<Coordinate> = new EventMove<Coordinate>(
 			Coordinate.DOWN,
 			when,
 			false,

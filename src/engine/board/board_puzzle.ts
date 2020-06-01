@@ -22,7 +22,7 @@ export default class BoardPuzzle extends Puzzle {
 		});
 		this.onMouseUp((location: Coordinate) => {
 			location = location.floor();
-			let now: number = Date.now();
+			const now: number = Date.now();
 			if (this.isHold && this.isHoldActive && this.startLocation.equal(location)) {
 				if (
 					this.lastClickLocation != null &&
@@ -56,7 +56,7 @@ export default class BoardPuzzle extends Puzzle {
 		if (origin.isNeighbor(direct)) {
 			return direct;
 		}
-		let neighbors: Coordinate[] = [
+		const neighbors: Coordinate[] = [
 			origin.offset(Coordinate.LEFT),
 			origin.offset(Coordinate.RIGHT),
 			origin.offset(Coordinate.UP),
@@ -65,8 +65,8 @@ export default class BoardPuzzle extends Puzzle {
 		let minDistance: number = Number.MAX_VALUE;
 		let minNeighbor: Coordinate;
 		for (let i = 0; i < neighbors.length; i++) {
-			let neighbor: Coordinate = neighbors[i];
-			let distance: number = neighbor.distance(direct);
+			const neighbor: Coordinate = neighbors[i];
+			const distance: number = neighbor.distance(direct);
 			if (distance < minDistance) {
 				minDistance = distance;
 				minNeighbor = neighbor;

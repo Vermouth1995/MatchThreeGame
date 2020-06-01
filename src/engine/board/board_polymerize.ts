@@ -14,7 +14,7 @@ export default class BoardPolymerize {
 		private check: BoardCheck
 	) {
 		this.fall.beforeFallEnd((onEnd) => {
-			let area: Polymerize = this.check.check();
+			const area: Polymerize = this.check.check();
 			if (area == null) {
 				onEnd();
 				return false;
@@ -29,11 +29,9 @@ export default class BoardPolymerize {
 			onEnd();
 			return;
 		}
-		let end: OnceLast = new OnceLast();
+		const end: OnceLast = new OnceLast();
 		end.setCallback(onEnd);
-
-		let guests: Coordinate[] = area.getGuests();
-
+		const guests: Coordinate[] = area.getGuests();
 		for (let i = 0; i < guests.length; ++i) {
 			this.cells.getCellByLocation(guests[i]).bePolymerizedAsGuest(end.getCallback());
 		}

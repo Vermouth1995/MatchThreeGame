@@ -12,8 +12,8 @@ export default class BoardClick {
 	readonly onClick: Listener<void, (isSuccess: boolean) => void> = new ListenerDiffusion();
 
 	click(area: Click) {
-		let location: Cell = this.cells.getCellByLocation(area.getLocation());
-		let success: boolean = location.beClicked(
+		const location: Cell = this.cells.getCellByLocation(area.getLocation());
+		const success: boolean = location.beClicked(
 			new OnceFirst()
 				.setCallback(() => {
 					this.onClick.trigger(success);

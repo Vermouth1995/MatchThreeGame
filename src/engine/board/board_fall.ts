@@ -46,7 +46,7 @@ export default class BoardFall {
 	private plugins: ((onEnd: () => void) => boolean)[] = [];
 
 	private plugin(onEnd: () => void): boolean {
-		let end: Once = new OnceLast().setCallback(onEnd);
+		const end: Once = new OnceLast().setCallback(onEnd);
 		if (this.plugins.length == 0) {
 			end.getCallback()();
 			return false;
@@ -63,7 +63,7 @@ export default class BoardFall {
 
 	private fall(onEnd?: (isChanged: boolean) => void) {
 		let isActive: boolean = false;
-		let robEnd: OnceLast = new OnceLast();
+		const robEnd: OnceLast = new OnceLast();
 		robEnd.setCallback(() => {
 			if (isActive) {
 				this.fall((isChanged: boolean) => {
@@ -72,7 +72,7 @@ export default class BoardFall {
 				});
 				return;
 			}
-			let pluginActive: boolean = this.plugin(() => {
+			const pluginActive: boolean = this.plugin(() => {
 				if (pluginActive) {
 					this.fall(onEnd);
 					return;
@@ -84,17 +84,17 @@ export default class BoardFall {
 		});
 		this.arrivable.update();
 		this.exits.iterate((exit: CellExit) => {
-			let location: Coordinate = exit.getLocation();
-			let victims: Cell[] = [];
-			let victimLocations: Coordinate[] = [];
+			const location: Coordinate = exit.getLocation();
+			const victims: Cell[] = [];
+			const victimLocations: Coordinate[] = [];
 			this.getVictimsByExit(location, victims, victimLocations);
 			isActive = exit.rob(victims, victimLocations, robEnd.getCallback()) || isActive;
 		});
 		for (let i = this.cells.size().row - 1; i >= 0; i--) {
 			for (let j = 0; j < this.cells.size().col; j++) {
-				let location: Coordinate = new Coordinate(i, j);
-				let victims: Cell[] = [];
-				let victimLocations: Coordinate[] = [];
+				const location: Coordinate = new Coordinate(i, j);
+				const victims: Cell[] = [];
+				const victimLocations: Coordinate[] = [];
 				this.getVictimsByLocation(location, victims, victimLocations);
 				isActive =
 					this.cells.getCellByLocation(location).rob(victims, victimLocations, robEnd.getCallback()) ||
@@ -104,7 +104,7 @@ export default class BoardFall {
 	}
 
 	private getVictimsByExit(exitLocation: Coordinate, victims: Cell[], victimLocations: Coordinate[]) {
-		let cell: Cell = this.cells.getCellByLocation(exitLocation);
+		const cell: Cell = this.cells.getCellByLocation(exitLocation);
 		if (this.arrivable.isArrivable(exitLocation) || (cell.canRobbed() && !cell.getItem().isEmpty())) {
 			victims.push(cell);
 			victimLocations.push(Coordinate.ORIGIN);
@@ -114,14 +114,14 @@ export default class BoardFall {
 	private chooser: RandomWeight<boolean> = new RandomWeight<boolean>().addFactor(false).addFactor(true);
 
 	private getVictimsByLocation(location: Coordinate, victims: Cell[], victimLocations: Coordinate[]) {
-		let birth: CellBirth = this.births.getBirth(location);
+		const birth: CellBirth = this.births.getBirth(location);
 		if (birth != null) {
 			victims.push(birth);
 			victimLocations.push(Coordinate.UP);
 			return;
 		}
 
-		let seeds: Coordinate[] = [];
+		const seeds: Coordinate[] = [];
 		seeds.push(Coordinate.UP);
 		if (this.chooser.getFactor()) {
 			seeds.push(Coordinate.LEFTUP);
@@ -131,10 +131,10 @@ export default class BoardFall {
 			seeds.push(Coordinate.LEFTUP);
 		}
 
-		let branchs: Coordinate[] = location.offsets(seeds);
+		const branchs: Coordinate[] = location.offsets(seeds);
 		for (let i = 0; i < seeds.length; i++) {
-			let branch: Coordinate = branchs[i];
-			let cell: Cell = this.cells.getCellByLocation(branch);
+			const branch: Coordinate = branchs[i];
+			const cell: Cell = this.cells.getCellByLocation(branch);
 			if (this.arrivable.isArrivable(branch) || (cell.canRobbed() && !cell.getItem().isEmpty())) {
 				victims.push(cell);
 				victimLocations.push(seeds[i]);

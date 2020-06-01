@@ -22,7 +22,7 @@ export default class BoardExits implements CellOwner {
 
 	getExit(location: Coordinate): CellExit {
 		for (let i = 0; i < this.exit.length; i++) {
-			let cellExit: CellExit = this.exit[i];
+			const cellExit: CellExit = this.exit[i];
 			if (location.equal(cellExit.getLocation())) {
 				return cellExit;
 			}

@@ -57,11 +57,11 @@ export default class Score implements PuzzleKeeper {
 
 	addGoal(goals: Goal[]) {
 		this.goals = goals;
-		let successEnd: Once = new OnceLast().setCallback(() => {
+		const successEnd: Once = new OnceLast().setCallback(() => {
 			this.end(true);
 		});
 		this.goals.map((goal: Goal, index: number) => {
-			let puzzle = goal.getPuzzle();
+			const puzzle = goal.getPuzzle();
 
 			this.puzzle.addChild(
 				puzzle,
@@ -117,7 +117,7 @@ export default class Score implements PuzzleKeeper {
 	}
 
 	stepAdd(newStep: number) {
-		let finalStep: number = this.step + newStep;
+		const finalStep: number = this.step + newStep;
 		this.stepRender.setEvent(
 			new EventMove<number>(
 				finalStep,

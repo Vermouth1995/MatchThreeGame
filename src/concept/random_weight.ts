@@ -21,7 +21,7 @@ export default class RandomWeight<T> {
 		if (this.factors.length == 0) {
 			return null;
 		}
-		let seed: number = Math.random() * this.totalWeight;
+		const seed: number = Math.random() * this.totalWeight;
 		for (let i = 0; i < this.weights.length; i++) {
 			if (seed < this.weights[i]) {
 				return this.factors[i];

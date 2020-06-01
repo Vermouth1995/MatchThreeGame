@@ -6,7 +6,7 @@ export default class BoardBirths {
 
 	getBirth(location: Coordinate): CellBirth {
 		for (let i = 0; i < this.birth.length; i++) {
-			let cellBirth: CellBirth = this.birth[i];
+			const cellBirth: CellBirth = this.birth[i];
 			if (location.equal(cellBirth.getLocation())) {
 				return cellBirth;
 			}

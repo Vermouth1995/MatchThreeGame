@@ -9,7 +9,7 @@ export default class Puzzle {
 	private locationEventListener: { [key: number]: (location: Coordinate) => boolean } = {};
 
 	private triggerLocationEvent(eventName: number, location: Coordinate, timeStamp: number): void {
-		let listener: (location: Coordinate) => boolean = this.locationEventListener[eventName];
+		const listener: (location: Coordinate) => boolean = this.locationEventListener[eventName];
 		let isContinue: boolean = true;
 		if (listener != null) {
 			isContinue = listener(location);
@@ -18,7 +18,7 @@ export default class Puzzle {
 			return;
 		}
 
-		let child: RenderPosition<Puzzle> = this.triggerChild(location, timeStamp);
+		const child: RenderPosition<Puzzle> = this.triggerChild(location, timeStamp);
 		if (child == null) {
 			return;
 		}
@@ -88,7 +88,7 @@ export default class Puzzle {
 	private triggerChild(location: Coordinate, timestamp: number): RenderPosition<Puzzle> {
 		let active: RenderPosition<Puzzle> = null;
 		this.puzzles.iterate((_: number, now: RenderLocus<Puzzle>) => {
-			let postion: RenderPosition<Puzzle> = now.getPostion(timestamp);
+			const postion: RenderPosition<Puzzle> = now.getPostion(timestamp);
 			if (location.isIn(postion.location, postion.location.offset(now.data.size()))) {
 				active = postion;
 			}
@@ -125,14 +125,14 @@ export default class Puzzle {
 
 	payAtoms(timeStamp: number, baseIndex: number, baseLocation: Coordinate, atoms: RenderPosition<Atom>[]) {
 		this.atoms.iterate((_: number, now: RenderLocus<Atom>) => {
-			let postion: RenderPosition<Atom> = now
+			const postion: RenderPosition<Atom> = now
 				.getPostion(timeStamp)
 				.offsetLocation(baseLocation)
 				.offsetZIndex(baseIndex);
 			atoms.push(postion);
 		});
 		this.puzzles.iterate((_: number, now: RenderLocus<Puzzle>) => {
-			let postion: RenderPosition<Puzzle> = now
+			const postion: RenderPosition<Puzzle> = now
 				.getPostion(timeStamp)
 				.offsetLocation(baseLocation)
 				.offsetZIndex(baseIndex);

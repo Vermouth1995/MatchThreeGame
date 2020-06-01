@@ -15,7 +15,7 @@ import Level from "./level";
 
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		let success: Once = new OnceLast().setCallback(onSuccess);
+		const success: Once = new OnceLast().setCallback(onSuccess);
 		ItemCreator.LoadStaticResource(render, success.getCallback(), onError);
 		CellCreator.LoadStaticResource(render, success.getCallback(), onError);
 		Board.LoadStaticResource(render, success.getCallback(), onError);

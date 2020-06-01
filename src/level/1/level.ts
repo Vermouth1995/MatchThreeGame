@@ -111,9 +111,9 @@ export default class Level implements LevelData {
 		if (this.exits != null) {
 			return;
 		}
-		let exitPlace: CellExit[] = [];
+		const exitPlace: CellExit[] = [];
 		for (let i = 0; i < Level.Size.col; i++) {
-			let place: CellExit = new CellExit();
+			const place: CellExit = new CellExit();
 			place.setLocation(new Coordinate(Level.Size.row - 1, i));
 			exitPlace.push(place);
 		}
@@ -126,9 +126,9 @@ export default class Level implements LevelData {
 			return;
 		}
 		this.createBirth();
-		let birthPlace: CellBirth[] = [];
+		const birthPlace: CellBirth[] = [];
 		for (let i = 0; i < Level.Size.col; i++) {
-			let place: CellBirth = new CellBirth();
+			const place: CellBirth = new CellBirth();
 			place.setBirth(this.birth, new Coordinate(0, i));
 			birthPlace.push(place);
 		}
@@ -139,9 +139,9 @@ export default class Level implements LevelData {
 		if (this.cells != null) {
 			return;
 		}
-		let cells: BoardCells = new BoardCells();
-		let check: BoardCheck = new BoardCheck(cells);
-		let precheck: BoardPrecheck = new BoardPrecheck(cells);
+		const cells: BoardCells = new BoardCells();
+		const check: BoardCheck = new BoardCheck(cells);
+		const precheck: BoardPrecheck = new BoardPrecheck(cells);
 		do {
 			cells.setCells(this.getCellArray());
 		} while (check.check() != null || precheck.precheck() == null);
@@ -150,7 +150,7 @@ export default class Level implements LevelData {
 
 	private getCellArray(): Cell[][] {
 		this.createBirth();
-		let cells: Cell[][] = [];
+		const cells: Cell[][] = [];
 		for (let i = 0; i < Level.Size.row; i++) {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {

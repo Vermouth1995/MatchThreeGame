@@ -50,7 +50,7 @@ export default class Game {
 			() => {
 				this.message.init();
 				this.render.start();
-				let levelEnd = (success: boolean) => {
+				const levelEnd = (success: boolean) => {
 					this.message.setText(success ? "Congratulations!" : "Sorry!");
 					this.message.show(() => {
 						setTimeout(() => {
@@ -75,7 +75,7 @@ export default class Game {
 	}
 
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
-		let success: Once = new OnceLast().setCallback(onSuccess);
+		const success: Once = new OnceLast().setCallback(onSuccess);
 		LevelCreator.LoadStaticResource(render, success.getCallback(), onError);
 		Message.LoadStaticResource(render, success.getCallback(), onError);
 	}

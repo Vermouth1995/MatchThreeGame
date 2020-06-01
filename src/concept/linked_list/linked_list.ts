@@ -11,7 +11,7 @@ export default class LinkedList<T> {
 
 	get(index: number): T {
 		let now: Node<T> = this.head;
-		let indexNow: number = 0;
+		const indexNow: number = 0;
 		while (now != null) {
 			if (index == indexNow) {
 				return now.data;
@@ -23,7 +23,7 @@ export default class LinkedList<T> {
 
 	iterate(onElement: (index: number, element: T) => void) {
 		let now: Node<T> = this.head;
-		let indexNow: number = 0;
+		const indexNow: number = 0;
 		while (now != null) {
 			onElement(indexNow, now.data);
 			now = now.next;
@@ -32,7 +32,7 @@ export default class LinkedList<T> {
 
 	iterateInterruptible(onElement: (index: number, element: T) => boolean) {
 		let now: Node<T> = this.head;
-		let indexNow: number = 0;
+		const indexNow: number = 0;
 		let keep: boolean = true;
 		while (keep && now != null) {
 			keep = onElement(indexNow, now.data);
@@ -49,7 +49,7 @@ export default class LinkedList<T> {
 	}
 
 	append(element: T) {
-		let newNode: Node<T> = new Node<T>();
+		const newNode: Node<T> = new Node<T>();
 		newNode.data = element;
 
 		if (this.isEmpty()) {
@@ -67,14 +67,14 @@ export default class LinkedList<T> {
 		if (this.length == 0) {
 			return null;
 		}
-		let data: T = this.tail.data;
+		const data: T = this.tail.data;
 		if (this.tail == this.head) {
 			this.head = null;
 			this.tail = null;
 			this.length--;
 			return data;
 		}
-		let previous: Node<T> = this.getNodePrevious(this.length - LinkedList.IndexStep);
+		const previous: Node<T> = this.getNodePrevious(this.length - LinkedList.IndexStep);
 		previous.next = null;
 		this.tail = previous;
 		this.length--;
@@ -82,7 +82,7 @@ export default class LinkedList<T> {
 	}
 
 	shift(element: T) {
-		let newNode: Node<T> = new Node<T>();
+		const newNode: Node<T> = new Node<T>();
 		newNode.data = element;
 
 		if (this.isEmpty()) {
@@ -100,7 +100,7 @@ export default class LinkedList<T> {
 		if (this.length == 0) {
 			return null;
 		}
-		let data: T = this.head.data;
+		const data: T = this.head.data;
 		if (this.head == this.tail) {
 			this.tail = null;
 			this.head = null;
@@ -123,9 +123,9 @@ export default class LinkedList<T> {
 		}
 
 		this.length++;
-		let insertNode: Node<T> = new Node<T>();
+		const insertNode: Node<T> = new Node<T>();
 		insertNode.data = element;
-		let previous: Node<T> = this.getNodePrevious(position);
+		const previous: Node<T> = this.getNodePrevious(position);
 		insertNode.next = previous.next;
 		previous.next = insertNode;
 	}
@@ -135,7 +135,7 @@ export default class LinkedList<T> {
 		let index: number = 0;
 		while (current != null) {
 			if (isLater(current.data)) {
-				let now = new Node<T>();
+				const now = new Node<T>();
 				now.data = element;
 				now.next = current.next;
 				current.next = now;
@@ -159,8 +159,8 @@ export default class LinkedList<T> {
 		if (position == this.length - LinkedList.IndexStep) {
 			return this.deduct();
 		}
-		let previous: Node<T> = this.getNodePrevious(position);
-		let data = previous.next.data;
+		const previous: Node<T> = this.getNodePrevious(position);
+		const data = previous.next.data;
 		previous.next = previous.next.next;
 		this.length--;
 		return data;
@@ -171,7 +171,7 @@ export default class LinkedList<T> {
 			return null;
 		}
 		if (equal(this.head.data)) {
-			let headData: T = this.head.data;
+			const headData: T = this.head.data;
 			this.head = this.head.next;
 			this.length--;
 			if ((this.length = 0)) {

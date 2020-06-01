@@ -13,10 +13,10 @@ export default class BoardExplode {
 	}
 
 	private explode(cell: Cell, size: number, onEnd: () => void) {
-		let point: Coordinate = this.cells.getLocationOfCell(cell);
-		let area: Explode = new Explode(point, size);
-		let guests: Coordinate[] = area.getGuests();
-		let end: Once = new OnceLast().setCallback(onEnd);
+		const point: Coordinate = this.cells.getLocationOfCell(cell);
+		const area: Explode = new Explode(point, size);
+		const guests: Coordinate[] = area.getGuests();
+		const end: Once = new OnceLast().setCallback(onEnd);
 
 		for (let i = 0; i < guests.length; ++i) {
 			this.cells.getCellByLocation(guests[i]).beExploded(end.getCallback());

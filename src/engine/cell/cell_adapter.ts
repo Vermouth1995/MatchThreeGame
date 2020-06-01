@@ -43,9 +43,9 @@ export default abstract class CellAdapter implements Cell {
 	protected itemLocus: Locus<Coordinate>;
 
 	renderSaveBack(where: Coordinate, when: number) {
-		let fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
+		const fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
-		let move: EventMove<Coordinate> = new EventMove<Coordinate>(
+		const move: EventMove<Coordinate> = new EventMove<Coordinate>(
 			Coordinate.ORIGIN,
 			when,
 			false,
@@ -66,7 +66,7 @@ export default abstract class CellAdapter implements Cell {
 		if (this.item == null) {
 			return ItemEmpty.getEmpty();
 		}
-		let item = this.item;
+		const item = this.item;
 		this.puzzle.removeChild(item.getPuzzle());
 		this.item.setOwner(null);
 		this.item = null;
@@ -147,7 +147,7 @@ export default abstract class CellAdapter implements Cell {
 			onEnd();
 			return false;
 		}
-		let victimItem: Item = validVictim.popItem();
+		const victimItem: Item = validVictim.popItem();
 		if (victimItem.isEmpty()) {
 			onEnd();
 			return false;
@@ -166,18 +166,14 @@ export default abstract class CellAdapter implements Cell {
 			onEnd();
 			return false;
 		}
-		let from: Cell = this;
-		let fromItem: Item = from.popItem();
-		let toItem: Item = to.popItem();
-
+		const from: Cell = this;
+		const fromItem: Item = from.popItem();
+		const toItem: Item = to.popItem();
 		from.setItem(toItem);
 		to.setItem(fromItem);
-
 		from.renderSaveBack(offset, CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
 		to.renderSaveBack(offset.negative(), CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
-
 		setTimeout(onEnd, CellAdapter.EXCHANGE_SAVE_BACK_TIME_COST);
-
 		return true;
 	}
 	exploded(size: number, onEnd: () => void) {

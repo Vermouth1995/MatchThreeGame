@@ -25,7 +25,7 @@ export default class BoardCells implements CellOwner {
 	private explodedListener: ((cell: Cell, size: number, onEnd: () => void) => void)[] = [];
 
 	exploded(cell: Cell, size: number, onEnd: () => void): void {
-		let end: Once = new OnceLast().setCallback(onEnd);
+		const end: Once = new OnceLast().setCallback(onEnd);
 		for (let i = 0; i < this.explodedListener.length; i++) {
 			this.explodedListener[i](cell, size, end.getCallback());
 		}

@@ -11,7 +11,7 @@ export default class BoardCheck {
 		let max: Polymerize = null;
 		let lastCellUpdateTime: number = 0;
 		this.cells.iterate((location: Coordinate, cell: Cell) => {
-			let now: Polymerize = this.checkPosition(location);
+			const now: Polymerize = this.checkPosition(location);
 			if (now == null) {
 				return true;
 			}
@@ -34,13 +34,11 @@ export default class BoardCheck {
 		if (!this.cells.getCellByLocation(location).getItem().canPolymerize()) {
 			return null;
 		}
-
 		let guests: Coordinate[] = [];
-
-		let vertical: Coordinate[] = this.checkPositionDirection(location, Coordinate.UP).concat(
+		const vertical: Coordinate[] = this.checkPositionDirection(location, Coordinate.UP).concat(
 			this.checkPositionDirection(location, Coordinate.DOWN)
 		);
-		let horizontal: Coordinate[] = this.checkPositionDirection(location, Coordinate.LEFT).concat(
+		const horizontal: Coordinate[] = this.checkPositionDirection(location, Coordinate.LEFT).concat(
 			this.checkPositionDirection(location, Coordinate.RIGHT)
 		);
 		if (vertical.length + BoardCells.CHECK_NUMBER_SELF >= BoardCells.CHECK_NUMBER_OK_MINIZE) {
@@ -59,10 +57,10 @@ export default class BoardCheck {
 	}
 
 	private checkPositionDirection(location: Coordinate, direction: Coordinate): Coordinate[] {
-		let total: Coordinate[] = [];
-		let item: Item = this.cells.getCellByLocation(location).getItem();
+		const total: Coordinate[] = [];
+		const item: Item = this.cells.getCellByLocation(location).getItem();
 		while (true) {
-			let directLocation: Coordinate = location.offset(direction);
+			const directLocation: Coordinate = location.offset(direction);
 			if (!item.equals(this.cells.getCellByLocation(directLocation).getItem())) {
 				break;
 			}

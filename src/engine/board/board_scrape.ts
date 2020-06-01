@@ -7,10 +7,10 @@ export default class BoardScrape {
 	constructor(private cells: BoardCells) {}
 
 	scrape(area: Scrape, onEnd: () => void) {
-		let end: OnceLast = new OnceLast();
+		const end: OnceLast = new OnceLast();
 		end.setCallback(onEnd);
 
-		let goals: Coordinate[] = area.getGoals();
+		const goals: Coordinate[] = area.getGoals();
 		for (let i = 0; i < goals.length; ++i) {
 			this.cells.getCellByLocation(goals[i]).beScraped(end.getCallback());
 		}

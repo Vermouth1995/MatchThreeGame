@@ -6,7 +6,7 @@ export default class Coordinate {
 	}
 
 	offsets(seeds: Coordinate[]): Coordinate[] {
-		let leaves: Coordinate[] = [];
+		const leaves: Coordinate[] = [];
 		for (let i = 0; i < seeds.length; i++) {
 			leaves.push(this.offset(seeds[i]));
 		}
@@ -64,13 +64,13 @@ export default class Coordinate {
 	}
 
 	radiation(radix: number): Coordinate[] {
-		let radiationArea: Coordinate[] = [];
+		const radiationArea: Coordinate[] = [];
 		for (let i = Math.ceil(this.row - radix); i <= Math.floor(this.row + radix); ++i) {
 			for (let j = Math.ceil(this.col - radix); j <= Math.floor(this.col + radix); ++j) {
 				if (i == this.row && j == this.col) {
 					continue;
 				}
-				let radiationPoint: Coordinate = new Coordinate(i, j);
+				const radiationPoint: Coordinate = new Coordinate(i, j);
 				if (!this.isFarther(radiationPoint, radix)) {
 					radiationArea.push(radiationPoint);
 				}

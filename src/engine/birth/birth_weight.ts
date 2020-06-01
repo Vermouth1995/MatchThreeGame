@@ -18,7 +18,7 @@ export default class BirthWeight extends BirthAdapter {
 	}
 
 	private getBirth(): Birth {
-		let birth: Birth = this.random.getFactor();
+		const birth: Birth = this.random.getFactor();
 		if (birth == null) {
 			return BirthEmpty.getEmpty();
 		}

@@ -28,14 +28,12 @@ export default class BoardArrivable {
 	}
 
 	private updateLocation(location: Coordinate) {
-		let cell: Cell = this.cells.getCellByLocation(location);
-
+		const cell: Cell = this.cells.getCellByLocation(location);
 		if (!cell.canRobbed()) {
 			return;
 		}
 
 		this.arrivable[location.row][location.col] = true;
-
 		this.updateLocation(location.offset(Coordinate.LEFTDOWN));
 		this.updateLocation(location.offset(Coordinate.DOWN));
 		this.updateLocation(location.offset(Coordinate.RIGHTDOWN));

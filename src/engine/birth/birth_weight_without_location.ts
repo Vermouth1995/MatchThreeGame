@@ -16,8 +16,7 @@ export default class BirthWeightWithoutLocation extends BirthWithoutLocation {
 	}
 
 	private getBirth(): BirthWithoutLocation {
-		let birth: BirthWithoutLocation = this.random.getFactor();
-
+		const birth: BirthWithoutLocation = this.random.getFactor();
 		if (birth == null) {
 			return BirthEmpty.getEmpty();
 		}

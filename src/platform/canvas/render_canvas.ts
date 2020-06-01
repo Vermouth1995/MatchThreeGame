@@ -23,7 +23,7 @@ export default class RenderCanvas extends RenderAdapter {
 	private renderRequestId: number;
 
 	private initListener() {
-		let root: Puzzle = this.getRootPuzzle();
+		const root: Puzzle = this.getRootPuzzle();
 		this.canvas.onmouseup = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseUp(
@@ -63,10 +63,10 @@ export default class RenderCanvas extends RenderAdapter {
 	}
 
 	registeredImage(image: string, onEnd: () => void, onError: (error: Error) => void): number {
-		let imageId: number = super.registeredImage(
+		const imageId: number = super.registeredImage(
 			image,
 			() => {
-				let imageElement: HTMLImageElement = document.createElement("img");
+				const imageElement: HTMLImageElement = document.createElement("img");
 				this.HTMLImages[imageId] = imageElement;
 				imageElement.onload = () => onEnd();
 				imageElement.onerror = (event: ErrorEvent) => onError(event.error);
@@ -79,7 +79,7 @@ export default class RenderCanvas extends RenderAdapter {
 
 	start() {
 		super.start();
-		let renderCallback: (timeStamp: number) => void = (_: number) => {
+		const renderCallback: (timeStamp: number) => void = (_: number) => {
 			//This timestamp starts when the page loads, but we want it to start on January 1, 1970.
 			this.clear();
 			this.draw(Date.now());
@@ -104,14 +104,14 @@ export default class RenderCanvas extends RenderAdapter {
 		if (imageId == RenderAdapter.IMAGE_ID_EMPTY) {
 			return;
 		}
-		let locationPixel: Coordinate = location.swell(this.unitPixel);
-		let sizePixel: Coordinate = size.swell(this.unitPixel);
+		const locationPixel: Coordinate = location.swell(this.unitPixel);
+		const sizePixel: Coordinate = size.swell(this.unitPixel);
 
 		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
 	}
 
 	drawString(text: string, location: Coordinate, font: Font, color: Color): void {
-		let locationPixel: Coordinate = location.swell(this.unitPixel);
+		const locationPixel: Coordinate = location.swell(this.unitPixel);
 		this.pen.fillStyle = color.toRGBA();
 		this.pen.font = font.size * this.unitPixel.row + "px " + font.family;
 		this.pen.textAlign = font.align;
