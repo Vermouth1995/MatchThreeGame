@@ -1,5 +1,12 @@
-### 🍻 Match-Three-Game
-A match three game.
+<h1 align="center">Match Three Game</h1>
+
+<div align="center">
+A match three game.<br /><br />
+
+![Travis (.org)](https://img.shields.io/travis/Vermouth1995/MatchThreeGame)
+![GitHub](https://img.shields.io/github/license/vermouth1995/MatchThreeGame?color=blue)
+
+</div>
 
 ### 🎮 Game online
 [https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
