@@ -34,13 +34,9 @@ export default class Level implements LevelData {
 	private birth: Birth;
 	private birthBase: BirthWeightWithoutLocation;
 	private birthDrinkCount: BirthCount;
-
 	private cells: BoardCells;
-
 	private births: BoardBirths;
-
 	private exits: BoardExits;
-
 	private goalDrink: GoalItemCleared;
 	private goalPinecone: GoalItemCleared;
 
@@ -50,21 +46,17 @@ export default class Level implements LevelData {
 		this.initExits();
 		return this.exits;
 	}
-
 	getBirths(): BoardBirths {
 		this.initBirths();
 		return this.births;
 	}
-
 	getCells(): BoardCells {
 		this.initCells();
 		return this.cells;
 	}
-
 	getStep(): number {
 		return 30;
 	}
-
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
 		return [this.goalPinecone, this.goalDrink];

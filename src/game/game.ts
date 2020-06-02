@@ -11,13 +11,12 @@ import OnceLast from "../concept/once/once_last";
 
 export default class Game {
 	static readonly MIN_RENDER_SIZE = new Coordinate(10, 20);
-
 	static readonly PUZZLE_LEVEL_Z_INDEX = 1;
 	static readonly PUZZLE_MESSAGE_Z_INDEX = 1000;
 
 	private levelIndex: number = 1;
-
 	private message: Message;
+	private level: Level;
 
 	constructor(private render: Render) {
 		this.message = new Message(this.render.getSize());
@@ -25,8 +24,6 @@ export default class Game {
 			.getRootPuzzle()
 			.addChild(this.message.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_MESSAGE_Z_INDEX);
 	}
-
-	private level: Level;
 
 	startLevel(type: string, index: string, onEnd: (success: boolean) => void) {
 		this.render.clear();

@@ -5,13 +5,12 @@ import Score from "../engine/score";
 import Board from "../engine/board/board";
 import ItemCreator from "../engine/item/item_creator";
 import CellCreator from "../engine/cell/cell_creator";
+import Level from "./level";
 
 import Render from "../render/render";
 
 import LevelData from "./level_data";
 import Level1 from "../level/1/level";
-
-import Level from "./level";
 
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
@@ -24,12 +23,11 @@ export default class LevelCreator {
 	}
 
 	static readonly LevelSize: number = 1;
+	static readonly TypeCommon: string = "common";
 
 	static size(): number {
 		return LevelCreator.LevelSize;
 	}
-
-	static readonly TypeCommon: string = "common";
 
 	static getLevel(type: string, name: string): LevelData {
 		let level: LevelData;
