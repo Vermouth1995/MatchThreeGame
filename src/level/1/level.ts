@@ -66,9 +66,10 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthWeightWithoutLocation()
+		this.birthBase = new BirthWeightWithoutLocation()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
+		this.birth = this.birthBase;
 	}
 
 	private initGoals(on: BoardOn) {
