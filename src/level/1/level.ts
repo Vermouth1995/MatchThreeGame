@@ -16,15 +16,12 @@ import Birth from "../../engine/birth/birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 import BirthPinecone from "../../engine/birth/birth_pinecone";
 import BirthCondition from "../../engine/birth/birth_condition";
-import BirthCount from "../../engine/birth/birth_count";
-import BirthDrink from "../../engine/birth/birth_drink";
 import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
 
 import ItemCreator from "../../engine/item/item_creator";
 
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
-import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
 
@@ -33,12 +30,11 @@ export default class Level implements LevelData {
 
 	private birth: Birth;
 	private birthBase: BirthWeightWithoutLocation;
-	private birthDrinkCount: BirthCount;
 	private cells: BoardCells;
 	private births: BoardBirths;
 	private exits: BoardExits;
-	private goalDrink: GoalItemCleared;
 	private goalPinecone: GoalItemCleared;
+	private goalLeaf: GoalItemCleared;
 
 	constructor() {}
 
@@ -59,15 +55,11 @@ export default class Level implements LevelData {
 	}
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
-		return [this.goalPinecone, this.goalDrink];
+		return [this.goalPinecone, this.goalLeaf];
 	}
 
-	private static readonly DRINK_SIZE: number = 6;
-	private static readonly GOAL_DRINK_SIZE: number = Level.DRINK_SIZE;
-	private static readonly GOAL_PINECONE_SIZE: number = 30;
-
-	private static readonly DRINK_ACTIVE_MAX_SIZE: number = 2;
-
+	private static readonly GOAL_PINECONE_SIZE: number = 10;
+	private static readonly GOAL_LEAF_SIZE: number = 20;
 	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 5;
 	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
 
@@ -78,24 +70,19 @@ export default class Level implements LevelData {
 		this.birthBase = new BirthWeightWithoutLocation()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
-		this.birthDrinkCount = new BirthCount(Level.DRINK_SIZE, new BirthDrink(), this.birthBase);
-		this.birth = new BirthCondition(
-			() => this.goalDrink.getSteps() - this.birthDrinkCount.getSize() < Level.DRINK_ACTIVE_MAX_SIZE,
-			this.birthDrinkCount,
-			this.birthBase
-		);
+		this.birth = new BirthCondition(null, null, this.birthBase);
 	}
 
 	private initGoals(on: BoardOn) {
-		if (this.goalDrink == null) {
-			this.goalDrink = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.DRINK), Level.GOAL_DRINK_SIZE);
-		}
 		if (this.goalPinecone == null) {
 			this.goalPinecone = new GoalItemCleared(
 				on,
 				ItemCreator.createItem(ItemCreator.PINECONE),
 				Level.GOAL_PINECONE_SIZE
 			);
+		}
+		if (this.goalLeaf == null) {
+			this.goalLeaf = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), Level.GOAL_LEAF_SIZE);
 		}
 	}
 
@@ -146,13 +133,8 @@ export default class Level implements LevelData {
 		for (let i = 0; i < Level.Size.row; i++) {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
-				let cell: Cell;
-				if (i + j == 5 || j - i == 6) {
-					cell = CellEmpty.getEmpty();
-				} else {
-					cell = new CellLand();
-					cell.setItem(this.birthBase.getItemWithoutLocation());
-				}
+				let cell: Cell = new CellLand();
+				cell.setItem(this.birthBase.getItemWithoutLocation());
 				cells[i].push(cell);
 			}
 		}
