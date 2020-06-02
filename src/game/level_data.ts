@@ -5,9 +5,9 @@ import BoardExits from "../engine/board/board_exits";
 import Goal from "../engine/goal/goal";
 
 export default interface LevelData {
-	getBirths(): BoardBirths;
+	getStep(): number;
 	getExits(): BoardExits;
+	getBirths(): BoardBirths;
 	getCells(): BoardCells;
 	getGoals(on: BoardOn): Goal[];
-	getStep(): number;
 }

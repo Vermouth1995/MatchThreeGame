@@ -11,6 +11,7 @@ import Render from "../render/render";
 
 import LevelData from "./level_data";
 import Level1 from "../level/1/level";
+import Level2 from "../level/2/level";
 
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
@@ -22,7 +23,7 @@ export default class LevelCreator {
 		Level.LoadStaticResource(render, success.getCallback(), onError);
 	}
 
-	static readonly LevelSize: number = 1;
+	static readonly LevelSize: number = 2;
 	static readonly TypeCommon: string = "common";
 
 	static size(): number {
@@ -43,6 +44,8 @@ export default class LevelCreator {
 		switch (index) {
 			case "1":
 				return new Level1();
+			case "2":
+				return new Level2();
 			default:
 				return null;
 		}

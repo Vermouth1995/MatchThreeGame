@@ -20,28 +20,38 @@ import BirthCount from "../../engine/birth/birth_count";
 import BirthDrink from "../../engine/birth/birth_drink";
 import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
 
-import ItemCreator from "../../engine/item/item_creator";
-
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellEmpty from "../../engine/cell/cell_empty";
 import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
 
+import ItemCreator from "../../engine/item/item_creator";
+
 export default class Level implements LevelData {
 	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
+	private exits: BoardExits;
+	private births: BoardBirths;
+	private cells: BoardCells;
+	private goalDrink: GoalItemCleared;
+	private goalPinecone: GoalItemCleared;
 	private birth: Birth;
 	private birthBase: BirthWeightWithoutLocation;
 	private birthDrinkCount: BirthCount;
-	private cells: BoardCells;
-	private births: BoardBirths;
-	private exits: BoardExits;
-	private goalDrink: GoalItemCleared;
-	private goalPinecone: GoalItemCleared;
+
+	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 5;
+	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
+	private static readonly DRINK_SIZE: number = 4;
+	private static readonly DRINK_ACTIVE_MAX_SIZE: number = 2;
+	private static readonly GOAL_DRINK_SIZE: number = Level.DRINK_SIZE;
+	private static readonly GOAL_PINECONE_SIZE: number = 20;
 
 	constructor() {}
 
+	getStep(): number {
+		return 30;
+	}
 	getExits(): BoardExits {
 		this.initExits();
 		return this.exits;
@@ -54,48 +64,9 @@ export default class Level implements LevelData {
 		this.initCells();
 		return this.cells;
 	}
-	getStep(): number {
-		return 30;
-	}
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
 		return [this.goalPinecone, this.goalDrink];
-	}
-
-	private static readonly DRINK_SIZE: number = 4;
-	private static readonly DRINK_ACTIVE_MAX_SIZE: number = 2;
-	private static readonly GOAL_DRINK_SIZE: number = Level.DRINK_SIZE;
-	private static readonly GOAL_PINECONE_SIZE: number = 20;
-
-	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 5;
-	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
-
-	private createBirth() {
-		if (this.birth != null) {
-			return;
-		}
-		this.birthBase = new BirthWeightWithoutLocation()
-			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
-			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
-		this.birthDrinkCount = new BirthCount(Level.DRINK_SIZE, new BirthDrink(), this.birthBase);
-		this.birth = new BirthCondition(
-			() => this.goalDrink.getSteps() - this.birthDrinkCount.getSize() < Level.DRINK_ACTIVE_MAX_SIZE,
-			this.birthDrinkCount,
-			this.birthBase
-		);
-	}
-
-	private initGoals(on: BoardOn) {
-		if (this.goalDrink == null) {
-			this.goalDrink = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.DRINK), Level.GOAL_DRINK_SIZE);
-		}
-		if (this.goalPinecone == null) {
-			this.goalPinecone = new GoalItemCleared(
-				on,
-				ItemCreator.createItem(ItemCreator.PINECONE),
-				Level.GOAL_PINECONE_SIZE
-			);
-		}
 	}
 
 	private initExits() {
@@ -112,6 +83,21 @@ export default class Level implements LevelData {
 		this.exits = new BoardExits(exitPlace);
 	}
 
+	private createBirth() {
+		if (this.birth != null) {
+			return;
+		}
+		this.birthBase = new BirthWeightWithoutLocation()
+			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
+			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
+		this.birthDrinkCount = new BirthCount(Level.DRINK_SIZE, new BirthDrink(), this.birthBase);
+		this.birth = new BirthCondition(
+			() => this.goalDrink.getSteps() - this.birthDrinkCount.getSize() < Level.DRINK_ACTIVE_MAX_SIZE,
+			this.birthDrinkCount,
+			this.birthBase
+		);
+	}
+
 	private initBirths() {
 		if (this.births != null) {
 			return;
@@ -124,19 +110,6 @@ export default class Level implements LevelData {
 			birthPlace.push(place);
 		}
 		this.births = new BoardBirths(birthPlace);
-	}
-
-	private initCells() {
-		if (this.cells != null) {
-			return;
-		}
-		const cells: BoardCells = new BoardCells();
-		const check: BoardCheck = new BoardCheck(cells);
-		const precheck: BoardPrecheck = new BoardPrecheck(cells);
-		do {
-			cells.setCells(this.getCellArray());
-		} while (check.check() != null || precheck.precheck() == null);
-		this.cells = cells;
 	}
 
 	private getCellArray(): Cell[][] {
@@ -156,5 +129,31 @@ export default class Level implements LevelData {
 			}
 		}
 		return cells;
+	}
+
+	private initCells() {
+		if (this.cells != null) {
+			return;
+		}
+		const cells: BoardCells = new BoardCells();
+		const check: BoardCheck = new BoardCheck(cells);
+		const precheck: BoardPrecheck = new BoardPrecheck(cells);
+		do {
+			cells.setCells(this.getCellArray());
+		} while (check.check() != null || precheck.precheck() == null);
+		this.cells = cells;
+	}
+
+	private initGoals(on: BoardOn) {
+		if (this.goalDrink == null) {
+			this.goalDrink = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.DRINK), Level.GOAL_DRINK_SIZE);
+		}
+		if (this.goalPinecone == null) {
+			this.goalPinecone = new GoalItemCleared(
+				on,
+				ItemCreator.createItem(ItemCreator.PINECONE),
+				Level.GOAL_PINECONE_SIZE
+			);
+		}
 	}
 }
