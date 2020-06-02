@@ -15,7 +15,6 @@ import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 import Birth from "../../engine/birth/birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 import BirthPinecone from "../../engine/birth/birth_pinecone";
-import BirthCondition from "../../engine/birth/birth_condition";
 import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
 
 import ItemCreator from "../../engine/item/item_creator";
@@ -67,10 +66,9 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birthBase = new BirthWeightWithoutLocation()
+		this.birth = new BirthWeightWithoutLocation()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
-		this.birth = new BirthCondition(null, null, this.birthBase);
 	}
 
 	private initGoals(on: BoardOn) {
