@@ -53,7 +53,11 @@ export default class Game {
 						setTimeout(() => {
 							this.message.hide(() => {
 								this.closeLevel();
-								this.startLevel(LevelCreator.TypeCommon, this.levelIndex.toString(), levelEnd);
+								if (this.levelIndex + 1 <= LevelCreator.size()) {
+									this.startLevel(LevelCreator.TypeCommon, String(this.levelIndex + 1), levelEnd);
+								} else {
+									this.startLevel(LevelCreator.TypeCommon, String(this.levelIndex), levelEnd);
+								}
 							});
 						}, 5000);
 					});

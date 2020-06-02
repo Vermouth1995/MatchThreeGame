@@ -12,7 +12,6 @@ import BoardPrecheck from "../../engine/board/board_precheck";
 import Goal from "../../engine/goal/goal";
 import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 
-import Birth from "../../engine/birth/birth";
 import BirthEliminate from "../../engine/birth/birth_eliminate";
 import BirthPinecone from "../../engine/birth/birth_pinecone";
 import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
@@ -32,8 +31,7 @@ export default class Level implements LevelData {
 	private cells: BoardCells;
 	private goalPinecone: GoalItemCleared;
 	private goalLeaf: GoalItemCleared;
-	private birth: Birth;
-	private birthBase: BirthWeightWithoutLocation;
+	private birth: BirthWeightWithoutLocation;
 
 	private static readonly GOAL_PINECONE_SIZE: number = 10;
 	private static readonly GOAL_LEAF_SIZE: number = 20;
@@ -80,10 +78,9 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birthBase = new BirthWeightWithoutLocation()
+		this.birth = new BirthWeightWithoutLocation()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
-		this.birth = this.birthBase;
 	}
 
 	private initBirths() {
@@ -107,7 +104,7 @@ export default class Level implements LevelData {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
 				let cell: Cell = new CellLand();
-				cell.setItem(this.birthBase.getItemWithoutLocation());
+				cell.setItem(this.birth.getItemWithoutLocation());
 				cells[i].push(cell);
 			}
 		}
