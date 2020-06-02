@@ -10,6 +10,7 @@ A match three game.<br /><br />
 </div>
 
 ### 🎮 Game online
+
 [https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
 
 ### 🔨 Debug
@@ -87,9 +88,23 @@ A match three game.<br /><br />
 	├─ render_position                    -- 渲染树的节点
 	└─ render                             -- 渲染接口
 
-### 🚧  TODO List
+### 🚧 TODO List
+
 - [ ] window onResize 时的 rerender
 - [ ] 移动端的 onTouch 事件
 - [ ] 关卡选择功能
 - [ ] 消除全部同类元素的一种元素
 - [ ] 样式优化
+
+### 👩‍💻 Maintainer
+
+- [@Vermouth1995](https://github.com/Vermouth1995)
+
+### 🤝 Contributors
+
+- [@TingerSure](https://github.com/TingerSure)
+- [@Vermouth1995](https://github.com/Vermouth1995)
+
+## 🐟 License
+
+[MIT](LICENSE) © Vermouth1995
