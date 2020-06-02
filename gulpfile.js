@@ -22,6 +22,8 @@ const copy_src_html = path.join(__dirname, "src/main/index.html");
 const copy_dist_html = build_dist_html;
 const copy_src_resource = path.join(resource_path, "**/*");
 const copy_dist_resource = path.join(output_path, "resource");
+const copy_src_ico = path.join(__dirname, "src/main/favicon.ico");
+const copy_dist_ico = build_dist_html;
 
 gulp.task("format", function () {
 	return gulp.src(typescript_src).pipe(pretty(prettier_config)).pipe(gulp.dest(format_script_dist));
@@ -33,7 +35,10 @@ gulp.task("copy_html", function () {
 gulp.task("copy_resource", function () {
 	return gulp.src(copy_src_resource, {}).pipe(gulp.dest(copy_dist_resource));
 });
-gulp.task("copy", gulp.parallel("copy_html", "copy_resource"));
+gulp.task("copy_ico", function () {
+	return gulp.src(copy_src_ico, {}).pipe(gulp.dest(copy_dist_ico));
+});
+gulp.task("copy", gulp.parallel("copy_html", "copy_resource", "copy_ico"));
 
 gulp.task("clean_cache", function () {
 	return gulp.src(cache_path + "/*", { read: false }).pipe(clean());
