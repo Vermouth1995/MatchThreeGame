@@ -35,13 +35,13 @@ export default class Level implements LevelData {
 
 	private static readonly GOAL_PINECONE_SIZE: number = 10;
 	private static readonly GOAL_LEAF_SIZE: number = 20;
-	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 5;
+	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 10;
 	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
 
 	constructor() {}
 
 	getStep(): number {
-		return 30;
+		return 25;
 	}
 	getExits(): BoardExits {
 		this.initExits();
