@@ -59,7 +59,7 @@ export default class Game {
 									this.startLevel(LevelCreator.TypeCommon, String(this.levelIndex), levelEnd);
 								}
 							});
-						}, 5000);
+						}, 2000);
 					});
 				};
 				this.startLevel(LevelCreator.TypeCommon, this.levelIndex.toString(), levelEnd);
