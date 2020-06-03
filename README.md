@@ -9,9 +9,19 @@ A match three game.<br /><br />
 
 </div>
 
+English | [简体中文](./README_CN.md)
+
 ### 🎮 Game online
 
 [https://vermouth1995.github.io/MatchThreeGame/](https://vermouth1995.github.io/MatchThreeGame/)
+
+### ✨ Features
+
+- 🎀 Beautiful page, smooth game experience.
+- 🌼 Written in TypeScript with predictable static types.
+- 🏅 Multiple rendering methods support capability.
+- ⚙️ Compile with gulp, full link development.
+- 🏆 Powerful level customization in every detail.
 
 ### 🔨 Debug
 
@@ -19,82 +29,82 @@ A match three game.<br /><br />
 - run `npm run build`
 - open html file(`/dist/index.html`) in browser
 
-### ✨ Code Foramt
+### 💅 Code Foramt
 
 - run `npm run format`
 
 ### 🔖 Directory Structure
 
-> concept -- 基本工具（工具概念类内容）
+> concept -- Basic tools (tool concept class content)
 
 	concept
-	├─ event                              -- 记录运动事件
-	├─ linked_list                        -- 单链表
-	├─ listener                           -- 监听工具，管理监听事件
-	├─ once                               -- callback函数调用管理
-	├─ style                              -- 样式类，比如颜色，字体等
-	├─ coordinate                         -- 坐标及对坐标的操作
-	├─ locus                              -- 记录移动状态及坐标轨迹
-	└─ random_weight                      -- 带有权重的随机获取
+	├─ event                              -- Record movement events
+	├─ linked_list                        -- Linked list
+	├─ listener                           -- Listening tools to manage listening events
+	├─ once                               -- Manages the invocation of a series of callback functions
+	├─ style                              -- Style classes, such as colors, fonts, and so on
+	├─ coordinate                         -- Coordinate and coordinate operation
+	├─ locus                              -- Record the moving state and coordinate track
+	└─ random_weight                      -- Random access with weights
 
-> engine -- 游戏引擎（游戏核心元素及概念）
+> engine -- Game engine (core elements and concepts in game)
 
 	engine
-	├─ birth                              -- 消除元素的生成
-	├─ board                              -- 游戏背板
-	├─ cell                               -- 游戏单元格
-	├─ goal                               -- 游戏目标
-	├─ item                               -- 消除元素
-	├─ sacrifice                          -- 消除规则
-	├─ puzzle_keeper                      -- 持有真实渲染块的对象，提供获取puzzle功能
-	└─ score                              -- 游戏步数/分数管理
+	├─ birth                              -- The generation of eliminable elements
+	├─ board                              -- Game board
+	├─ cell                               -- Game cell
+	├─ goal                               -- Game goal
+	├─ item                               -- Eliminated elements
+	├─ sacrifice                          -- Rule of elimination
+	├─ puzzle_keeper                      -- The object that holds the real rendering block
+	└─ score                              -- Game steps/Score management
 
-> game -- 游戏逻辑（包括分值计算，关卡递进关系等）
+> game -- Game logic (including score calculation, relationship between levels, etc.)
 
 	game
-	├─ game                               -- 游戏逻辑实例
-	├─ level_creator                      -- 关卡生成器
-	├─ level_data                         -- 关卡数据接口
-	├─ level                              -- 关卡实现
-	└─ message                            -- 消息
+	├─ game                               -- Instance of game logic
+	├─ level_creator                      -- Level generator
+	├─ level_data                         -- Level data interface
+	├─ level                              -- Level implementation
+	└─ message                            -- Message
 
-> level -- 关卡（关卡内容设置）
+> level -- Level (level content setting)
 
 	level
-	├─ 1                                  -- 关卡1
-	├─ 2                                  -- 关卡2
-	├─ 3                                  -- 关卡3
-	└─ ...                                -- 关卡...
+	├─ 1                                  -- Level 1
+	├─ 2                                  -- Level 2
+	├─ 3                                  -- Level 3
+	└─ ...                                -- Level ...
 
-> main -- 项目入口
+> main -- Project entrance
 
 	main
-	├─ resource                           -- 游戏资源
-	└─ index                              -- 入口
+	├─ resource                           -- Game resources
+	└─ index                              -- Entrance
 
-> platform -- 渲染方式
+> platform -- Rendering platform
 
 	platform
-	├─ canvas                             -- canvas渲染
-	└─ webgl                              -- webgl渲染
+	├─ canvas                             -- canvas
+	└─ webgl                              -- webgl
 
-> render -- 图像渲染
+> render -- Image rendering
 
 	render
-	├─ atom                               -- 最小渲染单元
-	├─ puzzle                             -- 真实渲染的块
-	├─ render_adapter                     -- 渲染适配
-	├─ render_locus                       -- 渲染树的轨迹节点
-	├─ render_position                    -- 渲染树的节点
-	└─ render                             -- 渲染接口
+	├─ atom                               -- Minimum render unit
+	├─ puzzle                             -- Real rendering block
+	├─ render_adapter                     -- Render adapter
+	├─ render_locus                       -- Trace nodes of the rendering tree
+	├─ render_position                    -- Nodes of the rendering tree
+	└─ render                             -- Render interface
 
 ### 🚧 TODO List
 
-- [ ] window onResize 时的 rerender
-- [ ] 移动端的 onTouch 事件
-- [ ] 关卡选择功能
-- [ ] 消除全部同类元素的一种元素
-- [ ] 样式优化
+- [ ] rerender when window onResize
+- [ ] onTouch realization
+- [ ] Level selection function
+- [ ] An element that eliminates all elements of the same kind
+- [ ] Style optimization
 
 ### 👩‍💻 Maintainer
 
@@ -105,6 +115,6 @@ A match three game.<br /><br />
 - [@TingerSure](https://github.com/TingerSure)
 - [@Vermouth1995](https://github.com/Vermouth1995)
 
-## 🐟 License
+### ⏰ License
 
 [MIT](LICENSE) © Vermouth1995
