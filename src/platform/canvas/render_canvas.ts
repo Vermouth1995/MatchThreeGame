@@ -24,14 +24,40 @@ export default class RenderCanvas extends RenderAdapter {
 
 	private initListener() {
 		const root: Puzzle = this.getRootPuzzle();
-		this.canvas.onmouseup = (event: MouseEvent) => {
+		// 按下手指
+		this.canvas.ontouchstart = (event: TouchEvent) => {
 			if (this.listenerOn) {
-				root.triggerMouseUp(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+				root.triggerMouseDown(
+					this.getLocationByPixelLocation(
+						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
+					),
 					Date.now()
 				);
 			}
 		};
+		// 松开手指
+		this.canvas.ontouchend = (event: TouchEvent) => {
+			if (this.listenerOn) {
+				root.triggerMouseUp(
+					this.getLocationByPixelLocation(
+						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
+					),
+					Date.now()
+				);
+			}
+		};
+		// 滑动手指
+		this.canvas.ontouchmove = (event: TouchEvent) => {
+			if (this.listenerOn) {
+				root.triggerMouseMove(
+					this.getLocationByPixelLocation(
+						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
+					),
+					Date.now()
+				);
+			}
+		};
+		// 按下鼠标
 		this.canvas.onmousedown = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseDown(
@@ -40,6 +66,16 @@ export default class RenderCanvas extends RenderAdapter {
 				);
 			}
 		};
+		// 松开鼠标
+		this.canvas.onmouseup = (event: MouseEvent) => {
+			if (this.listenerOn) {
+				root.triggerMouseUp(
+					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					Date.now()
+				);
+			}
+		};
+		// 移动鼠标
 		this.canvas.onmousemove = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseMove(
