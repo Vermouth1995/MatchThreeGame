@@ -22,6 +22,7 @@ English | [简体中文](./README_CN.md)
 - 🏅 Multiple rendering methods support capability.
 - ⚙️ Compile with gulp, full link development.
 - 🏆 Powerful level customization in every detail.
+- 🤳 Support for mobile terminal.
 
 ### 🔨 Debug
 
