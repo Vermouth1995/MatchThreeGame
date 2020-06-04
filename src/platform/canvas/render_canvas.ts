@@ -24,65 +24,44 @@ export default class RenderCanvas extends RenderAdapter {
 
 	private initListener() {
 		const root: Puzzle = this.getRootPuzzle();
+		const triggerMouseDown = (x: number, y: number) => {
+			if (this.listenerOn) {
+				root.triggerMouseDown(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+			}
+		};
+		const triggerMouseUp = (x: number, y: number) => {
+			if (this.listenerOn) {
+				root.triggerMouseUp(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+			}
+		};
+		const triggerMouseMove = (x: number, y: number) => {
+			if (this.listenerOn) {
+				root.triggerMouseMove(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+			}
+		};
 		// 按下手指
 		this.canvas.ontouchstart = (event: TouchEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseDown(
-					this.getLocationByPixelLocation(
-						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
-					),
-					Date.now()
-				);
-			}
+			triggerMouseDown(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
 		};
 		// 松开手指
 		this.canvas.ontouchend = (event: TouchEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseUp(
-					this.getLocationByPixelLocation(
-						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
-					),
-					Date.now()
-				);
-			}
+			triggerMouseUp(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
 		};
 		// 滑动手指
 		this.canvas.ontouchmove = (event: TouchEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseMove(
-					this.getLocationByPixelLocation(
-						new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX)
-					),
-					Date.now()
-				);
-			}
+			triggerMouseMove(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
 		};
 		// 按下鼠标
 		this.canvas.onmousedown = (event: MouseEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseDown(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
-					Date.now()
-				);
-			}
+			triggerMouseDown(event.offsetX, event.offsetY);
 		};
 		// 松开鼠标
 		this.canvas.onmouseup = (event: MouseEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseUp(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
-					Date.now()
-				);
-			}
+			triggerMouseUp(event.offsetX, event.offsetY);
 		};
 		// 移动鼠标
 		this.canvas.onmousemove = (event: MouseEvent) => {
-			if (this.listenerOn) {
-				root.triggerMouseMove(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
-					Date.now()
-				);
-			}
+			triggerMouseMove(event.offsetX, event.offsetY);
 		};
 	}
 
