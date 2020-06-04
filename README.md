@@ -102,7 +102,7 @@ English | [简体中文](./README_CN.md)
 ### 🚧 TODO List
 
 - [ ] rerender when window onResize
-- [ ] onTouch realization
+- [x] onTouch realization
 - [ ] Level selection function
 - [ ] An element that eliminates all elements of the same kind
 - [ ] Style optimization
