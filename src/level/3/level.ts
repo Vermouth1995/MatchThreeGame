@@ -87,7 +87,11 @@ export default class Level implements LevelData {
 		const birthPlace: CellBirth[] = [];
 		for (let i = 0; i < Level.Size.col; i++) {
 			const place: CellBirth = new CellBirth();
-			place.setBirth(this.birth, new Coordinate(0, i));
+			if (i > 3 && i < 8) {
+				place.setBirth(this.birth, new Coordinate(1, i));
+			} else {
+				place.setBirth(this.birth, new Coordinate(0, i));
+			}
 			birthPlace.push(place);
 		}
 		this.births = new BoardBirths(birthPlace);
