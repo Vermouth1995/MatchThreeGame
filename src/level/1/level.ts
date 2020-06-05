@@ -31,12 +31,13 @@ export default class Level implements LevelData {
 	private goalApple: GoalItemCleared;
 	private birth: BirthEliminate;
 
+	private static readonly STEPS: number = 23;
 	private static readonly GOAL_APPLE_SIZE: number = 16;
 
 	constructor() {}
 
 	getStep(): number {
-		return 23;
+		return Level.STEPS;
 	}
 	getExits(): BoardExits {
 		this.initExits();

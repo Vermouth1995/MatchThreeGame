@@ -40,6 +40,7 @@ export default class Level implements LevelData {
 	private birthBase: BirthWeightWithoutLocation;
 	private birthDrinkCount: BirthCount;
 
+	private static readonly STEPS: number = 30;
 	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 5;
 	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
 	private static readonly DRINK_SIZE: number = 4;
@@ -50,7 +51,7 @@ export default class Level implements LevelData {
 	constructor() {}
 
 	getStep(): number {
-		return 30;
+		return Level.STEPS;
 	}
 	getExits(): BoardExits {
 		this.initExits();

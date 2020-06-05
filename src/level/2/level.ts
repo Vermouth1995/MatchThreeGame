@@ -13,31 +13,26 @@ import Goal from "../../engine/goal/goal";
 import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 
 import BirthEliminate from "../../engine/birth/birth_eliminate";
-import BirthPinecone from "../../engine/birth/birth_pinecone";
-import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
 
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
+import CellEmpty from "../../engine/cell/cell_empty";
 import CellExit from "../../engine/cell/cell_exit";
 
 import ItemCreator from "../../engine/item/item_creator";
 
 export default class Level implements LevelData {
-	private static readonly Size: Coordinate = new Coordinate(9, 12);
+	private static readonly Size: Coordinate = new Coordinate(9, 9);
 
 	private exits: BoardExits;
 	private births: BoardBirths;
 	private cells: BoardCells;
-	private goalPinecone: GoalItemCleared;
-	private goalLeaf: GoalItemCleared;
-	private birth: BirthWeightWithoutLocation;
+	private goalBlueBerry: GoalItemCleared;
+	private birth: BirthEliminate;
 
-	private static readonly STEPS: number = 25;
-	private static readonly GOAL_PINECONE_SIZE: number = 10;
-	private static readonly GOAL_LEAF_SIZE: number = 20;
-	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 10;
-	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
+	private static readonly STEPS: number = 27;
+	private static readonly GOAL_BLUEBERRY_SIZE: number = 27;
 
 	constructor() {}
 
@@ -58,7 +53,7 @@ export default class Level implements LevelData {
 	}
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
-		return [this.goalPinecone, this.goalLeaf];
+		return [this.goalBlueBerry];
 	}
 
 	private initExits() {
@@ -79,9 +74,7 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthWeightWithoutLocation()
-			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
-			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
+		this.birth = new BirthEliminate();
 	}
 
 	private initBirths() {
@@ -104,8 +97,26 @@ export default class Level implements LevelData {
 		for (let i = 0; i < Level.Size.row; i++) {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
-				let cell: Cell = new CellLand();
-				cell.setItem(this.birth.getItemWithoutLocation());
+				let cell: Cell;
+				if (
+					(i == 0 && j == 0) ||
+					(i == 0 && j == 1) ||
+					(i == 0 && j == Level.Size.col - 2) ||
+					(i == 0 && j == Level.Size.col - 1) ||
+					(i == 1 && j == 0) ||
+					(i == 1 && j == Level.Size.col - 1) ||
+					(i == Level.Size.row - 2 && j == 0) ||
+					(i == Level.Size.row - 2 && j == Level.Size.col - 1) ||
+					(i == Level.Size.row - 1 && j == 0) ||
+					(i == Level.Size.row - 1 && j == 1) ||
+					(i == Level.Size.row - 1 && j == Level.Size.col - 2) ||
+					(i == Level.Size.row - 1 && j == Level.Size.col - 1)
+				) {
+					cell = CellEmpty.getEmpty();
+				} else {
+					cell = new CellLand();
+					cell.setItem(this.birth.getItemWithoutLocation());
+				}
 				cells[i].push(cell);
 			}
 		}
@@ -126,15 +137,13 @@ export default class Level implements LevelData {
 	}
 
 	private initGoals(on: BoardOn) {
-		if (this.goalPinecone == null) {
-			this.goalPinecone = new GoalItemCleared(
-				on,
-				ItemCreator.createItem(ItemCreator.PINECONE),
-				Level.GOAL_PINECONE_SIZE
-			);
+		if (this.goalBlueBerry != null) {
+			return;
 		}
-		if (this.goalLeaf == null) {
-			this.goalLeaf = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), Level.GOAL_LEAF_SIZE);
-		}
+		this.goalBlueBerry = new GoalItemCleared(
+			on,
+			ItemCreator.createItem(ItemCreator.BLUEBERRY),
+			Level.GOAL_BLUEBERRY_SIZE
+		);
 	}
 }
