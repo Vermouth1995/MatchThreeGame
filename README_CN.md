@@ -1,7 +1,8 @@
 <h1 align="center">Match Three Game</h1>
 
+> 一个使用 canvas 绘制，TypeScript 实现的消除游戏。消除的玩法设计以及部分资源来源于[梦幻花园](http://hy.uu.cc/)。
+
 <div align="center">
-一个使用 canvas 绘制，TypeScript 实现的消除游戏。消除的玩法设计以及部分资源来源于[梦幻花园](http://hy.uu.cc/)<br /><br />
 
 [![Build Status](https://img.shields.io/travis/Vermouth1995/MatchThreeGame)](https://travis-ci.org/github/Vermouth1995/MatchThreeGame)
 [![GitHub](https://img.shields.io/github/license/vermouth1995/MatchThreeGame?color=blue)](https://github.com/Vermouth1995/MatchThreeGame/blob/master/LICENSE)
