@@ -103,11 +103,13 @@ English | [简体中文](./README_CN.md)
 
 ### 🚧 TODO List
 
-- [ ] rerender when window onResize
+- [ ] Rerender when window onResize
 - [x] onTouch realization
-- [ ] Level selection function
+- [ ] Level selection
 - [ ] An element that eliminates all elements of the same kind
 - [ ] Style optimization
+- [ ] Automatic prompt
+- [ ] Bomb appearance weight can be set
 
 ### 👩‍💻 Maintainer
 
