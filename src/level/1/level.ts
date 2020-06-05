@@ -19,26 +19,29 @@ import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
-import CellEmpty from "../../engine/cell/cell_empty";
 import CellExit from "../../engine/cell/cell_exit";
 
 import ItemCreator from "../../engine/item/item_creator";
 
 export default class Level implements LevelData {
-	private static readonly Size: Coordinate = new Coordinate(7, 7);
+	private static readonly Size: Coordinate = new Coordinate(9, 12);
 
 	private exits: BoardExits;
 	private births: BoardBirths;
 	private cells: BoardCells;
-	private goalApple: GoalItemCleared;
+	private goalPinecone: GoalItemCleared;
+	private goalLeaf: GoalItemCleared;
 	private birth: BirthWeightWithoutLocation;
 
-	private static readonly GOAL_APPLE_SIZE: number = 16;
+	private static readonly GOAL_PINECONE_SIZE: number = 10;
+	private static readonly GOAL_LEAF_SIZE: number = 20;
+	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 10;
+	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
 
 	constructor() {}
 
 	getStep(): number {
-		return 23;
+		return 25;
 	}
 	getExits(): BoardExits {
 		this.initExits();
@@ -54,7 +57,7 @@ export default class Level implements LevelData {
 	}
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
-		return [this.goalApple];
+		return [this.goalPinecone, this.goalLeaf];
 	}
 
 	private initExits() {
@@ -75,7 +78,9 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthEliminate();
+		this.birth = new BirthWeightWithoutLocation()
+			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
+			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
 	}
 
 	private initBirths() {
@@ -84,7 +89,7 @@ export default class Level implements LevelData {
 		}
 		this.createBirth();
 		const birthPlace: CellBirth[] = [];
-		for (let i = 1; i < Level.Size.col - 1; i++) {
+		for (let i = 0; i < Level.Size.col; i++) {
 			const place: CellBirth = new CellBirth();
 			place.setBirth(this.birth, new Coordinate(0, i));
 			birthPlace.push(place);
@@ -98,18 +103,8 @@ export default class Level implements LevelData {
 		for (let i = 0; i < Level.Size.row; i++) {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.col; j++) {
-				let cell: Cell;
-				if (
-					(i == 0 && j == 0) ||
-					(i == 0 && j == Level.Size.col - 1) ||
-					(i == Level.Size.row - 1 && j == 0) ||
-					(i == Level.Size.row - 1 && j == Level.Size.col - 1)
-				) {
-					cell = CellEmpty.getEmpty();
-				} else {
-					cell = new CellLand();
-					cell.setItem(this.birth.getItemWithoutLocation());
-				}
+				let cell: Cell = new CellLand();
+				cell.setItem(this.birth.getItemWithoutLocation());
 				cells[i].push(cell);
 			}
 		}
@@ -130,9 +125,15 @@ export default class Level implements LevelData {
 	}
 
 	private initGoals(on: BoardOn) {
-		if (this.goalApple != null) {
-			return;
+		if (this.goalPinecone == null) {
+			this.goalPinecone = new GoalItemCleared(
+				on,
+				ItemCreator.createItem(ItemCreator.PINECONE),
+				Level.GOAL_PINECONE_SIZE
+			);
 		}
-		this.goalApple = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.APPLE), Level.GOAL_APPLE_SIZE);
+		if (this.goalLeaf == null) {
+			this.goalLeaf = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), Level.GOAL_LEAF_SIZE);
+		}
 	}
 }
