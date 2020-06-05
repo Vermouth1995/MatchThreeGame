@@ -1,8 +1,5 @@
 <h1 align="center">Match Three Game</h1>
 
-> An elimination game that drawed by Canvas and implemented using TypeScript.<br />
-The game play design and some of the resources are from [Gardenscapes](https://www.playrix.com/gardenscapes/).
-
 <div align="center">
 
 [![Build Status](https://img.shields.io/travis/Vermouth1995/MatchThreeGame)](https://travis-ci.org/github/Vermouth1995/MatchThreeGame)
@@ -10,6 +7,9 @@ The game play design and some of the resources are from [Gardenscapes](https://w
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Vermouth1995/MatchThreeGame?color=orange)
 
 </div>
+
+> An elimination game that drawed by Canvas and implemented using TypeScript.<br />
+The game play design and some of the resources are from [Gardenscapes](https://www.playrix.com/gardenscapes/).
 
 English | [简体中文](./README_CN.md)
 
