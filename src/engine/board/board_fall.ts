@@ -93,6 +93,10 @@ export default class BoardFall {
 		for (let i = this.cells.size().row - 1; i >= 0; i--) {
 			for (let j = 0; j < this.cells.size().col; j++) {
 				const location: Coordinate = new Coordinate(i, j);
+				const cell: Cell = this.cells.getCellByLocation(location);
+				if (cell.isEmpty()) {
+					continue;
+				}
 				const victims: Cell[] = [];
 				const victimLocations: Coordinate[] = [];
 				this.getVictimsByLocation(location, victims, victimLocations);

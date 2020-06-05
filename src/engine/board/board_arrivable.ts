@@ -10,6 +10,13 @@ export default class BoardArrivable {
 	private arrivable: boolean[][] = [];
 
 	isArrivable(location: Coordinate): boolean {
+		if (location.row < 0 || location.row >= this.arrivable.length) {
+			return false;
+		}
+		const row: boolean[] = this.arrivable[location.row];
+		if (location.col < 0 || location.col >= row.length) {
+			return false;
+		}
 		return this.arrivable[location.row][location.col];
 	}
 
