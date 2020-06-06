@@ -1,16 +1,8 @@
-import Item from "../item/item";
 import ItemCreator from "../item/item_creator";
-import BirthWithoutLocation from "./birth_without_location";
+import BirthItem from "./birth_item";
 
-export default class BirthDrink extends BirthWithoutLocation {
+export default class BirthDrink extends BirthItem {
 	constructor() {
-		super();
-	}
-
-	getItemWithoutLocation(): Item {
-		return ItemCreator.createItem(ItemCreator.DRINK);
-	}
-	popItemWithoutLocation(): Item {
-		return this.getItemWithoutLocation();
+		super(ItemCreator.DRINK);
 	}
 }

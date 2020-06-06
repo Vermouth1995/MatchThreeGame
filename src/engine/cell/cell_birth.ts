@@ -23,11 +23,11 @@ export default class CellBirth implements Cell {
 	}
 
 	getItem(): Item {
-		return this.birth.getItem(this.getLocation());
+		return this.birth.getItem();
 	}
 
 	popItem(): Item {
-		return this.birth.popItem(this.getLocation());
+		return this.birth.popItem();
 	}
 	setItem(item: Item) {}
 

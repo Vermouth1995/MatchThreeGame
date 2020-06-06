@@ -74,7 +74,7 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthEliminate();
+		this.birth = new BirthEliminate(BirthEliminate.SIMPLE_SIZE);
 	}
 
 	private initBirths() {
@@ -115,7 +115,7 @@ export default class Level implements LevelData {
 					cell = CellEmpty.getEmpty();
 				} else {
 					cell = new CellLand();
-					cell.setItem(this.birth.getItemWithoutLocation());
+					cell.setItem(this.birth.popItem());
 				}
 				cells[i].push(cell);
 			}

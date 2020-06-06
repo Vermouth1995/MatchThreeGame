@@ -18,7 +18,7 @@ import BirthPinecone from "../../engine/birth/birth_pinecone";
 import BirthCondition from "../../engine/birth/birth_condition";
 import BirthCount from "../../engine/birth/birth_count";
 import BirthDrink from "../../engine/birth/birth_drink";
-import BirthWeightWithoutLocation from "../../engine/birth/birth_weight_without_location";
+import BirthWeight from "../../engine/birth/birth_weight";
 
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
@@ -37,7 +37,7 @@ export default class Level implements LevelData {
 	private goalDrink: GoalItemCleared;
 	private goalPinecone: GoalItemCleared;
 	private birth: Birth;
-	private birthBase: BirthWeightWithoutLocation;
+	private birthBase: BirthWeight;
 	private birthDrinkCount: BirthCount;
 
 	private static readonly STEPS: number = 30;
@@ -88,7 +88,7 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birthBase = new BirthWeightWithoutLocation()
+		this.birthBase = new BirthWeight()
 			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
 			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
 		this.birthDrinkCount = new BirthCount(Level.DRINK_SIZE, new BirthDrink(), this.birthBase);
@@ -124,7 +124,7 @@ export default class Level implements LevelData {
 					cell = CellEmpty.getEmpty();
 				} else {
 					cell = new CellLand();
-					cell.setItem(this.birthBase.getItemWithoutLocation());
+					cell.setItem(this.birthBase.popItem());
 				}
 				cells[i].push(cell);
 			}

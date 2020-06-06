@@ -113,7 +113,7 @@ export default class Level implements LevelData {
 					cell = CellEmpty.getEmpty();
 				} else {
 					cell = new CellLand();
-					cell.setItem(this.birth.getItemWithoutLocation());
+					cell.setItem(this.birth.popItem());
 				}
 				cells[i].push(cell);
 			}

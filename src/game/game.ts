@@ -10,7 +10,7 @@ import Once from "../concept/once/once";
 import OnceLast from "../concept/once/once_last";
 
 export default class Game {
-	static readonly MIN_RENDER_SIZE = new Coordinate(10, 20);
+	static readonly MIN_RENDER_SIZE = new Coordinate(10, 16);
 	static readonly PUZZLE_LEVEL_Z_INDEX = 1;
 	static readonly PUZZLE_MESSAGE_Z_INDEX = 1000;
 

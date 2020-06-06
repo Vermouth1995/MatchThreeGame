@@ -1,15 +1,15 @@
 import Item from "../item/item";
 import ItemEmpty from "../item/prop/item_empty";
-import BirthWithoutLocation from "./birth_without_location";
+import BirthAdapter from "./birth_adapter";
 
-export default class BirthEmpty extends BirthWithoutLocation {
+export default class BirthEmpty extends BirthAdapter {
 	constructor() {
 		super();
 	}
-	getItemWithoutLocation(): Item {
+	getItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
-	popItemWithoutLocation(): Item {
+	popItem(): Item {
 		return ItemEmpty.getEmpty();
 	}
 

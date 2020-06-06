@@ -1,9 +1,8 @@
-import BirthAdapter from "./birth_adapter";
 import BirthEmpty from "./birth_empty";
 import Birth from "../birth/birth";
+import BirthAdapter from "./birth_adapter";
 import Item from "../item/item";
 import RandomWeight from "../../concept/random_weight";
-import Coordinate from "../../concept/coordinate";
 
 export default class BirthWeight extends BirthAdapter {
 	constructor() {
@@ -25,11 +24,11 @@ export default class BirthWeight extends BirthAdapter {
 		return birth;
 	}
 
-	getItem(location: Coordinate): Item {
-		return this.getBirth().getItem(location);
+	getItem(): Item {
+		return this.getBirth().getItem();
 	}
 
-	popItem(location: Coordinate): Item {
-		return this.getBirth().popItem(location);
+	popItem(): Item {
+		return this.getBirth().popItem();
 	}
 }

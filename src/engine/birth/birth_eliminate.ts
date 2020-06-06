@@ -1,28 +1,38 @@
-import BirthItemWeight from "./birth_item_weight";
+import BirthWeight from "./birth_weight";
+import BirthItem from "./birth_Item";
+import BirthAdapter from "./birth_adapter";
 import Item from "../item/item";
 import ItemCreator from "../item/item_creator";
-import BirthWithoutLocation from "./birth_without_location";
 
-export default class BirthEliminate extends BirthWithoutLocation {
-	constructor() {
+export default class BirthEliminate extends BirthAdapter {
+	constructor(size: number = BirthEliminate.FULL_SIZE) {
 		super();
+		if (size > BirthEliminate.FULL_SIZE) {
+			size = BirthEliminate.FULL_SIZE;
+		}
+		for (let i = 0; i < size; i++) {
+			this.birth.addBirthWeight(new BirthItem(BirthEliminate.Eliminates[i]));
+		}
 	}
 
-	private static birth: BirthItemWeight = (() => {
-		const birth: BirthItemWeight = new BirthItemWeight();
-		birth.addItemWeight(ItemCreator.APPLE);
-		birth.addItemWeight(ItemCreator.BLUEBERRY);
-		birth.addItemWeight(ItemCreator.FLOWER);
-		birth.addItemWeight(ItemCreator.LEAF);
-		birth.addItemWeight(ItemCreator.PEAR);
-		birth.addItemWeight(ItemCreator.WATER);
-		return birth;
-	})();
+	private static readonly Eliminates: number[] = [
+		ItemCreator.APPLE,
+		ItemCreator.BLUEBERRY,
+		ItemCreator.FLOWER,
+		ItemCreator.LEAF,
+		ItemCreator.PEAR,
+		ItemCreator.WATER,
+	];
 
-	getItemWithoutLocation(): Item {
-		return BirthEliminate.birth.getItemWithoutLocation();
+	public static readonly FULL_SIZE: number = 6;
+	public static readonly SIMPLE_SIZE: number = 5;
+
+	private birth: BirthWeight = new BirthWeight();
+
+	getItem(): Item {
+		return this.birth.getItem();
 	}
-	popItemWithoutLocation(): Item {
-		return this.getItemWithoutLocation();
+	popItem(): Item {
+		return this.getItem();
 	}
 }

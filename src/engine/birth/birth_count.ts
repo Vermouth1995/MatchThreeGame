@@ -1,7 +1,6 @@
-import BirthAdapter from "./birth_adapter";
 import BirthEmpty from "./birth_empty";
-import Birth from "../birth/birth";
-import Coordinate from "../../concept/coordinate";
+import Birth from "./birth";
+import BirthAdapter from "./birth_adapter";
 import Item from "../item/item";
 
 export default class BirthCount extends BirthAdapter {
@@ -24,12 +23,12 @@ export default class BirthCount extends BirthAdapter {
 		return birth;
 	}
 
-	getItem(location: Coordinate): Item {
-		return this.getBirth().getItem(location);
+	getItem(): Item {
+		return this.getBirth().getItem();
 	}
 
-	popItem(location: Coordinate): Item {
+	popItem(): Item {
 		this.size--;
-		return this.getBirth().popItem(location);
+		return this.getBirth().popItem();
 	}
 }
