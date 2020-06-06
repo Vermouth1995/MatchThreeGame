@@ -1,5 +1,5 @@
 import BirthWeight from "./birth_weight";
-import BirthItem from "./birth_Item";
+import BirthItem from "./birth_item";
 import BirthAdapter from "./birth_adapter";
 import Item from "../item/item";
 import ItemCreator from "../item/item_creator";
