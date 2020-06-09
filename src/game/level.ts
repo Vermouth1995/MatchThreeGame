@@ -3,10 +3,10 @@ import LevelData from "./level_data";
 import Board from "../engine/board/board";
 import Score from "../engine/score";
 
+import CoordinateDynamic from "../concept/coordinate/coordinate_dynamic";
 import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
-import EventLocationSetter from "../concept/coordinate/event/event_location_setter";
 import ListenerDiffusion from "../concept/listener/listener_diffusion";
 import Listener from "../concept/listener/listener";
 
@@ -47,13 +47,20 @@ export default class Level implements PuzzleKeeper {
 			this.onEnd.trigger(success);
 		});
 
-		this.puzzle = new Puzzle();
-		this.puzzle.setSize(this.size);
-		this.boardLocation = new Locus(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF));
-		this.scoreLocation = new Locus(
-			new CoordinateValue((this.size.getRow() - this.score.getPuzzle().size().getRow()) / 2, 0)
+		const dynamicSize = new CoordinateDynamic(
+			() => this.size.getRow(),
+			() => this.size.getCol()
 		);
-		this.backgroundSize = new Locus<Coordinate>(this.size);
+		this.puzzle = new Puzzle();
+		this.puzzle.setSize(dynamicSize);
+		this.boardLocation = new Locus(dynamicSize.offset(this.board.size().negative()).split(Level.SPLIT_HALF));
+		this.scoreLocation = new Locus(
+			new CoordinateDynamic(
+				() => (dynamicSize.getRow() - this.score.getPuzzle().size().getRow()) / 2,
+				() => 0
+			)
+		);
+		this.backgroundSize = new Locus<Coordinate>(dynamicSize);
 		this.puzzle.addAtom(
 			new AtomImage(new Locus<number>(Level.backgroundImageId), this.backgroundSize),
 			new Locus<Coordinate>(CoordinateValue.ORIGIN),
@@ -66,15 +73,6 @@ export default class Level implements PuzzleKeeper {
 
 	resizePuzzle(size: Coordinate): void {
 		this.size = size;
-		this.boardLocation.setEvent(
-			new EventLocationSetter<Coordinate>(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF))
-		);
-		this.scoreLocation.setEvent(
-			new EventLocationSetter<Coordinate>(
-				new CoordinateValue((this.size.getRow() - this.score.getPuzzle().size().getRow()) / 2, 0)
-			)
-		);
-		this.backgroundSize.setEvent(new EventLocationSetter<Coordinate>(this.size));
 	}
 
 	readonly onEnd: Listener<void, (success: boolean) => void> = new ListenerDiffusion();

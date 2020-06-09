@@ -55,27 +55,21 @@ export default class RenderCanvas extends RenderAdapter {
 				root.triggerMouseMove(this.getLocationByPixelLocation(location), Date.now());
 			}
 		};
-		// 按下手指
 		this.canvas.ontouchstart = (event: TouchEvent) => {
 			triggerMouseDown(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
-		// 松开手指
 		this.canvas.ontouchend = (event: TouchEvent) => {
 			triggerMouseUp(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
-		// 滑动手指
 		this.canvas.ontouchmove = (event: TouchEvent) => {
 			triggerMouseMove(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
-		// 按下鼠标
 		this.canvas.onmousedown = (event: MouseEvent) => {
 			triggerMouseDown(new CoordinateValue(event.offsetY, event.offsetX));
 		};
-		// 松开鼠标
 		this.canvas.onmouseup = (event: MouseEvent) => {
 			triggerMouseUp(new CoordinateValue(event.offsetY, event.offsetX));
 		};
-		// 移动鼠标
 		this.canvas.onmousemove = (event: MouseEvent) => {
 			triggerMouseMove(new CoordinateValue(event.offsetY, event.offsetX));
 		};
