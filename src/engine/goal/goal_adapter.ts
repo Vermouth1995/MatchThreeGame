@@ -48,6 +48,7 @@ export default abstract class GoalAdapter implements Goal {
 	abstract isSuccess(): boolean;
 
 	protected puzzle: Puzzle = new Puzzle();
+	resizePuzzle(size: Coordinate): void {}
 	getPuzzle(): Puzzle {
 		return this.puzzle;
 	}

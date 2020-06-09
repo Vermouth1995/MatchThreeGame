@@ -9,12 +9,14 @@ import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
 import EventMove from "../concept/event/event_move";
 import EventLocationSetter from "../concept/event/event_location_setter";
+import PuzzleKeeper from "../engine/puzzle_keeper";
 
-export default class Message {
+export default class Message implements PuzzleKeeper {
 	private static readonly BOX_Z_INDEX = 0;
 	private static readonly BACKGROUND_IMAGE_Z_INDEX = 1;
 	private static readonly TEXT_Z_INDEX = 2;
 	private static readonly SHOW_TIME_COST = 200;
+	private static readonly ACTIVE_SIZE_COEFFICIENT: Coordinate = new Coordinate(0.6, 1);
 
 	private puzzle: Puzzle;
 	private boxPuzzle: Puzzle;
@@ -27,19 +29,25 @@ export default class Message {
 	private boxLocationLocus: Locus<Coordinate>;
 
 	constructor(private size: Coordinate) {
-		this.boxSize = this.size.swell(Message.ACTIVE_SIZE_COEFFICIENT);
+		this.puzzle = new Puzzle();
+		this.puzzle.hide();
+		this.boxPuzzle = new Puzzle();
+		this.buildSizes();
+		this.boxLocationLocus = new Locus<Coordinate>(this.boxLocation);
+		this.puzzle.addChild(this.boxPuzzle, this.boxLocationLocus, Message.BOX_Z_INDEX);
+	}
 
+	resizePuzzle(size: Coordinate): void {
+		this.size = size;
+		this.buildSizes();
+	}
+
+	private buildSizes() {
+		this.boxSize = this.size.swell(Message.ACTIVE_SIZE_COEFFICIENT);
 		this.boxLocation = new Coordinate(-this.boxSize.row, 0);
 		this.boxActiveLocation = new Coordinate((this.size.row - this.boxSize.row) / 2, 0);
-
-		this.boxLocationLocus = new Locus<Coordinate>(this.boxLocation);
-
-		this.boxPuzzle = new Puzzle();
 		this.boxPuzzle.setSize(this.boxSize);
-
-		this.puzzle = new Puzzle();
 		this.puzzle.setSize(this.size);
-		this.puzzle.addChild(this.boxPuzzle, this.boxLocationLocus, Message.BOX_Z_INDEX);
 	}
 
 	init() {
@@ -55,8 +63,6 @@ export default class Message {
 		);
 	}
 
-	private static readonly ACTIVE_SIZE_COEFFICIENT: Coordinate = new Coordinate(0.6, 1);
-
 	private color: Color = new Color(255, 255, 255);
 	private font: Font = new Font().setSize(0.5).setAlign(Font.ALIGN_CENTER);
 
@@ -71,6 +77,8 @@ export default class Message {
 	}
 
 	show(onEnd: () => void) {
+		this.boxLocationLocus.setEvent(new EventLocationSetter<Coordinate>(this.boxLocation));
+		this.puzzle.show();
 		this.boxLocationLocus.setEvent(
 			new EventMove<Coordinate>(
 				this.boxActiveLocation,
@@ -94,6 +102,7 @@ export default class Message {
 			)
 		);
 		setTimeout(() => {
+			this.puzzle.hide();
 			onEnd();
 		}, Message.SHOW_TIME_COST);
 	}

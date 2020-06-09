@@ -142,6 +142,7 @@ export default class Score implements PuzzleKeeper {
 	readonly onEnd: Listener<void, (success: boolean) => void> = new ListenerDiffusion();
 
 	readonly onStepEnd: Listener<void, () => void> = new ListenerDiffusion();
+	resizePuzzle(size: Coordinate): void {}
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;

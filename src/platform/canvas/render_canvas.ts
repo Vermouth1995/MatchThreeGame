@@ -5,16 +5,31 @@ import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
 
 export default class RenderCanvas extends RenderAdapter {
-	constructor(size: Coordinate, private pixel: Coordinate, private imagePrefix: string) {
-		super(size);
-		this.unitPixel = pixel.split(size);
+	constructor(private container: HTMLElement, private minSize: Coordinate, private imagePrefix: string) {
+		super(RenderCanvas.getRenderSize(minSize, new Coordinate(container.clientHeight, container.clientWidth)));
+		this.pixel = new Coordinate(container.clientHeight, container.clientWidth);
+		this.unitPixel = this.pixel.split(this.getSize());
 		this.canvas = document.createElement("canvas");
-		this.canvas.width = pixel.col;
-		this.canvas.height = pixel.row;
+		this.canvas.width = container.clientWidth;
+		this.canvas.height = container.clientHeight;
+		this.canvas.style.position = "absolute";
+		this.canvas.style.width = "100%";
+		this.canvas.style.height = "100%";
+		this.canvas.style.top = "0px";
+		this.canvas.style.left = "0px";
 		this.pen = <CanvasRenderingContext2D>this.canvas.getContext("2d");
 		this.initListener();
+		container.appendChild(this.canvas);
+		window.onresize = (event: UIEvent) => {
+			this.pixel = new Coordinate(container.clientHeight, container.clientWidth);
+			this.setSize(RenderCanvas.getRenderSize(minSize, this.pixel));
+			this.unitPixel = this.pixel.split(this.getSize());
+			this.canvas.width = container.clientWidth;
+			this.canvas.height = container.clientHeight;
+			this.onResize.trigger();
+		};
 	}
-
+	private pixel: Coordinate;
 	private listenerOn: boolean = false;
 	private unitPixel: Coordinate;
 	private canvas: HTMLCanvasElement;
@@ -24,44 +39,44 @@ export default class RenderCanvas extends RenderAdapter {
 
 	private initListener() {
 		const root: Puzzle = this.getRootPuzzle();
-		const triggerMouseDown = (x: number, y: number) => {
+		const triggerMouseDown = (location: Coordinate) => {
 			if (this.listenerOn) {
-				root.triggerMouseDown(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+				root.triggerMouseDown(this.getLocationByPixelLocation(location), Date.now());
 			}
 		};
-		const triggerMouseUp = (x: number, y: number) => {
+		const triggerMouseUp = (location: Coordinate) => {
 			if (this.listenerOn) {
-				root.triggerMouseUp(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+				root.triggerMouseUp(this.getLocationByPixelLocation(location), Date.now());
 			}
 		};
-		const triggerMouseMove = (x: number, y: number) => {
+		const triggerMouseMove = (location: Coordinate) => {
 			if (this.listenerOn) {
-				root.triggerMouseMove(this.getLocationByPixelLocation(new Coordinate(y, x)), Date.now());
+				root.triggerMouseMove(this.getLocationByPixelLocation(location), Date.now());
 			}
 		};
 		// 按下手指
 		this.canvas.ontouchstart = (event: TouchEvent) => {
-			triggerMouseDown(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+			triggerMouseDown(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 松开手指
 		this.canvas.ontouchend = (event: TouchEvent) => {
-			triggerMouseUp(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+			triggerMouseUp(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 滑动手指
 		this.canvas.ontouchmove = (event: TouchEvent) => {
-			triggerMouseMove(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+			triggerMouseMove(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 按下鼠标
 		this.canvas.onmousedown = (event: MouseEvent) => {
-			triggerMouseDown(event.offsetX, event.offsetY);
+			triggerMouseDown(new Coordinate(event.offsetY, event.offsetX));
 		};
 		// 松开鼠标
 		this.canvas.onmouseup = (event: MouseEvent) => {
-			triggerMouseUp(event.offsetX, event.offsetY);
+			triggerMouseUp(new Coordinate(event.offsetY, event.offsetX));
 		};
 		// 移动鼠标
 		this.canvas.onmousemove = (event: MouseEvent) => {
-			triggerMouseMove(event.offsetX, event.offsetY);
+			triggerMouseMove(new Coordinate(event.offsetY, event.offsetX));
 		};
 	}
 
@@ -132,5 +147,14 @@ export default class RenderCanvas extends RenderAdapter {
 		this.pen.textAlign = font.align;
 		this.pen.textBaseline = font.baseline;
 		this.pen.fillText(text, locationPixel.col, locationPixel.row);
+	}
+
+	static getRenderSize(minSize: Coordinate, physicalSize: Coordinate): Coordinate {
+		const ratio = physicalSize.col / physicalSize.row / (minSize.col / minSize.row);
+		if (ratio > 1) {
+			return new Coordinate(minSize.row, (physicalSize.col / physicalSize.row) * minSize.row);
+		} else {
+			return new Coordinate((physicalSize.row / physicalSize.col) * minSize.col, minSize.col);
+		}
 	}
 }

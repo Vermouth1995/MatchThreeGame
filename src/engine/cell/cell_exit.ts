@@ -42,6 +42,7 @@ export default class CellExit implements Cell {
 	}
 
 	private puzzle: Puzzle;
+	resizePuzzle(size: Coordinate): void {}
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;

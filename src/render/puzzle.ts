@@ -123,7 +123,24 @@ export default class Puzzle {
 		return this.renderSize;
 	}
 
+	private showState: boolean = true;
+
+	hide() {
+		this.showState = false;
+	}
+
+	show() {
+		this.showState = true;
+	}
+
+	isShow(): boolean {
+		return this.showState;
+	}
+
 	payAtoms(timeStamp: number, baseIndex: number, baseLocation: Coordinate, atoms: RenderPosition<Atom>[]) {
+		if (!this.isShow()) {
+			return;
+		}
 		this.atoms.iterate((_: number, now: RenderLocus<Atom>) => {
 			const postion: RenderPosition<Atom> = now
 				.getPostion(timeStamp)

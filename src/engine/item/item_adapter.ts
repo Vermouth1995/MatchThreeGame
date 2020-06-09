@@ -102,6 +102,7 @@ export default abstract class ItemAdapter implements Item {
 			onEnd();
 		}, ItemAdapter.CreatedTimeCost);
 	}
+	resizePuzzle(size: Coordinate): void {}
 
 	getPuzzle(): Puzzle {
 		return this.puzzle;

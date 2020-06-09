@@ -75,6 +75,8 @@ export default class CellEmpty implements Cell {
 
 	itemCreatedAnimationEnd(item: Item) {}
 
+	resizePuzzle(size: Coordinate): void {}
+
 	getPuzzle(): Puzzle {
 		return null;
 	}

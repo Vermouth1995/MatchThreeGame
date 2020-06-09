@@ -6,6 +6,8 @@ import Render from "./render";
 import Puzzle from "./puzzle";
 import Atom from "./atom/atom";
 import OnceAdapter from "../concept/once/once_adapter";
+import ListenerDiffusion from "../concept/listener/listener_diffusion";
+import Listener from "../concept/listener/listener";
 
 export default abstract class RenderAdapter implements Render {
 	protected size: Coordinate;
@@ -21,6 +23,8 @@ export default abstract class RenderAdapter implements Render {
 	getSize(): Coordinate {
 		return this.size;
 	}
+
+	readonly onResize: Listener<void, () => void> = new ListenerDiffusion();
 
 	protected images: string[] = [];
 

@@ -194,6 +194,8 @@ export default abstract class CellAdapter implements Cell {
 		this.updateTime = Date.now();
 	}
 
+	resizePuzzle(size: Coordinate): void {}
+
 	getPuzzle(): Puzzle {
 		return this.puzzle;
 	}

@@ -104,6 +104,8 @@ export default class Board implements PuzzleKeeper {
 		return this.cells.size();
 	}
 
+	resizePuzzle(size: Coordinate): void {}
+
 	getPuzzle(): Puzzle {
 		return this.puzzle;
 	}

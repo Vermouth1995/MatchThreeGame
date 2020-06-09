@@ -5,14 +5,16 @@ import Score from "../engine/score";
 
 import Coordinate from "../concept/coordinate";
 import Locus from "../concept/locus";
+import EventLocationSetter from "../concept/event/event_location_setter";
 import ListenerDiffusion from "../concept/listener/listener_diffusion";
 import Listener from "../concept/listener/listener";
 
 import Puzzle from "../render/puzzle";
 import Render from "../render/render";
 import AtomImage from "../render/atom/atom_image";
+import PuzzleKeeper from "../engine/puzzle_keeper";
 
-export default class Level {
+export default class Level implements PuzzleKeeper {
 	static readonly PUZZLE_BOARD_Z_INDEX = 1;
 	static readonly PUZZLE_SCORE_Z_INDEX = 1;
 	static readonly PUZZLE_BACKGROUND_IMAGE_Z_INDEX = 0;
@@ -23,7 +25,9 @@ export default class Level {
 
 	protected board: Board;
 	protected score: Score;
-
+	protected boardLocation: Locus<Coordinate>;
+	protected scoreLocation: Locus<Coordinate>;
+	protected backgroundSize: Locus<Coordinate>;
 	private puzzle: Puzzle;
 	constructor(private name: string, private size: Coordinate, private data: LevelData) {
 		this.board = new Board();
@@ -44,22 +48,30 @@ export default class Level {
 
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(this.size);
+		this.boardLocation = new Locus(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF));
+		this.scoreLocation = new Locus(new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0));
+		this.backgroundSize = new Locus<Coordinate>(this.size);
 		this.puzzle.addAtom(
-			new AtomImage(new Locus<number>(Level.backgroundImageId), new Locus<Coordinate>(this.size)),
+			new AtomImage(new Locus<number>(Level.backgroundImageId), this.backgroundSize),
 			new Locus<Coordinate>(Coordinate.ORIGIN),
 			Level.PUZZLE_BACKGROUND_IMAGE_Z_INDEX
 		);
-		this.puzzle.addChild(
-			this.board.getPuzzle(),
-			new Locus(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF)),
-			Level.PUZZLE_BOARD_Z_INDEX
-		);
-		this.puzzle.addChild(
-			this.score.getPuzzle(),
-			new Locus(new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0)),
-			Level.PUZZLE_SCORE_Z_INDEX
-		);
+		this.puzzle.addChild(this.board.getPuzzle(), this.boardLocation, Level.PUZZLE_BOARD_Z_INDEX);
+		this.puzzle.addChild(this.score.getPuzzle(), this.scoreLocation, Level.PUZZLE_SCORE_Z_INDEX);
 		this.board.start();
+	}
+
+	resizePuzzle(size: Coordinate): void {
+		this.size = size;
+		this.boardLocation.setEvent(
+			new EventLocationSetter<Coordinate>(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF))
+		);
+		this.scoreLocation.setEvent(
+			new EventLocationSetter<Coordinate>(
+				new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0)
+			)
+		);
+		this.backgroundSize.setEvent(new EventLocationSetter<Coordinate>(this.size));
 	}
 
 	readonly onEnd: Listener<void, (success: boolean) => void> = new ListenerDiffusion();

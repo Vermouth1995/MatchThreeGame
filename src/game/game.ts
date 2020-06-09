@@ -23,6 +23,12 @@ export default class Game {
 		this.render
 			.getRootPuzzle()
 			.addChild(this.message.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_MESSAGE_Z_INDEX);
+		this.render.onResize.on(() => {
+			this.message.resizePuzzle(this.render.getSize());
+			if (this.level != null) {
+				this.level.resizePuzzle(this.render.getSize());
+			}
+		});
 	}
 
 	startLevel(type: string, index: string, onEnd: (success: boolean) => void) {
@@ -55,6 +61,8 @@ export default class Game {
 								this.closeLevel();
 								if (success && this.levelIndex + 1 <= LevelCreator.size()) {
 									this.levelIndex = this.levelIndex + 1;
+								} else {
+									this.levelIndex = 1;
 								}
 								this.startLevel(LevelCreator.TypeCommon, String(this.levelIndex), levelEnd);
 							});

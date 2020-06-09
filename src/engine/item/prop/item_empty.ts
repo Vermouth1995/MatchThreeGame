@@ -49,6 +49,7 @@ export default class ItemEmpty implements Item {
 	created(onEnd: () => void) {
 		onEnd();
 	}
+	resizePuzzle(size: Coordinate): void {}
 
 	getPuzzle(): Puzzle {
 		return null;
