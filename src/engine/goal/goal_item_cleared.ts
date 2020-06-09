@@ -11,7 +11,7 @@ export default class GoalItemCleared extends GoalBoardOn {
 		this.initImage(this.item);
 		this.initStep(steps);
 
-		this.on.onItemClear((cleared: Item) => {
+		this.on.onItemClear.on((cleared: Item) => {
 			if (this.item.equals(cleared)) {
 				this.stepsMinus();
 			}

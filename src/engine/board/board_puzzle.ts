@@ -83,23 +83,5 @@ export default class BoardPuzzle extends Puzzle {
 		(from: Coordinate, to: Coordinate) => void
 	> = new ListenerDiffusion();
 
-	// private boardExchangeListener: (from: Coordinate, to: Coordinate) => void;
-	// triggerBoardExchange(from: Coordinate, to: Coordinate) {
-	// 	if (this.boardExchangeListener != null) {
-	// 		this.boardExchangeListener(from, to);
-	// 	}
-	// }
-	// onBoardExchange(listener: (from: Coordinate, to: Coordinate) => void) {
-	// 	this.boardExchangeListener = listener;
-	// }
 	public readonly onBoardClick: Listener<void, (location: Coordinate) => void> = new ListenerDiffusion();
-	// private boardClickListener: (location: Coordinate) => void;
-	// triggerBoardClick(location: Coordinate) {
-	// 	if (this.boardClickListener != null) {
-	// 		this.boardClickListener(location);
-	// 	}
-	// }
-	// onBoardClick(listener: (location: Coordinate) => void) {
-	// 	this.boardClickListener = listener;
-	// }
 }

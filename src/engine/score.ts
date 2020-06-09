@@ -86,10 +86,10 @@ export default class Score implements PuzzleKeeper {
 
 	setOn(on: BoardOn) {
 		this.on = on;
-		this.on.onStep(() => {
+		this.on.onStep.on(() => {
 			this.stepMinus();
 		});
-		this.on.onFallEnd(() => {
+		this.on.onFallEnd.on(() => {
 			if (this.step == 0) {
 				this.end(false);
 			}

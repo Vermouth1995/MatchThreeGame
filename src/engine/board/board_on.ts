@@ -4,6 +4,8 @@ import BoardClick from "./board_click";
 import BoardExchange from "./board_exchange";
 import BoardFall from "./board_fall";
 import Item from "../item/item";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener/listener";
 
 export default class BoardOn {
 	constructor(
@@ -12,27 +14,22 @@ export default class BoardOn {
 		private click: BoardClick,
 		private exchange: BoardExchange,
 		private fall: BoardFall
-	) {}
-
-	onStep(step: () => void) {
+	) {
 		this.click.onClick.on((isSuccess: boolean) => {
 			if (isSuccess) {
-				step();
+				this.onStep.trigger();
 			}
 		});
 		this.exchange.onExchange.on((isSuccess: boolean) => {
 			if (isSuccess) {
-				step();
+				this.onStep.trigger();
 			}
 		});
+		this.fall.onFallEnd.on(() => this.onFallEnd.trigger());
+		this.cells.onItemClear.on((item: Item) => this.onItemClear.trigger(item));
+		this.exits.onItemClear.on((item: Item) => this.onItemClear.trigger(item));
 	}
-
-	onFallEnd(onEnd: () => void) {
-		this.fall.onFallEnd.on(onEnd);
-	}
-
-	onItemClear(onCleared: (item: Item) => void) {
-		this.cells.onItemClear.on(onCleared);
-		this.exits.onItemClear.on(onCleared);
-	}
+	public readonly onStep: Listener<void, () => void> = new ListenerDiffusion();
+	public readonly onFallEnd: Listener<void, () => void> = new ListenerDiffusion();
+	public readonly onItemClear: Listener<void, (item: Item) => void> = new ListenerDiffusion();
 }
