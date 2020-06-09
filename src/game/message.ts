@@ -5,10 +5,10 @@ import AtomString from "../render/atom/atom_string";
 
 import Font from "../concept/style/font";
 import Color from "../concept/style/color";
-import Coordinate from "../concept/coordinate";
-import Locus from "../concept/locus";
-import EventMove from "../concept/event/event_move";
-import EventLocationSetter from "../concept/event/event_location_setter";
+import Coordinate from "../concept/coordinate/coordinate";
+import Locus from "../concept/coordinate/locus";
+import EventMove from "../concept/coordinate/event/event_move";
+import EventLocationSetter from "../concept/coordinate/event/event_location_setter";
 import PuzzleKeeper from "../engine/puzzle_keeper";
 
 export default class Message implements PuzzleKeeper {

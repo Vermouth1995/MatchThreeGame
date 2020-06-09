@@ -4,7 +4,7 @@ import BoardFall from "./board_fall";
 import BoardCheck from "./board_check";
 import Polymerize from "../sacrifice/polymerize";
 import OnceLast from "../../concept/once/once_last";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 export default class BoardPolymerize {
 	constructor(

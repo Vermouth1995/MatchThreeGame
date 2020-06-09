@@ -6,8 +6,8 @@ import PuzzleKeeper from "../puzzle_keeper";
 import Click from "../sacrifice/click";
 import Exchange from "../sacrifice/exchange";
 
-import Coordinate from "../../concept/coordinate";
-import Locus from "../../concept/locus";
+import Coordinate from "../../concept/coordinate/coordinate";
+import Locus from "../../concept/coordinate/locus";
 
 import BoardBirths from "./board_births";
 import BoardExits from "./board_exits";

@@ -2,7 +2,7 @@ import Item from "../item";
 import Puzzle from "../../../render/puzzle";
 import RenderAdapter from "../../../render/render_adapter";
 import ItemOwner from "../item_owner";
-import Coordinate from "../../../concept/coordinate";
+import Coordinate from "../../../concept/coordinate/coordinate";
 
 export default class ItemEmpty implements Item {
 	constructor() {}

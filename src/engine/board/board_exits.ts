@@ -2,7 +2,7 @@ import Item from "../item/item";
 import Cell from "../cell/cell";
 import CellExit from "../cell/cell_exit";
 import CellOwner from "../cell/cell_owner";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
 import Listener from "../../concept/listener/listener";
 

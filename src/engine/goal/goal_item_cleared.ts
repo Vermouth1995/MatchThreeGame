@@ -2,7 +2,7 @@ import GoalBoardOn from "./goal_board_on";
 import BoardOn from "../board/board_on";
 import Item from "../item/item";
 
-import EventMove from "../../concept/event/event_move";
+import EventMove from "../../concept/coordinate/event/event_move";
 
 export default class GoalItemCleared extends GoalBoardOn {
 	constructor(on: BoardOn, private item: Item, private steps: number) {

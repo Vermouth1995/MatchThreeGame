@@ -3,7 +3,7 @@ import Cell from "../cell/cell";
 import ItemEmpty from "../item/prop/item_empty";
 import Puzzle from "../../render/puzzle";
 import CellOwner from "../cell/cell_owner";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 export default class CellEmpty implements Cell {
 	constructor() {}

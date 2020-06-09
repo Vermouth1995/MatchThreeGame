@@ -1,6 +1,6 @@
 import BoardCells from "./board_cells";
 import OnceLast from "../../concept/once/once_last";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import Scrape from "../sacrifice/scrape";
 
 export default class BoardScrape {

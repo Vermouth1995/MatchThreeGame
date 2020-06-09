@@ -4,10 +4,10 @@ import Item from "../item/item";
 import ItemCreator from "../item/item_creator";
 import ItemEmpty from "../item/prop/item_empty";
 import CellOwner from "./cell_owner";
-import Coordinate from "../../concept/coordinate";
-import Locus from "../../concept/locus";
-import EventMove from "../../concept/event/event_move";
-import EventLocationSetter from "../../concept/event/event_location_setter";
+import Coordinate from "../../concept/coordinate/coordinate";
+import Locus from "../../concept/coordinate/locus";
+import EventMove from "../../concept/coordinate/event/event_move";
+import EventLocationSetter from "../../concept/coordinate/event/event_location_setter";
 import Puzzle from "../../render/puzzle";
 
 export default class CellExit implements Cell {

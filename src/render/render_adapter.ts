@@ -1,6 +1,6 @@
 import Color from "../concept/style/color";
 import Font from "../concept/style/font";
-import Coordinate from "../concept/coordinate";
+import Coordinate from "../concept/coordinate/coordinate";
 import RenderPosition from "./render_position";
 import Render from "./render";
 import Puzzle from "./puzzle";

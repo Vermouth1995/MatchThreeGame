@@ -1,5 +1,5 @@
-import Locus from "../concept/locus";
-import Coordinate from "../concept/coordinate";
+import Locus from "../concept/coordinate/locus";
+import Coordinate from "../concept/coordinate/coordinate";
 import Atom from "./atom/atom";
 import LinkedList from "../concept/linked_list/linked_list";
 import RenderPosition from "./render_position";

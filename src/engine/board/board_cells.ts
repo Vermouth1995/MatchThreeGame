@@ -1,4 +1,4 @@
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import CellEmpty from "../cell/cell_empty";
 import OnceLast from "../../concept/once/once_last";
 import Once from "../../concept/once/once";

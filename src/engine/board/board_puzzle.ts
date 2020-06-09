@@ -1,4 +1,4 @@
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import Puzzle from "../../render/puzzle";
 
 export default class BoardPuzzle extends Puzzle {

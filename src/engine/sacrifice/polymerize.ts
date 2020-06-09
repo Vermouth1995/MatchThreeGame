@@ -1,5 +1,5 @@
 import Scrape from "./scrape";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
 
 export default class Polymerize extends SacrificeAdapter {

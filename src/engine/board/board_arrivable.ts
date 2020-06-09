@@ -1,7 +1,7 @@
 import Cell from "../cell/cell";
 import CellBirth from "../cell/cell_birth";
 import BoardBirths from "../board/board_births";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import BoardCells from "./board_cells";
 
 export default class BoardArrivable {

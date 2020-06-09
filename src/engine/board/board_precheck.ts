@@ -2,7 +2,7 @@ import Item from "../item/item";
 import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import Exchange from "../sacrifice/exchange";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 export default class BoardPrecheck {
 	constructor(private cells: BoardCells) {}

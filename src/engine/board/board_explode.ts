@@ -1,4 +1,4 @@
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import Explode from "../sacrifice/explode";
 import Cell from "../cell/cell";
 import BoardCells from "./board_cells";

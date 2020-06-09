@@ -1,4 +1,4 @@
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 import LevelData from "../../game/level_data";
 

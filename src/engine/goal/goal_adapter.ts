@@ -1,8 +1,8 @@
 import Goal from "./goal";
 import PuzzleKeeper from "../puzzle_keeper";
 
-import Locus from "../../concept/locus";
-import Coordinate from "../../concept/coordinate";
+import Locus from "../../concept/coordinate/locus";
+import Coordinate from "../../concept/coordinate/coordinate";
 import Color from "../../concept/style/color";
 import Font from "../../concept/style/font";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";

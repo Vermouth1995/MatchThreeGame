@@ -1,5 +1,5 @@
 import CellBirth from "../cell/cell_birth";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 export default class BoardBirths {
 	constructor(private birth: CellBirth[] = []) {}

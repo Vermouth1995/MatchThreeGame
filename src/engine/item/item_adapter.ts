@@ -3,10 +3,10 @@ import ItemOwner from "./item_owner";
 import Puzzle from "../../render/puzzle";
 import Atom from "../../render/atom/atom";
 import AtomImage from "../../render/atom/atom_image";
-import Coordinate from "../../concept/coordinate";
-import Locus from "../../concept/locus";
-import EventMove from "../../concept/event/event_move";
-import EventLocationSetter from "../../concept/event/event_location_setter";
+import Coordinate from "../../concept/coordinate/coordinate";
+import Locus from "../../concept/coordinate/locus";
+import EventMove from "../../concept/coordinate/event/event_move";
+import EventLocationSetter from "../../concept/coordinate/event/event_location_setter";
 
 export default abstract class ItemAdapter implements Item {
 	constructor() {

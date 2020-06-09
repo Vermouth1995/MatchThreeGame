@@ -3,9 +3,9 @@ import LevelData from "./level_data";
 import Board from "../engine/board/board";
 import Score from "../engine/score";
 
-import Coordinate from "../concept/coordinate";
-import Locus from "../concept/locus";
-import EventLocationSetter from "../concept/event/event_location_setter";
+import Coordinate from "../concept/coordinate/coordinate";
+import Locus from "../concept/coordinate/locus";
+import EventLocationSetter from "../concept/coordinate/event/event_location_setter";
 import ListenerDiffusion from "../concept/listener/listener_diffusion";
 import Listener from "../concept/listener/listener";
 

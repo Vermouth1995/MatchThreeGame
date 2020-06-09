@@ -1,7 +1,7 @@
 import Item from "../item/item";
 import ItemOwner from "../item/item_owner";
 import CellOwner from "./cell_owner";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import PuzzleKeeper from "../puzzle_keeper";
 
 export default interface Cell extends ItemOwner, PuzzleKeeper {

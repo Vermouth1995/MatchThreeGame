@@ -1,7 +1,7 @@
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 import Color from "../../concept/style/color";
 import Font from "../../concept/style/font";
-import Locus from "../../concept/locus";
+import Locus from "../../concept/coordinate/locus";
 import AtomAdapter from "./atom_adapter";
 import Render from "../render";
 

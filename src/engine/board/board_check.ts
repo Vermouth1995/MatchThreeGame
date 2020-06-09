@@ -2,7 +2,7 @@ import Item from "../item/item";
 import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import Polymerize from "../sacrifice/polymerize";
-import Coordinate from "../../concept/coordinate";
+import Coordinate from "../../concept/coordinate/coordinate";
 
 export default class BoardCheck {
 	constructor(private cells: BoardCells) {}
