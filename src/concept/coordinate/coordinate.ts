@@ -29,10 +29,6 @@ export default interface Coordinate {
 
 	radiation(radix: number): Coordinate[];
 
-	// cross(): Coordinate[];
-	//
-	// umbrella(): Coordinate[];
-
 	equal(point: Coordinate): boolean;
 
 	isIncluded(range: Coordinate[]): boolean;

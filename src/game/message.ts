@@ -6,6 +6,7 @@ import AtomString from "../render/atom/atom_string";
 import Font from "../concept/style/font";
 import Color from "../concept/style/color";
 import CoordinateValue from "../concept/coordinate/coordinate_value";
+import CoordinateDynamic from "../concept/coordinate/coordinate_dynamic";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
 import EventMove from "../concept/coordinate/event/event_move";
@@ -33,22 +34,28 @@ export default class Message implements PuzzleKeeper {
 		this.puzzle = new Puzzle();
 		this.puzzle.hide();
 		this.boxPuzzle = new Puzzle();
-		this.buildSizes();
+		const dynamicSize = new CoordinateDynamic(
+			() => this.size.getRow(),
+			() => this.size.getCol()
+		);
+		this.boxSize = dynamicSize.swell(Message.ACTIVE_SIZE_COEFFICIENT);
+		this.boxLocation = new CoordinateDynamic(
+			() => -this.boxSize.getRow(),
+			() => 0
+		);
+		this.boxActiveLocation = new CoordinateDynamic(
+			() => (this.size.getRow() - this.boxSize.getRow()) / 2,
+			() => 0
+		);
+		this.puzzle.setSize(dynamicSize);
+		this.boxPuzzle.setSize(this.boxSize);
+
 		this.boxLocationLocus = new Locus<Coordinate>(this.boxLocation);
 		this.puzzle.addChild(this.boxPuzzle, this.boxLocationLocus, Message.BOX_Z_INDEX);
 	}
 
 	resizePuzzle(size: Coordinate): void {
 		this.size = size;
-		this.buildSizes();
-	}
-
-	private buildSizes() {
-		this.boxSize = this.size.swell(Message.ACTIVE_SIZE_COEFFICIENT);
-		this.boxLocation = new CoordinateValue(-this.boxSize.getRow(), 0);
-		this.boxActiveLocation = new CoordinateValue((this.size.getRow() - this.boxSize.getRow()) / 2, 0);
-		this.boxPuzzle.setSize(this.boxSize);
-		this.puzzle.setSize(this.size);
 	}
 
 	init() {
