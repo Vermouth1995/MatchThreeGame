@@ -109,7 +109,7 @@ English | [简体中文](./README_CN.md)
 - [ ] An element that eliminates all elements of the same kind
 - [ ] Style optimization
 - [ ] Automatic prompt
-- [ ] Bomb appearance weight can be set
+- [x] Bomb appearance weight can be set
 
 ### 👩‍💻 Maintainer
 
