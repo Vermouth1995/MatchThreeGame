@@ -13,6 +13,7 @@ import LevelData from "./level_data";
 import Level1 from "../level/1/level";
 import Level2 from "../level/2/level";
 import Level3 from "../level/3/level";
+import Level4 from "../level/4/level";
 
 export default class LevelCreator {
 	static LoadStaticResource(render: Render, onSuccess: () => void, onError: (error: Error) => void) {
@@ -24,7 +25,7 @@ export default class LevelCreator {
 		Level.LoadStaticResource(render, success.getCallback(), onError);
 	}
 
-	static readonly LevelSize: number = 3;
+	static readonly LevelSize: number = 4;
 	static readonly TypeCommon: string = "common";
 
 	static size(): number {
@@ -49,6 +50,8 @@ export default class LevelCreator {
 				return new Level2();
 			case "3":
 				return new Level3();
+			case "4":
+				return new Level4();
 			default:
 				return null;
 		}

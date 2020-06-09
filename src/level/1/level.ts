@@ -62,12 +62,6 @@ export default class Level implements LevelData {
 			return;
 		}
 		const exitPlace: CellExit[] = [];
-		for (let i = 0; i < Level.Size.getCol(); i++) {
-			const place: CellExit = new CellExit();
-			place.setLocation(new CoordinateValue(Level.Size.getRow() - 1, i));
-			exitPlace.push(place);
-		}
-
 		this.exits = new BoardExits(exitPlace);
 	}
 
@@ -75,7 +69,7 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthEliminate(BirthEliminate.SIMPLE_SIZE);
+		this.birth = new BirthEliminate([ItemCreator.WATER]);
 	}
 
 	private initBirths() {

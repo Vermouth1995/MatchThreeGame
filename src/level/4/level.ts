@@ -14,31 +14,28 @@ import Goal from "../../engine/goal/goal";
 import GoalItemCleared from "../../engine/goal/goal_item_cleared";
 
 import BirthEliminate from "../../engine/birth/birth_eliminate";
-import BirthPinecone from "../../engine/birth/birth_pinecone";
-import BirthWeight from "../../engine/birth/birth_weight";
 
 import Cell from "../../engine/cell/cell";
 import CellLand from "../../engine/cell/cell_land";
 import CellBirth from "../../engine/cell/cell_birth";
 import CellExit from "../../engine/cell/cell_exit";
+import CellEmpty from "../../engine/cell/cell_empty";
 
 import ItemCreator from "../../engine/item/item_creator";
 
 export default class Level implements LevelData {
-	private static readonly Size: Coordinate = new CoordinateValue(9, 12);
+	private static readonly Size: Coordinate = new CoordinateValue(8, 12);
 
 	private exits: BoardExits;
 	private births: BoardBirths;
 	private cells: BoardCells;
-	private goalPinecone: GoalItemCleared;
-	private goalLeaf: GoalItemCleared;
-	private birth: BirthWeight;
+	private goalBuleberry: GoalItemCleared;
+	private goalFlower: GoalItemCleared;
+	private birth: BirthEliminate;
 
 	private static readonly STEPS: number = 25;
-	private static readonly GOAL_PINECONE_SIZE: number = 10;
-	private static readonly GOAL_LEAF_SIZE: number = 20;
-	private static readonly BIRTH_ELIMINATE_WEIGHT: number = 10;
-	private static readonly BIRTH_PINECONE_WEIGHT: number = 1;
+	private static readonly GOAL_BLUEBERRY_SIZE: number = 50;
+	private static readonly GOAL_FLOWER_SIZE: number = 50;
 
 	constructor() {}
 
@@ -59,7 +56,7 @@ export default class Level implements LevelData {
 	}
 	getGoals(on: BoardOn): Goal[] {
 		this.initGoals(on);
-		return [this.goalPinecone, this.goalLeaf];
+		return [this.goalBuleberry, this.goalFlower];
 	}
 
 	private initExits() {
@@ -67,12 +64,6 @@ export default class Level implements LevelData {
 			return;
 		}
 		const exitPlace: CellExit[] = [];
-		for (let i = 0; i < Level.Size.getCol(); i++) {
-			const place: CellExit = new CellExit();
-			place.setLocation(new CoordinateValue(Level.Size.getRow() - 1, i));
-			exitPlace.push(place);
-		}
-
 		this.exits = new BoardExits(exitPlace);
 	}
 
@@ -80,9 +71,7 @@ export default class Level implements LevelData {
 		if (this.birth != null) {
 			return;
 		}
-		this.birth = new BirthWeight()
-			.addBirthWeight(new BirthEliminate(), Level.BIRTH_ELIMINATE_WEIGHT)
-			.addBirthWeight(new BirthPinecone(), Level.BIRTH_PINECONE_WEIGHT);
+		this.birth = new BirthEliminate([ItemCreator.PEAR]);
 	}
 
 	private initBirths() {
@@ -91,7 +80,10 @@ export default class Level implements LevelData {
 		}
 		this.createBirth();
 		const birthPlace: CellBirth[] = [];
-		for (let i = 0; i < Level.Size.getCol(); i++) {
+		for (let i = 2; i < Level.Size.getCol() - 2; i++) {
+			if (i == 5 || i == 6) {
+				continue;
+			}
 			const place: CellBirth = new CellBirth();
 			place.setBirth(this.birth, new CoordinateValue(0, i));
 			birthPlace.push(place);
@@ -105,8 +97,13 @@ export default class Level implements LevelData {
 		for (let i = 0; i < Level.Size.getRow(); i++) {
 			cells.push([]);
 			for (let j = 0; j < Level.Size.getCol(); j++) {
-				let cell: Cell = new CellLand();
-				cell.setItem(this.birth.popItem());
+				let cell: Cell;
+				if (i + j < 2 || i + j > 15 || j - i > 9 || j - i < -4 || (i == 0 && (j == 5 || j == 6))) {
+					cell = CellEmpty.getEmpty();
+				} else {
+					cell = new CellLand();
+					cell.setItem(this.birth.popItem());
+				}
 				cells[i].push(cell);
 			}
 		}
@@ -127,15 +124,19 @@ export default class Level implements LevelData {
 	}
 
 	private initGoals(on: BoardOn) {
-		if (this.goalPinecone == null) {
-			this.goalPinecone = new GoalItemCleared(
+		if (this.goalBuleberry == null) {
+			this.goalBuleberry = new GoalItemCleared(
 				on,
-				ItemCreator.createItem(ItemCreator.PINECONE),
-				Level.GOAL_PINECONE_SIZE
+				ItemCreator.createItem(ItemCreator.BLUEBERRY),
+				Level.GOAL_BLUEBERRY_SIZE
 			);
 		}
-		if (this.goalLeaf == null) {
-			this.goalLeaf = new GoalItemCleared(on, ItemCreator.createItem(ItemCreator.LEAF), Level.GOAL_LEAF_SIZE);
+		if (this.goalFlower == null) {
+			this.goalFlower = new GoalItemCleared(
+				on,
+				ItemCreator.createItem(ItemCreator.FLOWER),
+				Level.GOAL_FLOWER_SIZE
+			);
 		}
 	}
 }
