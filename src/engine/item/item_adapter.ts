@@ -3,6 +3,7 @@ import ItemOwner from "./item_owner";
 import Puzzle from "../../render/puzzle";
 import Atom from "../../render/atom/atom";
 import AtomImage from "../../render/atom/atom_image";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Locus from "../../concept/coordinate/locus";
 import EventMove from "../../concept/coordinate/event/event_move";
@@ -11,14 +12,16 @@ import EventLocationSetter from "../../concept/coordinate/event/event_location_s
 export default abstract class ItemAdapter implements Item {
 	constructor() {
 		this.puzzle = new Puzzle();
-		this.puzzle.setSize(Coordinate.UNIT);
+		this.puzzle.setSize(CoordinateValue.UNIT);
 		this.atom = new AtomImage(new Locus<number>(this.getImageId()), this.atomImageSize);
 		this.puzzle.addAtom(this.atom, this.atomImageLocation, 0);
 	}
 
-	static readonly DrawCoefficient = new Coordinate(0.85, 0.7);
-	static readonly DrawStart = Coordinate.UNIT.offset(ItemAdapter.DrawCoefficient.negative()).swell(Coordinate.HALF);
-	static readonly DrawImageSize = Coordinate.UNIT.swell(ItemAdapter.DrawCoefficient);
+	static readonly DrawCoefficient = new CoordinateValue(0.85, 0.7);
+	static readonly DrawStart = CoordinateValue.UNIT.offset(ItemAdapter.DrawCoefficient.negative()).swell(
+		CoordinateValue.HALF
+	);
+	static readonly DrawImageSize = CoordinateValue.UNIT.swell(ItemAdapter.DrawCoefficient);
 	static readonly CreatedTimeCost: number = 150;
 	static readonly ClearedTimeCost: number = 150;
 
@@ -47,7 +50,7 @@ export default abstract class ItemAdapter implements Item {
 	cleared(onEnd: () => void) {
 		this.atomImageSize.setEvent(
 			new EventMove<Coordinate>(
-				Coordinate.ORIGIN,
+				CoordinateValue.ORIGIN,
 				ItemAdapter.ClearedTimeCost,
 				false,
 				(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
@@ -55,7 +58,7 @@ export default abstract class ItemAdapter implements Item {
 		);
 		this.atomImageLocation.setEvent(
 			new EventMove<Coordinate>(
-				Coordinate.HALF,
+				CoordinateValue.HALF,
 				ItemAdapter.ClearedTimeCost,
 				false,
 				(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
@@ -74,8 +77,8 @@ export default abstract class ItemAdapter implements Item {
 	}
 
 	created(onEnd: () => void) {
-		this.atomImageSize.setEvent(new EventLocationSetter<Coordinate>(Coordinate.ORIGIN));
-		this.atomImageLocation.setEvent(new EventLocationSetter<Coordinate>(Coordinate.HALF));
+		this.atomImageSize.setEvent(new EventLocationSetter<Coordinate>(CoordinateValue.ORIGIN));
+		this.atomImageLocation.setEvent(new EventLocationSetter<Coordinate>(CoordinateValue.HALF));
 		this.atomImageSize.setEvent(
 			new EventMove<Coordinate>(
 				ItemAdapter.DrawImageSize,

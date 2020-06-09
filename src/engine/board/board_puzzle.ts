@@ -1,3 +1,4 @@
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Puzzle from "../../render/puzzle";
 
@@ -57,10 +58,10 @@ export default class BoardPuzzle extends Puzzle {
 			return direct;
 		}
 		const neighbors: Coordinate[] = [
-			origin.offset(Coordinate.LEFT),
-			origin.offset(Coordinate.RIGHT),
-			origin.offset(Coordinate.UP),
-			origin.offset(Coordinate.DOWN),
+			origin.offset(CoordinateValue.LEFT),
+			origin.offset(CoordinateValue.RIGHT),
+			origin.offset(CoordinateValue.UP),
+			origin.offset(CoordinateValue.DOWN),
 		];
 		let minDistance: number = Number.MAX_VALUE;
 		let minNeighbor: Coordinate;

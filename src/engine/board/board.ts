@@ -6,6 +6,7 @@ import PuzzleKeeper from "../puzzle_keeper";
 import Click from "../sacrifice/click";
 import Exchange from "../sacrifice/exchange";
 
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Locus from "../../concept/coordinate/locus";
 
@@ -99,7 +100,7 @@ export default class Board implements PuzzleKeeper {
 
 	size(): Coordinate {
 		if (this.cells == null) {
-			return Coordinate.ORIGIN;
+			return CoordinateValue.ORIGIN;
 		}
 		return this.cells.size();
 	}

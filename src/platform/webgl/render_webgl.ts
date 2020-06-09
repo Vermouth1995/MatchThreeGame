@@ -1,5 +1,6 @@
 import Color from "../../concept/style/color";
 import Font from "../../concept/style/font";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
@@ -9,8 +10,8 @@ export default class RenderWebGL extends RenderAdapter {
 		super(size);
 		this.unitPixel = pixel.split(size);
 		this.canvas = document.createElement("canvas");
-		this.canvas.width = pixel.col;
-		this.canvas.height = pixel.row;
+		this.canvas.width = pixel.getCol();
+		this.canvas.height = pixel.getRow();
 		this.pen = <WebGLRenderingContext>this.canvas.getContext("webgl");
 		this.initListener();
 	}
@@ -27,7 +28,7 @@ export default class RenderWebGL extends RenderAdapter {
 		this.canvas.onmouseup = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseUp(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new CoordinateValue(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
@@ -35,7 +36,7 @@ export default class RenderWebGL extends RenderAdapter {
 		this.canvas.onmousedown = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseDown(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new CoordinateValue(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
@@ -43,7 +44,7 @@ export default class RenderWebGL extends RenderAdapter {
 		this.canvas.onmousemove = (event: MouseEvent) => {
 			if (this.listenerOn) {
 				root.triggerMouseMove(
-					this.getLocationByPixelLocation(new Coordinate(event.offsetY, event.offsetX)),
+					this.getLocationByPixelLocation(new CoordinateValue(event.offsetY, event.offsetX)),
 					Date.now()
 				);
 			}
@@ -107,15 +108,15 @@ export default class RenderWebGL extends RenderAdapter {
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
 		let sizePixel: Coordinate = size.swell(this.unitPixel);
 
-		// this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
+		// this.pen.drawImage(this.getImage(imageId), locationPixel.getCol(), locationPixel.getRow(), sizePixel.getCol(), sizePixel.getRow());
 	}
 
 	drawString(text: string, location: Coordinate, font: Font, color: Color): void {
 		let locationPixel: Coordinate = location.swell(this.unitPixel);
 		// this.pen.fillStyle = color.toRGBA();
-		// this.pen.font = font.size * this.unitPixel.row + "px " + font.family;
+		// this.pen.font = font.size * this.unitPixel.getRow() + "px " + font.family;
 		// this.pen.textAlign = font.align;
 		// this.pen.textBaseline = font.baseline;
-		// this.pen.fillText(text, locationPixel.col, locationPixel.row);
+		// this.pen.fillText(text, locationPixel.getCol(), locationPixel.getRow());
 	}
 }

@@ -1,4 +1,5 @@
 import Locus from "../concept/coordinate/locus";
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Atom from "./atom/atom";
 import LinkedList from "../concept/linked_list/linked_list";
@@ -113,7 +114,7 @@ export default class Puzzle {
 		this.puzzles.removeBy((now: RenderLocus<Puzzle>) => puzzle == now.data);
 	}
 
-	private renderSize: Coordinate = Coordinate.ORIGIN;
+	private renderSize: Coordinate = CoordinateValue.ORIGIN;
 
 	setSize(size: Coordinate) {
 		this.renderSize = size;

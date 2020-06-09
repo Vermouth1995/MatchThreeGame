@@ -3,6 +3,7 @@ import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import Polymerize from "../sacrifice/polymerize";
 import Coordinate from "../../concept/coordinate/coordinate";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 
 export default class BoardCheck {
 	constructor(private cells: BoardCells) {}
@@ -35,11 +36,11 @@ export default class BoardCheck {
 			return null;
 		}
 		let guests: Coordinate[] = [];
-		const vertical: Coordinate[] = this.checkPositionDirection(location, Coordinate.UP).concat(
-			this.checkPositionDirection(location, Coordinate.DOWN)
+		const vertical: Coordinate[] = this.checkPositionDirection(location, CoordinateValue.UP).concat(
+			this.checkPositionDirection(location, CoordinateValue.DOWN)
 		);
-		const horizontal: Coordinate[] = this.checkPositionDirection(location, Coordinate.LEFT).concat(
-			this.checkPositionDirection(location, Coordinate.RIGHT)
+		const horizontal: Coordinate[] = this.checkPositionDirection(location, CoordinateValue.LEFT).concat(
+			this.checkPositionDirection(location, CoordinateValue.RIGHT)
 		);
 		if (vertical.length + BoardCells.CHECK_NUMBER_SELF >= BoardCells.CHECK_NUMBER_OK_MINIZE) {
 			guests = guests.concat(vertical);

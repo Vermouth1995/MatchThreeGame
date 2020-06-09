@@ -4,6 +4,7 @@ import Item from "../item/item";
 import ItemCreator from "../item/item_creator";
 import ItemEmpty from "../item/prop/item_empty";
 import CellOwner from "./cell_owner";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Locus from "../../concept/coordinate/locus";
 import EventMove from "../../concept/coordinate/event/event_move";
@@ -11,7 +12,7 @@ import EventLocationSetter from "../../concept/coordinate/event/event_location_s
 import Puzzle from "../../render/puzzle";
 
 export default class CellExit implements Cell {
-	static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
+	static readonly RENDER_SIZE: Coordinate = CoordinateValue.UNIT;
 	static readonly PUZZLE_ITEM_Z_INDEX: number = 10;
 	static readonly ROB_SAVE_BACK_TIME_COST: number = 120;
 	static readonly ITEM_TEMPLATE: Item = ItemCreator.createItem(ItemCreator.DRINK);
@@ -71,7 +72,7 @@ export default class CellExit implements Cell {
 	}
 
 	setItem(item: Item): void {
-		this.itemLocus = new Locus(Coordinate.ORIGIN);
+		this.itemLocus = new Locus(CoordinateValue.ORIGIN);
 		this.getPuzzle().addChild(item.getPuzzle(), this.itemLocus, CellExit.PUZZLE_ITEM_Z_INDEX);
 		this.item = item;
 		if (item != null) {
@@ -116,7 +117,7 @@ export default class CellExit implements Cell {
 		const fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
 		const move: EventMove<Coordinate> = new EventMove<Coordinate>(
-			Coordinate.DOWN,
+			CoordinateValue.DOWN,
 			when,
 			false,
 			(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)

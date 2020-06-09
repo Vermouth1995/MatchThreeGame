@@ -2,6 +2,7 @@ import PuzzleKeeper from "./puzzle_keeper";
 import Goal from "./goal/goal";
 import BoardOn from "./board/board_on";
 
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
 import Font from "../concept/style/font";
@@ -18,15 +19,15 @@ import Puzzle from "../render/puzzle";
 import Render from "../render/render";
 
 export default class Score implements PuzzleKeeper {
-	private static readonly SIZE = new Coordinate(5, 1.5);
+	private static readonly SIZE = new CoordinateValue(5, 1.5);
 	private static readonly STEP_ADD_TIME_COST_PER_STEP: number = 200;
 	private static readonly LEVEL_Z_INDEX: number = 1;
 	private static readonly GOAL_Z_INDEX: number = 2;
 	private static readonly STEP_Z_INDEX: number = 1;
-	private static readonly LEVEL_LOCATION: Coordinate = new Coordinate(0.75, 0.75);
-	private static readonly GOAL_LOCATION: Coordinate = new Coordinate(1, 0.25);
-	private static readonly GOAL_LOCATION_END: Coordinate = new Coordinate(4, 0.25);
-	private static readonly STEP_LOCATION: Coordinate = new Coordinate(4.25, 0.75);
+	private static readonly LEVEL_LOCATION: Coordinate = new CoordinateValue(0.75, 0.75);
+	private static readonly GOAL_LOCATION: Coordinate = new CoordinateValue(1, 0.25);
+	private static readonly GOAL_LOCATION_END: Coordinate = new CoordinateValue(4, 0.25);
+	private static readonly STEP_LOCATION: Coordinate = new CoordinateValue(4.25, 0.75);
 
 	private color: Color = new Color(0, 0, 0);
 	private font: Font = new Font().setSize(0.5).setAlign(Font.ALIGN_CENTER);
@@ -66,12 +67,12 @@ export default class Score implements PuzzleKeeper {
 			this.puzzle.addChild(
 				puzzle,
 				new Locus<Coordinate>(
-					new Coordinate(
-						((Score.GOAL_LOCATION_END.row - Score.GOAL_LOCATION.row) / (this.goals.length + 1)) *
+					new CoordinateValue(
+						((Score.GOAL_LOCATION_END.getRow() - Score.GOAL_LOCATION.getRow()) / (this.goals.length + 1)) *
 							(index + 1) +
-							Score.GOAL_LOCATION.row -
-							puzzle.size().row / 2,
-						Score.GOAL_LOCATION.col
+							Score.GOAL_LOCATION.getRow() -
+							puzzle.size().getRow() / 2,
+						Score.GOAL_LOCATION.getCol()
 					)
 				),
 				Score.GOAL_Z_INDEX

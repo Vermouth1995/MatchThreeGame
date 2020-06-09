@@ -5,6 +5,7 @@ import AtomString from "../render/atom/atom_string";
 
 import Font from "../concept/style/font";
 import Color from "../concept/style/color";
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
 import EventMove from "../concept/coordinate/event/event_move";
@@ -16,7 +17,7 @@ export default class Message implements PuzzleKeeper {
 	private static readonly BACKGROUND_IMAGE_Z_INDEX = 1;
 	private static readonly TEXT_Z_INDEX = 2;
 	private static readonly SHOW_TIME_COST = 200;
-	private static readonly ACTIVE_SIZE_COEFFICIENT: Coordinate = new Coordinate(0.6, 1);
+	private static readonly ACTIVE_SIZE_COEFFICIENT: Coordinate = new CoordinateValue(0.6, 1);
 
 	private puzzle: Puzzle;
 	private boxPuzzle: Puzzle;
@@ -44,8 +45,8 @@ export default class Message implements PuzzleKeeper {
 
 	private buildSizes() {
 		this.boxSize = this.size.swell(Message.ACTIVE_SIZE_COEFFICIENT);
-		this.boxLocation = new Coordinate(-this.boxSize.row, 0);
-		this.boxActiveLocation = new Coordinate((this.size.row - this.boxSize.row) / 2, 0);
+		this.boxLocation = new CoordinateValue(-this.boxSize.getRow(), 0);
+		this.boxActiveLocation = new CoordinateValue((this.size.getRow() - this.boxSize.getRow()) / 2, 0);
 		this.boxPuzzle.setSize(this.boxSize);
 		this.puzzle.setSize(this.size);
 	}
@@ -53,12 +54,12 @@ export default class Message implements PuzzleKeeper {
 	init() {
 		this.boxPuzzle.addAtom(
 			new AtomImage(new Locus<number>(Message.backgroundImageId), new Locus<Coordinate>(this.boxSize)),
-			new Locus<Coordinate>(Coordinate.ORIGIN),
+			new Locus<Coordinate>(CoordinateValue.ORIGIN),
 			Message.BACKGROUND_IMAGE_Z_INDEX
 		);
 		this.boxPuzzle.addAtom(
 			new AtomString(this.textLocus, new Locus<Color>(this.color), new Locus<Font>(this.font)),
-			new Locus<Coordinate>(this.boxSize.swell(Coordinate.HALF)),
+			new Locus<Coordinate>(this.boxSize.swell(CoordinateValue.HALF)),
 			Message.TEXT_Z_INDEX
 		);
 	}

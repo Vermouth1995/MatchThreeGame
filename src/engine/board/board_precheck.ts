@@ -3,6 +3,7 @@ import Cell from "../cell/cell";
 import BoardCells from "./board_cells";
 import Exchange from "../sacrifice/exchange";
 import Coordinate from "../../concept/coordinate/coordinate";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 
 export default class BoardPrecheck {
 	constructor(private cells: BoardCells) {}
@@ -29,7 +30,7 @@ export default class BoardPrecheck {
 		if (!item.canPolymerize()) {
 			return null;
 		}
-		const cross: Coordinate[] = location.cross();
+		const cross: Coordinate[] = location.offsets(CoordinateValue.crossSeed());
 		for (let i = 0; i < cross.length; i++) {
 			if (this.precheckPositonCross(item, cross[i], location)) {
 				return new Exchange(location, cross[i]);
@@ -40,11 +41,11 @@ export default class BoardPrecheck {
 
 	private precheckPositonCross(item: Item, location: Coordinate, ignore: Coordinate): boolean {
 		const vertical: Coordinate[] = []
-			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.UP))
-			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.DOWN));
+			.concat(this.precheckPositionDirection(item, location, ignore, CoordinateValue.UP))
+			.concat(this.precheckPositionDirection(item, location, ignore, CoordinateValue.DOWN));
 		const horizontal: Coordinate[] = []
-			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.LEFT))
-			.concat(this.precheckPositionDirection(item, location, ignore, Coordinate.RIGHT));
+			.concat(this.precheckPositionDirection(item, location, ignore, CoordinateValue.LEFT))
+			.concat(this.precheckPositionDirection(item, location, ignore, CoordinateValue.RIGHT));
 		return (
 			vertical.length + BoardCells.CHECK_NUMBER_SELF >= BoardCells.CHECK_NUMBER_OK_MINIZE ||
 			horizontal.length + BoardCells.CHECK_NUMBER_SELF >= BoardCells.CHECK_NUMBER_OK_MINIZE

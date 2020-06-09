@@ -1,4 +1,5 @@
 import Coordinate from "../../concept/coordinate/coordinate";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import CellEmpty from "../cell/cell_empty";
 import OnceLast from "../../concept/once/once_last";
 import Once from "../../concept/once/once";
@@ -14,7 +15,7 @@ export default class BoardCells implements CellOwner {
 
 	private cells: Cell[][];
 
-	private cellsSize: Coordinate = Coordinate.ORIGIN;
+	private cellsSize: Coordinate = CoordinateValue.ORIGIN;
 
 	itemCleared(item: Item): void {
 		this.onItemClear.trigger(item);
@@ -52,9 +53,9 @@ export default class BoardCells implements CellOwner {
 	}
 
 	iterate(onElement: (location: Coordinate, cell: Cell) => boolean) {
-		full: for (let i = 0; i < this.cellsSize.row; i++) {
-			for (let j = 0; j < this.cellsSize.col; j++) {
-				if (!onElement(new Coordinate(i, j), this.cells[i][j])) {
+		full: for (let i = 0; i < this.cellsSize.getRow(); i++) {
+			for (let j = 0; j < this.cellsSize.getCol(); j++) {
+				if (!onElement(new CoordinateValue(i, j), this.cells[i][j])) {
 					break full;
 				}
 			}
@@ -67,25 +68,25 @@ export default class BoardCells implements CellOwner {
 
 	getCellByLocation(location: Coordinate): Cell {
 		if (
-			location.row >= this.cellsSize.row ||
-			location.row < 0 ||
-			location.col >= this.cellsSize.col ||
-			location.col < 0
+			location.getRow() >= this.cellsSize.getRow() ||
+			location.getRow() < 0 ||
+			location.getCol() >= this.cellsSize.getCol() ||
+			location.getCol() < 0
 		) {
 			return CellEmpty.getEmpty();
 		}
-		return this.cells[location.row][location.col];
+		return this.cells[location.getRow()][location.getCol()];
 	}
 
 	getLocationOfCell(cell: Cell): Coordinate {
 		for (let i = 0; i < this.cells.length; ++i) {
 			for (let j = 0; j < this.cells[i].length; ++j) {
 				if (this.cells[i][j] == cell) {
-					return new Coordinate(i, j);
+					return new CoordinateValue(i, j);
 				}
 			}
 		}
-		return new Coordinate(0, 0);
+		return new CoordinateValue(0, 0);
 	}
 
 	static formatCells(cells: Cell[][], size?: Coordinate): Coordinate {
@@ -98,15 +99,15 @@ export default class BoardCells implements CellOwner {
 					colSize = row.length;
 				}
 			}
-			size = new Coordinate(rowSize, colSize);
+			size = new CoordinateValue(rowSize, colSize);
 		}
-		for (let i = 0; i < size.row; i++) {
+		for (let i = 0; i < size.getRow(); i++) {
 			let row: Cell[] = cells[i];
 			if (row == null) {
 				row = [];
 				cells[i] = row;
 			}
-			for (let j = 0; j < size.col; j++) {
+			for (let j = 0; j < size.getCol(); j++) {
 				let col: Cell = row[j];
 				if (col == null) {
 					row[j] = CellEmpty.getEmpty();

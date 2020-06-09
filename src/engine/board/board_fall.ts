@@ -2,6 +2,7 @@ import BoardCells from "./board_cells";
 import Once from "../../concept/once/once";
 import OnceLast from "../../concept/once/once_last";
 import Coordinate from "../../concept/coordinate/coordinate";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import ListenerDiffusion from "../../concept/listener/listener_diffusion";
 import Listener from "../../concept/listener/listener";
 import RandomWeight from "../../concept/random_weight";
@@ -90,9 +91,9 @@ export default class BoardFall {
 			this.getVictimsByExit(location, victims, victimLocations);
 			isActive = exit.rob(victims, victimLocations, robEnd.getCallback()) || isActive;
 		});
-		for (let i = this.cells.size().row - 1; i >= 0; i--) {
-			for (let j = 0; j < this.cells.size().col; j++) {
-				const location: Coordinate = new Coordinate(i, j);
+		for (let i = this.cells.size().getRow() - 1; i >= 0; i--) {
+			for (let j = 0; j < this.cells.size().getCol(); j++) {
+				const location: Coordinate = new CoordinateValue(i, j);
 				const cell: Cell = this.cells.getCellByLocation(location);
 				if (cell.isEmpty()) {
 					continue;
@@ -111,7 +112,7 @@ export default class BoardFall {
 		const cell: Cell = this.cells.getCellByLocation(exitLocation);
 		if (this.arrivable.isArrivable(exitLocation) || (cell.canRobbed() && !cell.getItem().isEmpty())) {
 			victims.push(cell);
-			victimLocations.push(Coordinate.ORIGIN);
+			victimLocations.push(CoordinateValue.ORIGIN);
 		}
 	}
 
@@ -121,18 +122,18 @@ export default class BoardFall {
 		const birth: CellBirth = this.births.getBirth(location);
 		if (birth != null) {
 			victims.push(birth);
-			victimLocations.push(Coordinate.UP);
+			victimLocations.push(CoordinateValue.UP);
 			return;
 		}
 
 		const seeds: Coordinate[] = [];
-		seeds.push(Coordinate.UP);
+		seeds.push(CoordinateValue.UP);
 		if (this.chooser.getFactor()) {
-			seeds.push(Coordinate.LEFTUP);
-			seeds.push(Coordinate.RIGHTUP);
+			seeds.push(CoordinateValue.LEFTUP);
+			seeds.push(CoordinateValue.RIGHTUP);
 		} else {
-			seeds.push(Coordinate.RIGHTUP);
-			seeds.push(Coordinate.LEFTUP);
+			seeds.push(CoordinateValue.RIGHTUP);
+			seeds.push(CoordinateValue.LEFTUP);
 		}
 
 		const branchs: Coordinate[] = location.offsets(seeds);

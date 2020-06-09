@@ -1,122 +1,39 @@
-export default class Coordinate {
-	constructor(public row: number, public col: number) {}
+export default interface Coordinate {
+	getRow(): number;
 
-	offset(seed: Coordinate): Coordinate {
-		return new Coordinate(this.row + seed.row, this.col + seed.col);
-	}
+	getCol(): number;
 
-	offsets(seeds: Coordinate[]): Coordinate[] {
-		const leaves: Coordinate[] = [];
-		for (let i = 0; i < seeds.length; i++) {
-			leaves.push(this.offset(seeds[i]));
-		}
-		return leaves;
-	}
+	toStatic(): Coordinate;
 
-	offsetTo(to: Coordinate, degree: number): Coordinate {
-		return new Coordinate(this.row + (to.row - this.row) * degree, this.col + (to.col - this.col) * degree);
-	}
+	offset(seed: Coordinate): Coordinate;
 
-	floor(): Coordinate {
-		return new Coordinate(Math.floor(this.row), Math.floor(this.col));
-	}
+	offsets(seeds: Coordinate[]): Coordinate[];
 
-	negative(): Coordinate {
-		return new Coordinate(0 - this.row, 0 - this.col);
-	}
+	offsetTo(to: Coordinate, degree: number): Coordinate;
 
-	split(size: Coordinate): Coordinate {
-		return new Coordinate(this.row / (size.row == 0 ? 1 : size.row), this.col / (size.col == 0 ? 1 : size.col));
-	}
+	floor(): Coordinate;
 
-	swell(size: Coordinate): Coordinate {
-		return new Coordinate(this.row * size.row, this.col * size.col);
-	}
+	negative(): Coordinate;
 
-	distance(offset: Coordinate): number {
-		return Math.sqrt(this.distanceSquare(offset));
-	}
+	split(size: Coordinate): Coordinate;
 
-	isIn(from: Coordinate, to: Coordinate): boolean {
-		return (
-			((from.row > this.row && this.row > to.row) || (to.row > this.row && this.row > from.row)) &&
-			((from.col > this.col && this.col > to.col) || (to.col > this.col && this.col > from.col))
-		);
-	}
+	swell(size: Coordinate): Coordinate;
 
-	isFarther(offset: Coordinate, distance: number): boolean {
-		return distance * distance < this.distanceSquare(offset);
-	}
+	distance(offset: Coordinate): number;
 
-	static readonly NEIGHBOR: number = 1;
-	isNeighbor(to: Coordinate): boolean {
-		if (this.row == to.row) {
-			return this.col - to.col == Coordinate.NEIGHBOR || to.col - this.col == Coordinate.NEIGHBOR;
-		}
-		if (this.col == to.col) {
-			return this.row - to.row == Coordinate.NEIGHBOR || to.row - this.row == Coordinate.NEIGHBOR;
-		}
-		return false;
-	}
+	isIn(from: Coordinate, to: Coordinate): boolean;
 
-	private distanceSquare(offset: Coordinate): number {
-		return (this.row - offset.row) * (this.row - offset.row) + (this.col - offset.col) * (this.col - offset.col);
-	}
+	isFarther(offset: Coordinate, distance: number): boolean;
 
-	radiation(radix: number): Coordinate[] {
-		const radiationArea: Coordinate[] = [];
-		for (let i = Math.ceil(this.row - radix); i <= Math.floor(this.row + radix); ++i) {
-			for (let j = Math.ceil(this.col - radix); j <= Math.floor(this.col + radix); ++j) {
-				if (i == this.row && j == this.col) {
-					continue;
-				}
-				const radiationPoint: Coordinate = new Coordinate(i, j);
-				if (!this.isFarther(radiationPoint, radix)) {
-					radiationArea.push(radiationPoint);
-				}
-			}
-		}
-		return radiationArea;
-	}
+	isNeighbor(to: Coordinate): boolean;
 
-	cross(): Coordinate[] {
-		return this.offsets(Coordinate.crossSeed());
-	}
+	radiation(radix: number): Coordinate[];
 
-	umbrella(): Coordinate[] {
-		return this.offsets(Coordinate.umbrellaSeed());
-	}
+	// cross(): Coordinate[];
+	//
+	// umbrella(): Coordinate[];
 
-	static crossSeed(): Coordinate[] {
-		return [Coordinate.UP, Coordinate.LEFT, Coordinate.DOWN, Coordinate.RIGHT];
-	}
-	static umbrellaSeed(): Coordinate[] {
-		return [Coordinate.UP, Coordinate.LEFTUP, Coordinate.RIGHTUP];
-	}
+	equal(point: Coordinate): boolean;
 
-	static readonly UNIT: Coordinate = new Coordinate(1, 1);
-	static readonly HALF: Coordinate = new Coordinate(0.5, 0.5);
-
-	static readonly ORIGIN: Coordinate = new Coordinate(0, 0);
-	static readonly UP: Coordinate = new Coordinate(-1, 0);
-	static readonly DOWN: Coordinate = new Coordinate(1, 0);
-	static readonly LEFT: Coordinate = new Coordinate(0, -1);
-	static readonly RIGHT: Coordinate = new Coordinate(0, 1);
-	static readonly RIGHTUP: Coordinate = new Coordinate(-1, 1);
-	static readonly RIGHTDOWN: Coordinate = new Coordinate(1, 1);
-	static readonly LEFTUP: Coordinate = new Coordinate(-1, -1);
-	static readonly LEFTDOWN: Coordinate = new Coordinate(1, -1);
-
-	equal(point: Coordinate): boolean {
-		return point.row == this.row && point.col == this.col;
-	}
-
-	isIncluded(range: Coordinate[]): boolean {
-		for (let i = 0; i < range.length; ++i) {
-			if (this.equal(range[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
+	isIncluded(range: Coordinate[]): boolean;
 }

@@ -4,6 +4,7 @@ import CellOwner from "./cell_owner";
 import Puzzle from "../../render/puzzle";
 import Atom from "../../render/atom/atom";
 import AtomImage from "../../render/atom/atom_image";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Locus from "../../concept/coordinate/locus";
 import EventMove from "../../concept/coordinate/event/event_move";
@@ -19,12 +20,12 @@ export default abstract class CellAdapter implements Cell {
 			new Locus<number>(this.getBackgroundImageId()),
 			new Locus<Coordinate>(CellAdapter.RENDER_SIZE)
 		);
-		this.puzzle.addAtom(this.atom, new Locus<Coordinate>(Coordinate.ORIGIN), 0);
+		this.puzzle.addAtom(this.atom, new Locus<Coordinate>(CoordinateValue.ORIGIN), 0);
 	}
 	isEmpty(): boolean {
 		return false;
 	}
-	static readonly RENDER_SIZE: Coordinate = Coordinate.UNIT;
+	static readonly RENDER_SIZE: Coordinate = CoordinateValue.UNIT;
 
 	static readonly PUZZLE_ITEM_Z_INDEX: number = 10;
 
@@ -46,7 +47,7 @@ export default abstract class CellAdapter implements Cell {
 		const fromSetter: EventLocationSetter<Coordinate> = new EventLocationSetter<Coordinate>(where);
 		this.itemLocus.setEvent(fromSetter);
 		const move: EventMove<Coordinate> = new EventMove<Coordinate>(
-			Coordinate.ORIGIN,
+			CoordinateValue.ORIGIN,
 			when,
 			false,
 			(from, to, timeCost, relativeTime) => from.offsetTo(to, relativeTime / timeCost)
@@ -76,7 +77,7 @@ export default abstract class CellAdapter implements Cell {
 
 	setItem(item: Item) {
 		this.timeUpdate();
-		this.itemLocus = new Locus(Coordinate.ORIGIN);
+		this.itemLocus = new Locus(CoordinateValue.ORIGIN);
 		this.getPuzzle().addChild(item.getPuzzle(), this.itemLocus, CellAdapter.PUZZLE_ITEM_Z_INDEX);
 		this.item = item;
 		if (item != null) {

@@ -1,5 +1,6 @@
 import Color from "../concept/style/color";
 import Font from "../concept/style/font";
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import RenderPosition from "./render_position";
 import Render from "./render";
@@ -52,7 +53,7 @@ export default abstract class RenderAdapter implements Render {
 
 	draw(timeStamp: number) {
 		const atoms: RenderPosition<Atom>[] = [];
-		this.getRootPuzzle().payAtoms(timeStamp, 0, Coordinate.ORIGIN, atoms);
+		this.getRootPuzzle().payAtoms(timeStamp, 0, CoordinateValue.ORIGIN, atoms);
 		atoms.sort((left, right) => left.zIndex - right.zIndex);
 		for (let i = 0; i < atoms.length; i++) {
 			const atom: RenderPosition<Atom> = atoms[i];

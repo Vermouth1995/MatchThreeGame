@@ -4,13 +4,14 @@ import Message from "./message";
 import Level from "./level";
 import LevelCreator from "./level_creator";
 
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
 import Once from "../concept/once/once";
 import OnceLast from "../concept/once/once_last";
 
 export default class Game {
-	static readonly MIN_RENDER_SIZE = new Coordinate(10, 16);
+	static readonly MIN_RENDER_SIZE = new CoordinateValue(10, 16);
 	static readonly PUZZLE_LEVEL_Z_INDEX = 1;
 	static readonly PUZZLE_MESSAGE_Z_INDEX = 1000;
 
@@ -22,7 +23,7 @@ export default class Game {
 		this.message = new Message(this.render.getSize());
 		this.render
 			.getRootPuzzle()
-			.addChild(this.message.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_MESSAGE_Z_INDEX);
+			.addChild(this.message.getPuzzle(), new Locus(CoordinateValue.ORIGIN), Game.PUZZLE_MESSAGE_Z_INDEX);
 		this.render.onResize.on(() => {
 			this.message.resizePuzzle(this.render.getSize());
 			if (this.level != null) {
@@ -36,7 +37,7 @@ export default class Game {
 		this.level = new Level(index, this.render.getSize(), LevelCreator.getLevel(type, index));
 		this.render
 			.getRootPuzzle()
-			.addChild(this.level.getPuzzle(), new Locus(Coordinate.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);
+			.addChild(this.level.getPuzzle(), new Locus(CoordinateValue.ORIGIN), Game.PUZZLE_LEVEL_Z_INDEX);
 		this.level.onEnd.on(onEnd);
 	}
 

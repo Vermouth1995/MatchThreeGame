@@ -3,6 +3,7 @@ import LevelData from "./level_data";
 import Board from "../engine/board/board";
 import Score from "../engine/score";
 
+import CoordinateValue from "../concept/coordinate/coordinate_value";
 import Coordinate from "../concept/coordinate/coordinate";
 import Locus from "../concept/coordinate/locus";
 import EventLocationSetter from "../concept/coordinate/event/event_location_setter";
@@ -19,9 +20,9 @@ export default class Level implements PuzzleKeeper {
 	static readonly PUZZLE_SCORE_Z_INDEX = 1;
 	static readonly PUZZLE_BACKGROUND_IMAGE_Z_INDEX = 0;
 
-	static readonly ENGINE_SIZE = new Coordinate(9, 12);
+	static readonly ENGINE_SIZE = new CoordinateValue(9, 12);
 
-	private static readonly SPLIT_HALF = new Coordinate(2, 2);
+	private static readonly SPLIT_HALF = new CoordinateValue(2, 2);
 
 	protected board: Board;
 	protected score: Score;
@@ -49,11 +50,13 @@ export default class Level implements PuzzleKeeper {
 		this.puzzle = new Puzzle();
 		this.puzzle.setSize(this.size);
 		this.boardLocation = new Locus(this.size.offset(this.board.size().negative()).split(Level.SPLIT_HALF));
-		this.scoreLocation = new Locus(new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0));
+		this.scoreLocation = new Locus(
+			new CoordinateValue((this.size.getRow() - this.score.getPuzzle().size().getRow()) / 2, 0)
+		);
 		this.backgroundSize = new Locus<Coordinate>(this.size);
 		this.puzzle.addAtom(
 			new AtomImage(new Locus<number>(Level.backgroundImageId), this.backgroundSize),
-			new Locus<Coordinate>(Coordinate.ORIGIN),
+			new Locus<Coordinate>(CoordinateValue.ORIGIN),
 			Level.PUZZLE_BACKGROUND_IMAGE_Z_INDEX
 		);
 		this.puzzle.addChild(this.board.getPuzzle(), this.boardLocation, Level.PUZZLE_BOARD_Z_INDEX);
@@ -68,7 +71,7 @@ export default class Level implements PuzzleKeeper {
 		);
 		this.scoreLocation.setEvent(
 			new EventLocationSetter<Coordinate>(
-				new Coordinate((this.size.row - this.score.getPuzzle().size().row) / 2, 0)
+				new CoordinateValue((this.size.getRow() - this.score.getPuzzle().size().getRow()) / 2, 0)
 			)
 		);
 		this.backgroundSize.setEvent(new EventLocationSetter<Coordinate>(this.size));

@@ -1,13 +1,14 @@
 import Color from "../../concept/style/color";
 import Font from "../../concept/style/font";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import RenderAdapter from "../../render/render_adapter";
 import Puzzle from "../../render/puzzle";
 
 export default class RenderCanvas extends RenderAdapter {
 	constructor(private container: HTMLElement, private minSize: Coordinate, private imagePrefix: string) {
-		super(RenderCanvas.getRenderSize(minSize, new Coordinate(container.clientHeight, container.clientWidth)));
-		this.pixel = new Coordinate(container.clientHeight, container.clientWidth);
+		super(RenderCanvas.getRenderSize(minSize, new CoordinateValue(container.clientHeight, container.clientWidth)));
+		this.pixel = new CoordinateValue(container.clientHeight, container.clientWidth);
 		this.unitPixel = this.pixel.split(this.getSize());
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = container.clientWidth;
@@ -21,7 +22,7 @@ export default class RenderCanvas extends RenderAdapter {
 		this.initListener();
 		container.appendChild(this.canvas);
 		window.onresize = (event: UIEvent) => {
-			this.pixel = new Coordinate(container.clientHeight, container.clientWidth);
+			this.pixel = new CoordinateValue(container.clientHeight, container.clientWidth);
 			this.setSize(RenderCanvas.getRenderSize(minSize, this.pixel));
 			this.unitPixel = this.pixel.split(this.getSize());
 			this.canvas.width = container.clientWidth;
@@ -56,27 +57,27 @@ export default class RenderCanvas extends RenderAdapter {
 		};
 		// 按下手指
 		this.canvas.ontouchstart = (event: TouchEvent) => {
-			triggerMouseDown(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
+			triggerMouseDown(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 松开手指
 		this.canvas.ontouchend = (event: TouchEvent) => {
-			triggerMouseUp(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
+			triggerMouseUp(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 滑动手指
 		this.canvas.ontouchmove = (event: TouchEvent) => {
-			triggerMouseMove(new Coordinate(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
+			triggerMouseMove(new CoordinateValue(event.changedTouches[0].pageY, event.changedTouches[0].pageX));
 		};
 		// 按下鼠标
 		this.canvas.onmousedown = (event: MouseEvent) => {
-			triggerMouseDown(new Coordinate(event.offsetY, event.offsetX));
+			triggerMouseDown(new CoordinateValue(event.offsetY, event.offsetX));
 		};
 		// 松开鼠标
 		this.canvas.onmouseup = (event: MouseEvent) => {
-			triggerMouseUp(new Coordinate(event.offsetY, event.offsetX));
+			triggerMouseUp(new CoordinateValue(event.offsetY, event.offsetX));
 		};
 		// 移动鼠标
 		this.canvas.onmousemove = (event: MouseEvent) => {
-			triggerMouseMove(new Coordinate(event.offsetY, event.offsetX));
+			triggerMouseMove(new CoordinateValue(event.offsetY, event.offsetX));
 		};
 	}
 
@@ -127,7 +128,12 @@ export default class RenderCanvas extends RenderAdapter {
 
 	clear() {
 		super.clear();
-		this.pen.clearRect(Coordinate.ORIGIN.col, Coordinate.ORIGIN.row, this.pixel.col, this.pixel.row);
+		this.pen.clearRect(
+			CoordinateValue.ORIGIN.getCol(),
+			CoordinateValue.ORIGIN.getRow(),
+			this.pixel.getCol(),
+			this.pixel.getRow()
+		);
 	}
 
 	drawImage(imageId: number, location: Coordinate, size: Coordinate) {
@@ -137,24 +143,36 @@ export default class RenderCanvas extends RenderAdapter {
 		const locationPixel: Coordinate = location.swell(this.unitPixel);
 		const sizePixel: Coordinate = size.swell(this.unitPixel);
 
-		this.pen.drawImage(this.getImage(imageId), locationPixel.col, locationPixel.row, sizePixel.col, sizePixel.row);
+		this.pen.drawImage(
+			this.getImage(imageId),
+			locationPixel.getCol(),
+			locationPixel.getRow(),
+			sizePixel.getCol(),
+			sizePixel.getRow()
+		);
 	}
 
 	drawString(text: string, location: Coordinate, font: Font, color: Color): void {
 		const locationPixel: Coordinate = location.swell(this.unitPixel);
 		this.pen.fillStyle = color.toRGBA();
-		this.pen.font = font.size * this.unitPixel.row + "px " + font.family;
+		this.pen.font = font.size * this.unitPixel.getRow() + "px " + font.family;
 		this.pen.textAlign = font.align;
 		this.pen.textBaseline = font.baseline;
-		this.pen.fillText(text, locationPixel.col, locationPixel.row);
+		this.pen.fillText(text, locationPixel.getCol(), locationPixel.getRow());
 	}
 
 	static getRenderSize(minSize: Coordinate, physicalSize: Coordinate): Coordinate {
-		const ratio = physicalSize.col / physicalSize.row / (minSize.col / minSize.row);
+		const ratio = physicalSize.getCol() / physicalSize.getRow() / (minSize.getCol() / minSize.getRow());
 		if (ratio > 1) {
-			return new Coordinate(minSize.row, (physicalSize.col / physicalSize.row) * minSize.row);
+			return new CoordinateValue(
+				minSize.getRow(),
+				(physicalSize.getCol() / physicalSize.getRow()) * minSize.getRow()
+			);
 		} else {
-			return new Coordinate((physicalSize.row / physicalSize.col) * minSize.col, minSize.col);
+			return new CoordinateValue(
+				(physicalSize.getRow() / physicalSize.getCol()) * minSize.getCol(),
+				minSize.getCol()
+			);
 		}
 	}
 }

@@ -1,3 +1,4 @@
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import SacrificeAdapter from "./sacrifice_adapter";
 
@@ -5,10 +6,10 @@ export default class Scrape extends SacrificeAdapter {
 	constructor(private source: Coordinate[]) {
 		super();
 		for (let i = 0; i < this.source.length; ++i) {
-			this.addGoal(this.source[i].offset(Coordinate.UP));
-			this.addGoal(this.source[i].offset(Coordinate.DOWN));
-			this.addGoal(this.source[i].offset(Coordinate.LEFT));
-			this.addGoal(this.source[i].offset(Coordinate.RIGHT));
+			this.addGoal(this.source[i].offset(CoordinateValue.UP));
+			this.addGoal(this.source[i].offset(CoordinateValue.DOWN));
+			this.addGoal(this.source[i].offset(CoordinateValue.LEFT));
+			this.addGoal(this.source[i].offset(CoordinateValue.RIGHT));
 		}
 	}
 

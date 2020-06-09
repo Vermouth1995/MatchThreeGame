@@ -3,6 +3,7 @@ import CellBirth from "../cell/cell_birth";
 import BoardBirths from "../board/board_births";
 import Coordinate from "../../concept/coordinate/coordinate";
 import BoardCells from "./board_cells";
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 
 export default class BoardArrivable {
 	constructor(private cells: BoardCells, private births: BoardBirths) {}
@@ -10,21 +11,21 @@ export default class BoardArrivable {
 	private arrivable: boolean[][] = [];
 
 	isArrivable(location: Coordinate): boolean {
-		if (location.row < 0 || location.row >= this.arrivable.length) {
+		if (location.getRow() < 0 || location.getRow() >= this.arrivable.length) {
 			return false;
 		}
-		const row: boolean[] = this.arrivable[location.row];
-		if (location.col < 0 || location.col >= row.length) {
+		const row: boolean[] = this.arrivable[location.getRow()];
+		if (location.getCol() < 0 || location.getCol() >= row.length) {
 			return false;
 		}
-		return this.arrivable[location.row][location.col];
+		return this.arrivable[location.getRow()][location.getCol()];
 	}
 
 	update() {
 		this.arrivable = [];
-		for (let i = 0; i < this.cells.size().row; i++) {
+		for (let i = 0; i < this.cells.size().getRow(); i++) {
 			this.arrivable.push([]);
-			for (let j = 0; j < this.cells.size().col; j++) {
+			for (let j = 0; j < this.cells.size().getCol(); j++) {
 				this.arrivable[i].push(false);
 			}
 		}
@@ -40,9 +41,9 @@ export default class BoardArrivable {
 			return;
 		}
 
-		this.arrivable[location.row][location.col] = true;
-		this.updateLocation(location.offset(Coordinate.LEFTDOWN));
-		this.updateLocation(location.offset(Coordinate.DOWN));
-		this.updateLocation(location.offset(Coordinate.RIGHTDOWN));
+		this.arrivable[location.getRow()][location.getCol()] = true;
+		this.updateLocation(location.offset(CoordinateValue.LEFTDOWN));
+		this.updateLocation(location.offset(CoordinateValue.DOWN));
+		this.updateLocation(location.offset(CoordinateValue.RIGHTDOWN));
 	}
 }

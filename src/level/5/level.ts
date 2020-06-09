@@ -1,3 +1,4 @@
+import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 
 import LevelData from "../../game/level_data";
@@ -24,7 +25,7 @@ import CellExit from "../../engine/cell/cell_exit";
 import ItemCreator from "../../engine/item/item_creator";
 
 export default class Level implements LevelData {
-	private static readonly Size: Coordinate = new Coordinate(9, 12);
+	private static readonly Size: Coordinate = new CoordinateValue(9, 12);
 
 	private exits: BoardExits;
 	private births: BoardBirths;
@@ -66,9 +67,9 @@ export default class Level implements LevelData {
 			return;
 		}
 		const exitPlace: CellExit[] = [];
-		for (let i = 0; i < Level.Size.col; i++) {
+		for (let i = 0; i < Level.Size.getCol(); i++) {
 			const place: CellExit = new CellExit();
-			place.setLocation(new Coordinate(Level.Size.row - 1, i));
+			place.setLocation(new CoordinateValue(Level.Size.getRow() - 1, i));
 			exitPlace.push(place);
 		}
 
@@ -90,9 +91,9 @@ export default class Level implements LevelData {
 		}
 		this.createBirth();
 		const birthPlace: CellBirth[] = [];
-		for (let i = 0; i < Level.Size.col; i++) {
+		for (let i = 0; i < Level.Size.getCol(); i++) {
 			const place: CellBirth = new CellBirth();
-			place.setBirth(this.birth, new Coordinate(0, i));
+			place.setBirth(this.birth, new CoordinateValue(0, i));
 			birthPlace.push(place);
 		}
 		this.births = new BoardBirths(birthPlace);
@@ -101,9 +102,9 @@ export default class Level implements LevelData {
 	private getCellArray(): Cell[][] {
 		this.createBirth();
 		const cells: Cell[][] = [];
-		for (let i = 0; i < Level.Size.row; i++) {
+		for (let i = 0; i < Level.Size.getRow(); i++) {
 			cells.push([]);
-			for (let j = 0; j < Level.Size.col; j++) {
+			for (let j = 0; j < Level.Size.getCol(); j++) {
 				let cell: Cell = new CellLand();
 				cell.setItem(this.birth.popItem());
 				cells[i].push(cell);
