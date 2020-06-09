@@ -1,6 +1,8 @@
 import CoordinateValue from "../../concept/coordinate/coordinate_value";
 import Coordinate from "../../concept/coordinate/coordinate";
 import Puzzle from "../../render/puzzle";
+import ListenerDiffusion from "../../concept/listener/listener_diffusion";
+import Listener from "../../concept/listener/listener";
 
 export default class BoardPuzzle extends Puzzle {
 	private isHold: boolean = false;
@@ -30,7 +32,7 @@ export default class BoardPuzzle extends Puzzle {
 					this.lastClickLocation.equal(location) &&
 					this.lastClickTimeStamp + BoardPuzzle.MaxClickTimeout > now
 				) {
-					this.triggerBoardClick(location);
+					this.onBoardClick.trigger(location);
 					this.lastClickLocation = null;
 					this.lastClickTimeStamp = 0;
 				} else {
@@ -46,7 +48,7 @@ export default class BoardPuzzle extends Puzzle {
 		this.onMouseMove((location: Coordinate) => {
 			location = location.floor();
 			if (this.isHold && this.isHoldActive && !this.startLocation.equal(location)) {
-				this.triggerBoardExchange(this.startLocation, BoardPuzzle.getNeighbor(this.startLocation, location));
+				this.onBoardExchange.trigger(this.startLocation, BoardPuzzle.getNeighbor(this.startLocation, location));
 				this.isHoldActive = false;
 			}
 			return false;
@@ -76,23 +78,28 @@ export default class BoardPuzzle extends Puzzle {
 		return minNeighbor;
 	}
 
-	private boardExchangeListener: (from: Coordinate, to: Coordinate) => void;
-	triggerBoardExchange(from: Coordinate, to: Coordinate) {
-		if (this.boardExchangeListener != null) {
-			this.boardExchangeListener(from, to);
-		}
-	}
-	onBoardExchange(listener: (from: Coordinate, to: Coordinate) => void) {
-		this.boardExchangeListener = listener;
-	}
+	public readonly onBoardExchange: Listener<
+		void,
+		(from: Coordinate, to: Coordinate) => void
+	> = new ListenerDiffusion();
 
-	private boardClickListener: (location: Coordinate) => void;
-	triggerBoardClick(location: Coordinate) {
-		if (this.boardClickListener != null) {
-			this.boardClickListener(location);
-		}
-	}
-	onBoardClick(listener: (location: Coordinate) => void) {
-		this.boardClickListener = listener;
-	}
+	// private boardExchangeListener: (from: Coordinate, to: Coordinate) => void;
+	// triggerBoardExchange(from: Coordinate, to: Coordinate) {
+	// 	if (this.boardExchangeListener != null) {
+	// 		this.boardExchangeListener(from, to);
+	// 	}
+	// }
+	// onBoardExchange(listener: (from: Coordinate, to: Coordinate) => void) {
+	// 	this.boardExchangeListener = listener;
+	// }
+	public readonly onBoardClick: Listener<void, (location: Coordinate) => void> = new ListenerDiffusion();
+	// private boardClickListener: (location: Coordinate) => void;
+	// triggerBoardClick(location: Coordinate) {
+	// 	if (this.boardClickListener != null) {
+	// 		this.boardClickListener(location);
+	// 	}
+	// }
+	// onBoardClick(listener: (location: Coordinate) => void) {
+	// 	this.boardClickListener = listener;
+	// }
 }

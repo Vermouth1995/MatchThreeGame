@@ -33,13 +33,13 @@ export default class Board implements PuzzleKeeper {
 
 	constructor() {
 		this.puzzle = new BoardPuzzle();
-		this.puzzle.onBoardClick((location: Coordinate) => {
+		this.puzzle.onBoardClick.on((location: Coordinate) => {
 			if (!this.active) {
 				return;
 			}
 			this.click.click(new Click(location));
 		});
-		this.puzzle.onBoardExchange((from: Coordinate, to: Coordinate) => {
+		this.puzzle.onBoardExchange.on((from: Coordinate, to: Coordinate) => {
 			if (!this.active) {
 				return;
 			}
