@@ -1,6 +1,5 @@
 import RenderCanvas from "../platform/canvas/render_canvas";
 import Game from "../game/game";
-import Coordinate from "../concept/coordinate/coordinate";
 
 export default class MatchThreeGame {
 	constructor() {
