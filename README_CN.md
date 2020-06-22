@@ -40,13 +40,17 @@
 > concept -- 基本工具（工具概念类内容）
 
 	concept
-	├─ event                              -- 记录运动事件
+	├─ coordinate                         -- 坐标及对坐标的操作
+	   ├─ event                           -- 记录运动事件
+	   ├─ coordinate_adaptor              -- 坐标系适配器
+	   ├─ coordinate_dynamic              -- 可以动态计算的坐标系
+	   ├─ coordinate_value                -- 普通坐标系
+	   ├─ coordinate                      -- 坐标系接口
+	   └─ locus                           -- 记录移动状态及坐标轨迹
 	├─ linked_list                        -- 单链表
 	├─ listener                           -- 监听工具，管理监听事件
 	├─ once                               -- 管理一系列的callback函数调用
 	├─ style                              -- 样式类，比如颜色，字体等
-	├─ coordinate                         -- 坐标及对坐标的操作
-	├─ locus                              -- 记录移动状态及坐标轨迹
 	└─ random_weight                      -- 带权随机存取
 
 > engine -- 游戏引擎（游戏核心元素及概念）
@@ -109,6 +113,7 @@
 - [ ] 样式优化
 - [ ] 自动提示功能
 - [x] 炸弹出现权重可设置
+- [ ] 小矮人关卡
 
 ### 👩‍💻 维护者
 

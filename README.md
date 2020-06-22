@@ -41,13 +41,17 @@ English | [简体中文](./README_CN.md)
 > concept -- Basic tools (tool concept class content)
 
 	concept
-	├─ event                              -- Record movement events
+	├─ coordinate                         -- Coordinate and coordinate operation
+	   ├─ event                           -- Record movement events
+	   ├─ coordinate_adaptor              -- Coordinate adaptor
+	   ├─ coordinate_dynamic              -- Dynamic coordinate
+	   ├─ coordinate_value                -- Common coordinate
+	   ├─ coordinate                      -- Coordinate interface
+	   └─ locus                           -- Record the moving state and coordinate track
 	├─ linked_list                        -- Linked list
 	├─ listener                           -- Listening tools to manage listening events
 	├─ once                               -- Manages the invocation of a series of callback functions
 	├─ style                              -- Style classes, such as colors, fonts, and so on
-	├─ coordinate                         -- Coordinate and coordinate operation
-	├─ locus                              -- Record the moving state and coordinate track
 	└─ random_weight                      -- Random access with weights
 
 > engine -- Game engine (core elements and concepts in game)
@@ -110,6 +114,7 @@ English | [简体中文](./README_CN.md)
 - [ ] Style optimization
 - [ ] Automatic prompt
 - [x] Bomb appearance weight can be set
+- [ ] Level of dwarf
 
 ### 👩‍💻 Maintainer
 
