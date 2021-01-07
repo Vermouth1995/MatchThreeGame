@@ -11,32 +11,35 @@ export default class LinkedList<T> {
 
 	get(index: number): T {
 		let now: Node<T> = this.head;
-		const indexNow: number = 0;
+		let indexNow: number = 0;
 		while (now != null) {
 			if (index == indexNow) {
 				return now.data;
 			}
 			now = now.next;
+			indexNow++;
 		}
 		return null;
 	}
 
 	iterate(onElement: (index: number, element: T) => void) {
 		let now: Node<T> = this.head;
-		const indexNow: number = 0;
+		let indexNow: number = 0;
 		while (now != null) {
 			onElement(indexNow, now.data);
 			now = now.next;
+			indexNow++;
 		}
 	}
 
 	iterateInterruptible(onElement: (index: number, element: T) => boolean) {
 		let now: Node<T> = this.head;
-		const indexNow: number = 0;
+		let indexNow: number = 0;
 		let keep: boolean = true;
 		while (keep && now != null) {
 			keep = onElement(indexNow, now.data);
 			now = now.next;
+			indexNow++;
 		}
 	}
 

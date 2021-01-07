@@ -110,7 +110,6 @@ English | [简体中文](./README_CN.md)
 - [x] Rerender when window onResize
 - [x] onTouch realization
 - [ ] Level selection
-- [ ] An element that eliminates all elements of the same kind
 - [ ] Style optimization
 - [ ] Automatic prompt
 - [x] Bomb appearance weight can be set
